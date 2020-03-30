@@ -5,14 +5,12 @@ from InitialiseFits import initialiseFits
 
 class doWtagFits:
     def __init__(self, options):
-        if options.doWS: 
-            self.workspace4fit_  = RooWorkspace("workspace4fit_",options.workspace)
-        else:
-            f = ROOT.TFile(options.workspace.replace(".root","")+".root")
-            self.workspace4fit_  = f.Get("workspace4fit_")
-            self.workspace4fit_.SetTitle(options.workspace) #FIXME
-        self.boostedW_fitter_em = initialiseFits(options, "em", self.workspace4fit_)    # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
-        self.boostedW_fitter_em.get_datasets_fit_minor_bkg(options)                                            # Loop over intrees to create datasets om Mj and fit the single MCs.
+        
+        # --- Open the workspace
+        self.workspace4fit_ = self.OpenWorkspace(options)
+
+        self.boostedW_fitter_em = initialiseFits(options, "em", self.workspace4fit_)   # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
+        self.boostedW_fitter_em.get_datasets_fit_minor_bkg(options)                    # Loop over intrees to create datasets om Mj and fit the single MCs.
        
 #        print "Printing workspace:"; self.workspace4fit_ .Print(); print ""
         workspace4fit_ = self.workspace4fit_
@@ -190,3 +188,47 @@ class doWtagFits:
         
         # Delete workspace
         del self.workspace4fit_
+
+
+    def CreateWorkspace(self, options): 
+        workspace = RooWorkspace("workspace4fit_",options.workspace)
+
+        print "No workspace found! Looping over infiles and creating datasets, output in " , filename
+         
+        rrv_mass_j = self.workspace4fit_.var("rrv_mass_j")
+
+        self.get_mj_dataset(self.list_file_STop_mc,"_STop", options)
+        self.get_mj_dataset(self.list_file_WJets_mc,"_WJets", options)
+        self.get_mj_dataset(self.list_file_VV_mc,"_VV", options)
+        # self.get_mj_dataset(self.list_file_QCD_mc,"_QCD")
+        if options.fitMC: return
+        self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar", options)
+        self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_realW", options)
+        self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_fakeW", options)
+        self.get_mj_dataset(self.list_file_data,"_data", options)
+        from WTopScalefactorProducer.Fitter.fitutils import doTTscalefactor
+        ttSF = doTTscalefactor(self.workspace4fit_,self.channel)
+        #for f in self.list_file_TTbar_mc:
+        #  fname  = rt.TString(self.file_Directory+"/"+f)
+        #  print "scaling with tt SF: " ,fname
+        #  fileIn = TFile(fname.Data())
+        #  treeIn = fileIn.Get("tree")
+        #  treeIn.SetWeight(ttSF)
+        #  treeIn.AutoSave()
+        #  fileIn.Close()
+        self.get_mj_dataset(self.list_file_pseudodata,"_TotalMC", options.massvar, options)
+        print "Saving workspace in %s! To save time when debugging use option --WS %s to avoid recreating workspace every time"%(options.workspace+".root",options.workspace+".root")
+        
+        self.workspace4fit_.writeToFile(filename)
+
+        return workspace
+
+    def OpenWorkspace(self, options): 
+        if options.doWS: #create workspace if requested 
+            return self.CreateWorkspace(options)
+
+        file = ROOT.TFile(options.workspace.replace(".root","")+".root") #TODO: close file
+        workspace  = f.Get("workspace4fit_")
+        #  print "No workspace found! Looping over infiles and creating datasets, output in " , filename TODO: Put as an exception 
+        workspace.SetTitle(options.workspace)
+        return workspace

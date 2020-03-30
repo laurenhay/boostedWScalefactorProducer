@@ -1,4 +1,5 @@
 from ROOT import *
+import math
 
 
 class initialiseFits:
@@ -49,6 +50,7 @@ class initialiseFits:
       self.mj_shape["STop"]                 = "ErfExpGaus_sp"       
       self.mj_shape["STop_fail"]            = "ErfExpGaus_sp"  
        
+      ####  <refactor> can be deleted
       #Need to add a second gauss when fitting top 
       if options.peak == "Wt" :
          self.mj_shape["STop_fail"]              = "Gaus2ErfExp"  
@@ -58,21 +60,17 @@ class initialiseFits:
          # self.mj_shape["TTbar_fakeW_MC"]         = "ErfExpGauss_ttbar_fitMC"
          # self.mj_shape["bkg_mc"]                 = "ErfExpGauss_ttbar"
          # self.mj_shape["bkg_data"]               = "ErfExpGauss_ttbar"
+      #### <refactor>
       
-      #Set lumi  
-      self.Lumi=1.
 
           
       self.BinWidth_mj = 5.
-      self.narrow_factor = 1.
 
-      self.BinWidth_mj = self.BinWidth_mj/self.narrow_factor
-      nbins_mj         = int( (options.maxX - options.minX) / self.BinWidth_mj )
-      options.maxX        = options.minX+nbins_mj*self.BinWidth_mj
+      nbins_mj         = math.ceil((options.maxX - options.minX) / self.BinWidth_mj )
+      options.maxX     = options.minX+nbins_mj*self.BinWidth_mj #set the new maximum value (rounding to the upper multiple of binwidth)
       
-      jetMass = "PUPPI softdrop jet mass"
-
-      rrv_mass_j = RooRealVar("rrv_mass_j", jetMass ,(options.minX+options.maxX)/2.,options.minX,options.maxX,"GeV")
+      # Initialise variables
+      rrv_mass_j = RooRealVar("rrv_mass_j", "PUPPI softdrop jet mass" ,(options.minX+options.maxX)/2.,options.minX,options.maxX,"GeV")
       rrv_mass_j.setBins(nbins_mj)
  
       # Create workspace and import fit variable
@@ -190,32 +188,7 @@ class initialiseFits:
         except: options.doWS = True
         if options.doWS:
             
-            print "No workspace found! Looping over infiles and creating datasets, output in " , filename
-         
-            rrv_mass_j = self.workspace4fit_.var("rrv_mass_j")
-            self.get_mj_dataset(self.list_file_STop_mc,"_STop", options.massvar)
-            self.get_mj_dataset(self.list_file_WJets_mc,"_WJets", options.massvar)
-            self.get_mj_dataset(self.list_file_VV_mc,"_VV", options.massvar)
-            # self.get_mj_dataset(self.list_file_QCD_mc,"_QCD")
-            if options.fitMC: return
-            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar", options.massvar)
-            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_realW", options.massvar)
-            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_fakeW", options.massvar)
-            self.get_mj_dataset(self.list_file_data,"_data", options.massvar)
-            from WTopScalefactorProducer.Fitter.fitutils import doTTscalefactor
-            ttSF = doTTscalefactor(self.workspace4fit_,self.channel)
-#            for f in self.list_file_TTbar_mc:
-#              fname  = rt.TString(self.file_Directory+"/"+f)
-#              print "scaling with tt SF: " ,fname
-#              fileIn = TFile(fname.Data())
-#              treeIn = fileIn.Get("tree")
-#              treeIn.SetWeight(ttSF)
-#              treeIn.AutoSave()
-#              fileIn.Close()
-            self.get_mj_dataset(self.list_file_pseudodata,"_TotalMC", options.massvar)
-            print "Saving workspace in %s! To save time when debugging use option --WS %s to avoid recreating workspace every time"%(options.workspace+".root",options.workspace+".root")
             
-            self.workspace4fit_.writeToFile(filename)
             
             from WTopScalefactorProducer.Fitter.fitutils import fit_mj_single_MC
             
@@ -323,8 +296,9 @@ class initialiseFits:
         self.file_out_ttbar_control.write("wtagger_eff_reweight   = %s +/- %s\n"%(wtagger_eff_reweight, wtagger_eff_reweight_err))
  
     # Loop over trees
-    def get_mj_dataset(self,in_file_name, label, jet_mass): 
+    def get_mj_dataset(self,in_file_name, label, options): 
       
+      jet_mass = options.massvar
       print "Using mass variable " ,jet_mass
     
       treeIn = TChain(options.intree)
