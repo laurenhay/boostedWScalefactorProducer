@@ -193,15 +193,15 @@ class initialiseFits:
             print "No workspace found! Looping over infiles and creating datasets, output in " , filename
          
             rrv_mass_j = self.workspace4fit_.var("rrv_mass_j")
-            self.get_mj_dataset(self.list_file_STop_mc,"_STop")
-            self.get_mj_dataset(self.list_file_WJets_mc,"_WJets")
-            self.get_mj_dataset(self.list_file_VV_mc,"_VV")
+            self.get_mj_dataset(self.list_file_STop_mc,"_STop", options.massvar)
+            self.get_mj_dataset(self.list_file_WJets_mc,"_WJets", options.massvar)
+            self.get_mj_dataset(self.list_file_VV_mc,"_VV", options.massvar)
             # self.get_mj_dataset(self.list_file_QCD_mc,"_QCD")
             if options.fitMC: return
-            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar")
-            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_realW")
-            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_fakeW")
-            self.get_mj_dataset(self.list_file_data,"_data")
+            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar", options.massvar)
+            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_realW", options.massvar)
+            self.get_mj_dataset(self.list_file_TTbar_mc,"_TTbar_fakeW", options.massvar)
+            self.get_mj_dataset(self.list_file_data,"_data", options.massvar)
             from WTopScalefactorProducer.Fitter.fitutils import doTTscalefactor
             ttSF = doTTscalefactor(self.workspace4fit_,self.channel)
 #            for f in self.list_file_TTbar_mc:
@@ -212,7 +212,7 @@ class initialiseFits:
 #              treeIn.SetWeight(ttSF)
 #              treeIn.AutoSave()
 #              fileIn.Close()
-            self.get_mj_dataset(self.list_file_pseudodata,"_TotalMC")
+            self.get_mj_dataset(self.list_file_pseudodata,"_TotalMC", options.massvar)
             print "Saving workspace in %s! To save time when debugging use option --WS %s to avoid recreating workspace every time"%(options.workspace+".root",options.workspace+".root")
             
             self.workspace4fit_.writeToFile(filename)
@@ -323,7 +323,7 @@ class initialiseFits:
         self.file_out_ttbar_control.write("wtagger_eff_reweight   = %s +/- %s\n"%(wtagger_eff_reweight, wtagger_eff_reweight_err))
  
     # Loop over trees
-    def get_mj_dataset(self,in_file_name, label, jet_mass,lumi): 
+    def get_mj_dataset(self,in_file_name, label, jet_mass): 
       
       print "Using mass variable " ,jet_mass
     
