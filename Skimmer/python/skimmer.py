@@ -4,8 +4,8 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection,Object
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 from PhysicsTools.NanoAODTools.postprocessing.tools import *
-from WTopScalefactorProducer.Skimmer.PileupWeightTool import *
-from WTopScalefactorProducer.Skimmer.variables import recoverNeutrinoPz
+from boostedWScalefactorProducer.Skimmer.PileupWeightTool import *
+from boostedWScalefactorProducer.Skimmer.variables import recoverNeutrinoPz
 
 import math
 import random
@@ -74,7 +74,7 @@ class Skimmer(Module):
         #dPhi (leading AK8 jet, leptonic W) >2
         #self.minDPhiWJet = 2.  
         
-        self.puWeightTool = PileupWeightTool(yearMC=2018, yearData=2018) #FIXME
+        self.puWeightTool = PileupWeightTool(yearMC=2018, yearData=2018) 
 
         self.nEvent = 0
 

@@ -1,9 +1,9 @@
 #! /bin/usr/env python
 # Author: Izaak Neutelings (November 2018)
-from ROOT import TFile
+from ROOT import TFile, TH1D, TH1F, TH1 
 #from ScaleFactorTool import ensureTFile
-
-path = '$CMSSW_BASE/src/WTopScalefactorProducer/Skimmer/python/pileup/'
+from root_numpy import *
+path = '$CMSSW_BASE/src/boostedWScalefactorProducer/Skimmer/python/pileup/'
 
 class PileupWeightTool:
     
@@ -20,6 +20,7 @@ class PileupWeightTool:
         elif sigma=='up':
           minbias = '72p3832' # +4.6%
         
+        print minbias   
         if yearData==2016:
           self.datafile = TFile( path+'Data_PileUp_2016_%s.root'%(minbias), 'READ')
         elif yearData==2017:
@@ -32,13 +33,15 @@ class PileupWeightTool:
           self.mcfile   = TFile( path+'MC_PileUp_2017_Winter17_V2.root', 'READ')
         elif yearMC==2018:
           self.mcfile   = TFile( path+'MC_PileUp_2018_Autumn18.root', 'READ')
-        self.datahist = self.datafile.Get('pileup')
-        self.mchist   = self.mcfile.Get('pileup')
+
+        self.datahist = self.datafile.Get("pileup")
         self.datahist.SetDirectory(0)
-        self.mchist.SetDirectory(0)
         self.datahist.Scale(1./self.datahist.Integral())
-        self.mchist.Scale(1./self.mchist.Integral())
         self.datafile.Close()
+        
+        self.mchist   = self.mcfile.Get("pileup")
+        self.mchist.SetDirectory(0)
+        self.mchist.Scale(1./self.mchist.Integral())
         self.mcfile.Close()
         
     
