@@ -13,12 +13,12 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 #this takes care of converting the input files from CRAB
 from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import inputFiles,runsAndLumis
 
-from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import puWeight_2016, puAutoWeight_2016
-from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSF2016
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import puWeight_2016, puWeight_2017, puAutoWeight_2016, puAutoWeight_2017, puWeight_2018, puAutoWeight_2018
+from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSF2016, btagSF2017 #btagSF2018
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
 
 # our module
-from jetObservables.Skimmer.nSubProducer_withAllSel import nSubProd
+from boostedWScalefactorProducer.Skimmer.skimmer import Skimmer
 
 import argparse
 
@@ -34,7 +34,7 @@ parser.add_argument(
     action="store",
     type=int,
     help="Number of events to process",
-    default=1000000000000,
+    default=100000,
 )
 parser.add_argument(
     '--iFile',
@@ -53,11 +53,11 @@ parser.add_argument(
     action="store_true",
     help="Run local or condor/crab"
 )
-parser.add_argument(
-    '--createTrees',
-    action="store_true",
-    help="Measure RAM"
-)
+#parser.add_argument(
+#    '--createTrees',
+#    action="store_true",
+#    help="Measure RAM"
+#)
 parser.add_argument(
     '--year',
     action="store",
@@ -66,6 +66,7 @@ parser.add_argument(
     default="2016",
     required=False
 )
+'''
 parser.add_argument(
     '--selection',
     action="store",
@@ -74,8 +75,10 @@ parser.add_argument(
     default="W",
     required=False
 )
+'''
+
 args = parser.parse_args(sys.argv[1:])
-if args.sample.startswith(('/EGamma', '/Single', '/JetHT', 'EGamma', 'Single', 'JetHT' )) or ('EGamma' in args.iFile or 'Single' in args.iFile or ('JetHT' in args.iFile)):
+if args.sample.startswith(('/EGamma', '/Single', 'EGamma', 'Single' )) or ('EGamma' in args.iFile or 'Single' in args.iFile ):
     isMC = False
     print "sample is data"
 else: isMC = True
@@ -85,10 +88,10 @@ PV = "(PV_npvsGood>0)"
 METFilters = "( (Flag_goodVertices==1) && (Flag_globalSuperTightHalo2016Filter==1) && (Flag_HBHENoiseFilter==1) && (Flag_HBHENoiseIsoFilter==1) && (Flag_EcalDeadCellTriggerPrimitiveFilter==1) && (Flag_BadPFMuonFilter==1) )"
 if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 
-if args.selection.startswith('dijet'):
-    Triggers = '( (HLT_PFHT900==1) && (HLT_AK8PFJet360_TrimMass30==1) && (HLT_AK8PFHT700_TrimR0p1PT0p03Mass50==1) && (HLT_PFJet450==1) )'
-else:
-    Triggers = '(HLT_Mu50==1)'
+#if args.selection.startswith('dijet'):
+#    Triggers = '( (HLT_PFHT900==1) && (HLT_AK8PFJet360_TrimMass30==1) && (HLT_AK8PFHT700_TrimR0p1PT0p03Mass50==1) && (HLT_PFJet450==1) )'
+#if args.sample.startswith(('Single', '/Single') or ('Single' in args.iFile or '\Single' in args.iFile)): 
+Triggers = '(HLT_Mu50==1)'
 #if args.year.startswith('2016'): Triggers = ...
 #elif args.year.startswith('2017'): Triggers =  ...
 #elif args.year.startswith('2018'): Triggers = ...
@@ -145,21 +148,22 @@ fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=args.year, jesUncert="A
 modulesToRun = []
 if isMC:
     modulesToRun.append( puWeight_2016() )
+    modulesToRun.append( btagSF2016() )
 modulesToRun.append( fatJetCorrector() )
 
-#if isMC: modulesToRun.append( btagSF2016() )
-if args.selection.startswith('dijet'):
-    modulesToRun.append( nSubProd( sysSource=systSources ) )
-else:
-    modulesToRun.append( jetmetCorrector() )
-    modulesToRun.append( nSubProd( selection=args.selection, sysSource=systSources, leptonSF=LeptonSF[args.year], createTrees=args.createTrees ) )
+
+#if args.selection.startswith('dijet'):
+#    modulesToRun.append( nSubProd( sysSource=systSources ) )
+#else:
+#    modulesToRun.append( jetmetCorrector() )
+#    modulesToRun.append( nSubProd( selection=args.selection, sysSource=systSources, leptonSF=LeptonSF[args.year], createTrees=args.createTrees ) )
 
 
 #### Make it run
 p1=PostProcessor(
         '.', (inputFiles() if not args.iFile else [args.iFile]),
         cut          = cuts,
-        outputbranchsel   = "keep_and_drop.txt",
+        #        outputbranchsel   = "keep_and_drop.txt",
         modules      = modulesToRun,
         provenance   = True,
         #jsonInput   = runsAndLumis(),
@@ -167,9 +171,9 @@ p1=PostProcessor(
         prefetch     = args.local,
         longTermCache= args.local,
         fwkJobReport = True,
-        haddFileName = "jetObservables_"+args.selection+"_nanoskim.root" if args.createTrees else 'jetObservables_nanoskim.root',
-        histFileName = "jetObservables_"+args.selection+"_histograms.root" if args.local else 'jetObservables_histograms.root',
-        histDirName  = 'jetObservables',
+        haddFileName = "boostedWtagging_"+args.year+"_nanoskim.root",
+        histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
+        histDirName  = 'boostedWtagging',
         )
 p1.run()
 print "DONE"

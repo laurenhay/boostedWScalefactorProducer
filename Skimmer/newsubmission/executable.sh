@@ -21,7 +21,7 @@ eval `scramv1 runtime -sh`
 cd ${CMSSW_BASE}/src/*/Skimmer/newsubmission  #$WD
 
 
-python $CMSSW_BASE/src/WTopScalefactorProducer/Skimmer/newsubmission/ProductionScript.py "$GC_SCRATCH" "$FILE_NAMES" 
+python $CMSSW_BASE/src/WTopScalefactorProducer/Skimmer/newsubmission/ProductionScript.py "$GC_SCRATCH" "$FILE_NAMES" "$YEAR"
 
 # Additional manual copying of file for safety
 # /scratch/mhuwiler/Wtagging/production/${GC_TASK_ID}/${DATASETPATH}/

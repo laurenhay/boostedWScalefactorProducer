@@ -12,6 +12,8 @@ outputDir = os.path.expandvars(sys.argv[1]) #outputDir = os.path.expandvars("$GC
 
 infile = sys.argv[2].split(' ')
 
+year = int(sys.argv[3])
+
 
 print "argv: ", sys.argv
 
@@ -36,7 +38,7 @@ if infile[0].find("SingleMuon")!=-1:
   channel = "mu"
   print "Processing a Single Muon dataset file..."
   p=PostProcessor(outputDir, infile, None, None, #"HLT_Mu50 && nMuon>0 && Muon_pt[0]>55. && nFatJet>0"
-                    modules=[Skimmer(channel),],provenance=False,fwkJobReport=False, maxEntries = numentriespertree,  
+                    modules=[Skimmer(channel, year),],provenance=False,fwkJobReport=False, maxEntries = numentriespertree,  
                     jsonInput=jsonfile,
                     )
 
@@ -44,7 +46,7 @@ elif infile[0].find("EGamma")!=-1:
   channel = "el"
   print "Processing a Single Electron dataset file..."
   p=PostProcessor(outputDir, infile, None, None, #"(event.HLT_Ele32_WPTight_Gsf || event.HLT_Ele35_WPTight_Gsf || event.HLT_Ele40_WPTight_Gsf || HLT_Ele115_CaloIdVT_GsfTrkIdT) && nElectron>0 && Electron_pt[0]>55. && nFatJet>0"
-                    modules=[Skimmer(channel)],provenance=False,fwkJobReport=False, maxEntries = numentriespertree, 
+                    modules=[Skimmer(channel, year)],provenance=False,fwkJobReport=False, maxEntries = numentriespertree, 
                     jsonInput=jsonfile,
                     )
 
@@ -52,7 +54,7 @@ else:
   print "Processing MC dataset files..."
   channel = "elmu"
   p=PostProcessor(outputDir, infile, None, None,
-                    modules=[Skimmer(channel)],provenance=False,fwkJobReport=False, maxEntries = numentriespertree, 
+                    modules=[Skimmer(channel, year)],provenance=False,fwkJobReport=False, maxEntries = numentriespertree, 
                     #jsonInput=jsonfile,
 )
 

@@ -6,7 +6,7 @@ import time
 import math
 import csv
 from WTopScalefactorProducer.Fitter.tdrstyle import *
-from WTopScalefactorProducer.Fitter.CMS_lumi import *
+import WTopScalefactorProducer.Fitter.CMS_lumi as CMS_lumi
 from WTopScalefactorProducer.Skimmer.getGenEv import getGenEv
 setTDRStyle()
 
@@ -48,13 +48,21 @@ parser.add_option('--doWS'  ,dest="doWS", default=False, action="store_true", he
 
 
 lumi = 59970.
-CMS_lumi.lumi_13TeV = "60.0 fb^{-1}"
-CMS_lumi.writeExtraText = 1
+#CMS_lumi.lumi_13TeV = "60.0 fb^{-1}"
+#CMS_lumi.writeExtraText = 1
+#CMS_lumi.extraText = "Preliminary"
+#CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
+factor = 1.0; 
+CMS_lumi.writeExtraText = True; 
+CMS_lumi.lumiTextSize     = 0.45*factor; 
+CMS_lumi.lumiTextOffset   = 0.2*factor;
+CMS_lumi.cmsTextSize      = 0.75*factor;
+CMS_lumi.lumi_13TeV = "59.7 fb^{-1}";
 CMS_lumi.extraText = "Preliminary"
-CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 iPos = 11
 if( iPos==0 ): CMS_lumi.relPosX = 0.12
 iPeriod = 4
+labelsize = 0.03
 
 gStyle.SetOptTitle(0)
 RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
@@ -91,7 +99,7 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     wpForPlotting ="%.2f"%options.tau2tau1cutHP
     wpForPlotting = wpForPlotting.replace(".","v")
     postfix=""
-    title = "PUPPI softdrop jet mass (GeV)"
+    title = "blup PUPPI softdrop jet mass (GeV) boo"
     
     
     frame = variable.frame()
@@ -111,12 +119,14 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     c1.cd()
     frame.GetYaxis().SetNdivisions(203);
     frame.GetXaxis().SetNdivisions(202);
-    frame.GetYaxis().SetTitleSize(0.05)
-    frame.GetYaxis().SetTitleOffset(1.35)
+    labelsize = 0.02
+    frame.GetYaxis().SetTitleSize(0.001)
+    frame.GetXaxis().SetTitleSize(0.001)
+    frame.GetYaxis().SetTitleOffset(1.7) #1.35
     frame.SetName("mjjFit")
     frame.GetYaxis().SetTitle("A.U")
     frame.GetXaxis().SetTitle(title)
-    frame.Draw()
+    frame.Draw("a")
     # frame.SetMinimum(0.)
     # frame.SetMaximum(2900.)
     legend = getLegend()
@@ -134,11 +144,13 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     if frame.findObject("Double CB"):
       legend.AddEntry(frame.findObject("Double CB"),frame.findObject("Double CB").GetName(),"l")  
     legend.Draw("same")
-    CMS_lumi(c1, iPeriod, iPos)
+    #CMS_lumi(c1, iPeriod, iPos)
+    CMS_lumi.CMS_lumi(c1, 4, 11); 
     addInfo = getPavetext()
     addInfo.AddText("#chi^{2}/nDOF = %.3f"%chi2)
     addInfo.Draw()
     c1.Update()
+    c1.Modified()
     dirname = "plots/"+options.workspace.replace('workspace_', '')
     c1.SaveAs(dirname+"/"+pdfModel.GetName()+".png")
     c1.SaveAs(dirname+"/"+pdfModel.GetName()+".pdf")
@@ -670,7 +682,7 @@ class initialiseFits:
       nbins_mj         = int( (in_mj_max - in_mj_min) / self.BinWidth_mj )
       in_mj_max        = in_mj_min+nbins_mj*self.BinWidth_mj
       
-      jetMass = "PUPPI softdrop jet mass"
+      jetMass = "PUPPI softdrop jet mass pop"
 
       rrv_mass_j = RooRealVar("rrv_mass_j", jetMass ,(in_mj_min+in_mj_max)/2.,in_mj_min,in_mj_max,"GeV")
       rrv_mass_j.setBins(nbins_mj)

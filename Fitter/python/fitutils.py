@@ -173,7 +173,16 @@ def fit_mj_single_MC(workspace,fileName,label, model,channel, wtagger_label,wsna
 
     
     Name  = "#chi^{2}/ndf = %0.2f " %float(chi_over_ndf)
-    cs = getPavetext()
+    #cs = getPavetext()
+    cs = rt.TPaveText(0.45,0.55,0.8202143,0.72,"NDC")
+    cs.SetFillColor(0)
+    cs.SetLineColor(0)
+    cs.SetFillStyle(0)
+    cs.SetBorderSize(0)
+    cs.SetTextFont(42)
+    cs.SetTextSize(0.040)
+    cs.SetTextAlign(12)
+
     cs.AppendPad("same")
     mplot.addObject(cs)
     c1 = getCanvas()
@@ -358,6 +367,7 @@ def DrawScaleFactorTTbarControlSample(xtitle,workspace, color_palet, label, chan
         combData_p_f_TotalMC = workspace.data("combData_TotalMC_plot")
         combData_p_f_data = workspace.data("combData_data_plot")
         sample_type=workspace.cat("sample_type")
+        labelsize = 0.05
 
         xframe_data      = rrv_mass_j.frame( rt.RooFit.Bins(int(rrv_mass_j.getBins())));
         xframe_data_fail = rrv_mass_j.frame( rt.RooFit.Bins(int(rrv_mass_j.getBins())));
@@ -365,6 +375,14 @@ def DrawScaleFactorTTbarControlSample(xtitle,workspace, color_palet, label, chan
         xframe_data_fail.GetYaxis().SetTitle(" Events / (5 GeV)");
         xframe_data     .GetXaxis().SetTitle(xtitle);
         xframe_data_fail.GetXaxis().SetTitle(xtitle);
+        xframe_data.GetYaxis().SetTitleSize(labelsize)
+        xframe_data.GetXaxis().SetTitleSize(labelsize)
+        xframe_data.GetXaxis().SetTitleOffset(1.2) #1.35
+        xframe_data.GetYaxis().SetTitleOffset(1.4)
+        xframe_data_fail.GetYaxis().SetTitleSize(labelsize)
+        xframe_data_fail.GetXaxis().SetTitleSize(labelsize)
+        xframe_data_fail.GetXaxis().SetTitleOffset(1.2) 
+        xframe_data_fail.GetYaxis().SetTitleOffset(1.4)
         
         ## plot data and mc on the frame
         
@@ -473,7 +491,8 @@ def DrawScaleFactorTTbarControlSample(xtitle,workspace, color_palet, label, chan
         rrv_mean_gaus_TotalMC =workspace.var("rrv_mean1_gaus_ttbar_TotalMC_em_mj")
         rrv_sigma_gaus_TotalMC=workspace.var("rrv_sigma1_gaus_ttbar_TotalMC_em_mj")
         
-        tl_bin  = rt.TLatex(0.70,0.40, ("%i GeV < p_{T} < %i GeV")%(ptmin,ptmax) )
+        tl_bin  = rt.TLatex(0.75,0.40, ("p_{T} > %i GeV")%(ptmin) )
+        text  = rt.TLatex(0.2,0.7, ("p_{T} > %i [GeV]")%(ptmin) )
         tl_bin.SetNDC()
         tl_bin.SetTextSize(0.03)
         xframe_data.addObject(tl_bin)
@@ -503,7 +522,7 @@ def DrawScaleFactorTTbarControlSample(xtitle,workspace, color_palet, label, chan
  #        tl_bin_fail  = rt.TLatex(0.70,0.40, ("%i GeV < p_{T} < %i GeV")%(ptmin,ptmax) )
  #        tl_bin_fail.SetNDC()
  #        tl_bin_fail.SetTextSize(0.03)
- #        xframe_data_fail.addObject(tl_bin_fail)
+        xframe_data_fail.addObject(tl_bin)
  #
  #        if rrv_mean_gaus_TotalMC_fail:
  #            tl_MC_mean_fail  = rt.TLatex(0.75,0.62, ("#mu_{MC } = %3.2f #pm %2.2f")%(rrv_mean_gaus_TotalMC_fail.getVal(), rrv_mean_gaus_TotalMC_fail.getError()) );

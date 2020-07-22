@@ -6,6 +6,8 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 from PhysicsTools.NanoAODTools.postprocessing.tools import *
 from boostedWScalefactorProducer.Skimmer.PileupWeightTool import *
 from boostedWScalefactorProducer.Skimmer.variables import recoverNeutrinoPz
+from boostedWScalefactorProducer.Skimmer.SpecificYearConfig import SpecificYearConfig
+
 
 import math
 import random
@@ -37,10 +39,11 @@ import array
 #Leptonic W - lepton + MET has Pt > 150 GeV # did not apply this since we are missing MET eta
          
 class Skimmer(Module):
-    def __init__(self, Channel):
+    def __init__(self, Channel, year): # TODO: remove default value (hack for testing) 
         self.chan = Channel
         self.writeHistFile = True
         self.verbose = False
+        self.year = year
     def beginJob(self, histFile, histDirName):
         Module.beginJob(self, histFile, histDirName)
         # self.addObject( ROOT.TH1F('nGenEv',   'nGenEv',   3, 0, 3) )
@@ -77,6 +80,9 @@ class Skimmer(Module):
         self.puWeightTool = PileupWeightTool(yearMC=2018, yearData=2018) 
 
         self.nEvent = 0
+
+        self.yearSpecificConfig = SpecificYearConfig(self.year, self.verbose)
+        
 
         
     def endJob(self):
@@ -126,7 +132,7 @@ class Skimmer(Module):
         print "File closed successfully"
         pass
 
-    def getSimplifiedElectronTriggerSF2018(self, pt, eta):
+    def getSimplifiedElectronTriggerSF2018(self, pt, eta):  #TODO: remove
         # /work/pbaertsc/heavy_resonance/NanoTreeProducer/CorrectionTools/leptonEfficiencies/ElectronPOG/Run2018/Ele115orEle35_SF_2018.root
         # Ratio ELE_DATA and ELE_MC
         if pt < 120:
@@ -135,7 +141,7 @@ class Skimmer(Module):
         elif pt > 500 and abs(eta) > 0.9 and abs(eta) < 1.7: return 0.95
         else: return 0.98
 
-    def getSimplifiedMuonTriggerSF2018(self, pt, eta):
+    def getSimplifiedMuonTriggerSF2018(self, pt, eta):  #TODO: remove
         # https://gitlab.cern.ch/cms-muonPOG/MuonReferenceEfficiencies/blob/master/EfficienciesStudies/2018_trigger/theJSONfile_2018Data_AfterMuonHLTUpdate.json
         # "Mu50_OR_OldMu100_OR_TkMu100_PtEtaBins"
         if pt < 200: #"pt:[120.0,200.0]"
@@ -173,9 +179,10 @@ class Skimmer(Module):
         btagweight = 1.
         triggerweight = 1.
         isMC = (event.run == 1)
+        # TODO: check if the above is doing what is expected
 
         # Preselections: HLT_Mu50&&nMuon>0&&Muon_pt[0]>55.&&fabs(Muon_eta[0])<2.4&&Muon_highPtId[0]>=2&&Muon_isPFcand[0]==1&&Muon_pfIsoId[0]>=4&&nFatJet>0&&FatJet_pt[0]>200&&fabs(FatJet_eta[0])<2.5
-        if not (event.HLT_Mu50 or (event.HLT_Ele32_WPTight_Gsf or event.HLT_Ele35_WPTight_Gsf or event.HLT_Ele40_WPTight_Gsf or event.HLT_Ele115_CaloIdVT_GsfTrkIdT)): return False
+        if not (event.HLT_Mu50 or (event.HLT_Ele32_WPTight_Gsf or event.HLT_Ele35_WPTight_Gsf or event.HLT_Ele40_WPTight_Gsf or event.HLT_Ele115_CaloIdVT_GsfTrkIdT)): return False   #TODO: check if all those triggers are available in 2016
         if not (event.nMuon > 0 or event.nElectron > 0): return False 
         if not event.nFatJet > 0: return False                                  #?
 
@@ -212,13 +219,13 @@ class Skimmer(Module):
         iso = 0.
 
         if ("mu" in self.chan and muonTight and (len(muons) == 1) and (len(electrons) == 0)) :  # There is one tight muon and no other loose electron or muon 
-          triggerMu = event.HLT_Mu50
-          triggerEl = 0
+          triggerMu = event.HLT_Mu50 # TODO: delete? (not used...)
+          triggerEl = 0 # TODO: idem? 
           #if not triggerMu: return False
           self.Vlep_type = 0
           lepton = muons[0].p4()
           iso = muons[0].pfRelIso03_all
-          if isMC: triggerweight = self.getSimplifiedMuonTriggerSF2018(muons[0].pt, muons[0].eta)
+          if isMC: triggerweight = yearSpecificConfig.MuonTriggerSF(muons[0].pt, muons[0].eta)     #self.getSimplifiedMuonTriggerSF2018(muons[0].pt, muons[0].eta)
 
         elif ("el" in self.chan and electronTight and (len(electrons) == 1) and (len(muons) == 0)) :  # There is a tight electron and no other loose muon or electron
           triggerEl = (event.HLT_Ele32_WPTight_Gsf or event.HLT_Ele35_WPTight_Gsf or event.HLT_Ele40_WPTight_Gsf or event.HLT_Ele115_CaloIdVT_GsfTrkIdT)
@@ -227,7 +234,7 @@ class Skimmer(Module):
           self.Vlep_type = 1
           lepton = electrons[0].p4()
           iso = electrons[0].pfRelIso03_all
-          if isMC: triggerweight = self.getSimplifiedElectronTriggerSF2018(electrons[0].pt, electrons[0].eta)
+          if isMC: triggerweight = self.getSimplifiedElectronTriggerSF2018(electrons[0].pt, electrons[0].eta)  # TODO: Add this to the SpecificYearConfig (class and config file)
 
         else : 
           return False 
@@ -235,7 +242,7 @@ class Skimmer(Module):
 
         passedMETFilters = False
         try:
-          if event.Flag_goodVertices and event.Flag_globalSuperTightHalo2016Filter and event.Flag_BadPFMuonFilter and event.Flag_EcalDeadCellTriggerPrimitiveFilter and event.Flag_HBHENoiseFilter and event.Flag_HBHENoiseIsoFilter and (isMC or event.Flag_eeBadScFilter) and event.Flag_ecalBadCalibFilterV2:
+          if event.Flag_goodVertices and event.Flag_globalSuperTightHalo2016Filter and event.Flag_BadPFMuonFilter and event.Flag_EcalDeadCellTriggerPrimitiveFilter and event.Flag_HBHENoiseFilter and event.Flag_HBHENoiseIsoFilter and (isMC or event.Flag_eeBadScFilter) and event.Flag_ecalBadCalibFilterV2:  # TODO: check if this makes sense 
             passedMETFilters = True
         except:
            passedMETFilters = False
@@ -260,7 +267,7 @@ class Skimmer(Module):
         neutrino.SetPxPyPzE(MET.Px(), MET.Py(), pz, math.sqrt(MET.Px()**2 + MET.Py()**2 + pz**2))
         WcandLep = lepton + neutrino
         
-        if not WcandLep.Pt() >= self.minWPt: return False
+        if not WcandLep.Pt() >= self.minWPt: return False   
         
         # Find fat jet
         FatJets = list(Collection(event, "FatJet"))
@@ -328,11 +335,11 @@ class Skimmer(Module):
             ### a Top decays to W + b (Type 2 - fully merged top quark)
             gens = Collection(event, "GenPart")
             Wdaus =  [x for x in gens if x.pt>1 and 0<abs(x.pdgId)<9]
-            Wmoms =  [x for x in gens if x.pt>10 and abs(x.pdgId)==24]
+            Ws =  [x for x in gens if x.pt>10 and abs(x.pdgId)==24]
 
             TWdaus =  [x for x in gens if x.pt>1 and  0<abs(x.pdgId)<4]
             Tdaus =  [x for x in gens if x.pt>1 and (abs(x.pdgId)==5  or  abs(x.pdgId)==24 )]
-            Tmoms =  [x for x in gens if x.pt>10 and abs(x.pdgId)==6] 
+            Ts =  [x for x in gens if x.pt>10 and abs(x.pdgId)==6] 
             Top =  [x for x in gens if x.pdgId==6]
             AntiTop =  [x for x in gens if x.pdgId==-6]
             
@@ -345,9 +352,9 @@ class Skimmer(Module):
             self.matchedJ = 0
             self.matchedSJ = 0
 
-            if len(Wmoms)>0 and len(Wdaus)>0:
+            if len(Ws)>0 and len(Wdaus)>0:
               for dau in Wdaus:
-                for mom in Wmoms:
+                for mom in Ws:
                   try:
                     if mom == gens[dau.genPartIdxMother]: 
                       realVs.append(mom)
@@ -355,10 +362,10 @@ class Skimmer(Module):
                   except:
                     continue    
 
-            if len(Tmoms)>0 and len(Tdaus)>0:
+            if len(Ts)>0 and len(Tdaus)>0:   # TODO: remove? 
               for gdau in TWdaus :
                 for dau in Tdaus:
-                  for mom in Tmoms:
+                  for mom in Ts:
                     try:
                       if mom == gens[dau.genPartIdxMother] and dau == gens[gdau.genPartIdxMother]: 
                         realTs.append(mom)
@@ -378,6 +385,7 @@ class Skimmer(Module):
         self.isW = 0
         self.isWqq = 0
         self.isW2017 = 0
+        # TODO: check if we want to keep all matching definitions 
         if isMC == False:
             genjets = [None] * len(recoAK8)
 
@@ -399,15 +407,15 @@ class Skimmer(Module):
               else: self.isW2017 = 0
 
           
-          # simple gen matching
-          for V in Wmoms:
+          # simple gen matching   # TODO: remove? 
+          for V in Ws:
             gen_4v = ROOT.TLorentzVector()
             gen_4v.SetPtEtaPhiM(V.pt,V.eta,V.phi,V.mass)
             dR = jetAK8_4v.DeltaR(gen_4v)
             if dR < 0.8: self.isW = 1
 
           
-          # standard gen matching
+          # standard gen matching   # TODO: remove? 
           for V in realVs:
             gen_4v = ROOT.TLorentzVector()
             gen_4v.SetPtEtaPhiM(V.pt,V.eta,V.phi,V.mass)
@@ -423,7 +431,7 @@ class Skimmer(Module):
                   self.isWqq = 1
           
        
-        #for fully merged:
+        #for fully merged:  # TODO: remove this part (not used anymore)
         self.SJ0isW = -1
         # List of reco subjets:
         recosubjets = list(Collection(event,"SubJet"))

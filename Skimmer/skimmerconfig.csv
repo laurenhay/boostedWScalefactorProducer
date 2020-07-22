@@ -1,0 +1,7 @@
+ , 2018
+MuonTriggerSFlowPtcentralEta, 0.93
+MuonTriggerSFlowPthighEta, 0.85
+MuonTriggerSFhighPtcentralEta, 0.89
+MuonTriggerSFhighPthighEta, 0.82
+MuonTriggerSFPtThreshold, 200.
+MuonTriggerSFEtaThreshold, 2.1

@@ -9,7 +9,7 @@ import DASTools
 #import Config as cf
 
 
-def WriteJobConfigFile(filename, workdir, dataset, template, multiplicity, maxtime, localoutput, sepath, scratchpath="/scratch"): 
+def WriteJobConfigFile(filename, workdir, dataset, year, template, multiplicity, maxtime, localoutput, sepath, scratchpath="/scratch"): 
     name = "./etc/"+template+".conf"
     if not os.path.isfile(name): 
       print "ERROR: The template:", name, "does not exist. Please make sure you select or create one in ./etc/ . "
@@ -34,6 +34,7 @@ def WriteJobConfigFile(filename, workdir, dataset, template, multiplicity, maxti
         filecontent = filecontent.replace("$maxtime$", str(maxtime))
         filecontent = filecontent.replace("$multiplicity$", str(multiplicity))
         filecontent = filecontent.replace("$dataset$", datasettext)
+        filecontent = filecontent.replace("$year$", str(year))
         #filecontent = filecontent.replace("$queue$", queue)
         #filecontent = filecontent.replace("$scratchpath$", scratchpath)
         #filecontent = filecontent.replace("$sepath$", "srm://t3se01.psi.ch:8443/srm/managerv2?SFN=/pnfs/psi.ch/cms/trivcat/store/user/$USER/production/Wtagging")
@@ -60,6 +61,7 @@ if __name__ == "__main__":
    parser.add_argument('-m', '--multiplicity', action='store', type=int, default=10, help="Number of files per job") 
    #parser.add_argument('-g', '--backend', action='store', type=str, dest='backend', default="lxplus", help = "Which environment (job scheduler) from Config.py to use")
    parser.add_argument('-t', '--template', action='store', type=str, dest='template', default="t3psiSlurmMH", help = "Which Grid-Control template to start with (from etc/). ")
+   parser.add_argument('-y', '--year', action='store', type=int, dest='year', help = "Which year the samples should be produced from.")
 
    args = parser.parse_args()  
  
@@ -82,7 +84,7 @@ if __name__ == "__main__":
 
    maxtime = args.multiplicity*4.
 
-   if WriteJobConfigFile(configfile, workdir, datasetfiles, args.template, args.multiplicity, int(maxtime), "/work/mhuwiler/data/WScaleFactors/production", "srm://t3se01.psi.ch:8443/srm/managerv2?SFN=/pnfs/psi.ch/cms/trivcat/store/user/$USER/production/Wtagging", "/scratch"): 
+   if WriteJobConfigFile(configfile, workdir, datasetfiles, args.year, args.template, args.multiplicity, int(maxtime), "/work/mhuwiler/data/WScaleFactors/production", "srm://t3se01.psi.ch:8443/srm/managerv2?SFN=/pnfs/psi.ch/cms/trivcat/store/user/$USER/production/Wtagging", "/scratch"): 
 
     cmd = "go.py {} -cG".format(configfile)
     if not args.dry: os.system(cmd)
