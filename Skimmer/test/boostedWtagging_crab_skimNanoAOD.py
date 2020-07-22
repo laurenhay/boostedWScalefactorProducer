@@ -20,6 +20,13 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 impor
 # our module
 from boostedWScalefactorProducer.Skimmer.skimmer import Skimmer
 
+haddname = "boostedWtagging_2016_nanoskim.root"
+
+print '---------------------------------------------------'
+print 'Input files:'
+print inputFiles()
+
+'''
 import argparse
 
 parser = argparse.ArgumentParser(description='Runs MEAnalysis')
@@ -66,7 +73,7 @@ parser.add_argument(
     default="2016",
     required=False
 )
-'''
+
 parser.add_argument(
     '--selection',
     action="store",
@@ -75,7 +82,7 @@ parser.add_argument(
     default="W",
     required=False
 )
-'''
+
 
 args = parser.parse_args(sys.argv[1:])
 if args.sample.startswith(('/EGamma', '/Single', 'EGamma', 'Single' )) or ('EGamma' in args.iFile or 'Single' in args.iFile ):
@@ -140,15 +147,15 @@ LeptonSF = {
     },
 }
 
-
+'''
 #### Modules to run
-jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=args.year, jesUncert="All", redojec=True)
-fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=args.year, jesUncert="All", redojec=True, jetType = "AK8PFPuppi")
+jetmetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", redojec=True)
+fatJetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", redojec=True, jetType = "AK8PFPuppi")
 
 modulesToRun = []
-if isMC:
-    modulesToRun.append( puWeight_2016() )
-    modulesToRun.append( btagSF2016() )
+#if isMC:
+modulesToRun.append( puWeight_2018() )
+modulesToRun.append( btagSF2017() )
 modulesToRun.append( fatJetCorrector() )
 
 
@@ -161,19 +168,19 @@ modulesToRun.append( fatJetCorrector() )
 
 #### Make it run
 p1=PostProcessor(
-        '.', (inputFiles() if not args.iFile else [args.iFile]),
-        cut          = cuts,
-        #        outputbranchsel   = "keep_and_drop.txt",
+        '.', inputFiles(), "", # if not args.iFile else [args.iFile]),
+        #cut          = cuts,
+        outputbranchsel   = "keep_and_drop.txt",
         modules      = modulesToRun,
         provenance   = True,
         #jsonInput   = runsAndLumis(),
-        maxEntries   = args.numEvents,
-        prefetch     = args.local,
-        longTermCache= args.local,
+        #maxEntries   = args.numEvents,
+        #prefetch     = args.local,
+        #longTermCache= args.local,
         fwkJobReport = True,
-        haddFileName = "boostedWtagging_"+args.year+"_nanoskim.root",
-        histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
-        histDirName  = 'boostedWtagging',
+        haddFileName = haddname#"boostedWtagging_"+args.year+"_nanoskim.root",
+        #histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
+        #histDirName  = 'boostedWtagging',
         )
 p1.run()
 print "DONE"

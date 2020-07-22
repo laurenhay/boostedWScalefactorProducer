@@ -1,9 +1,6 @@
-# Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: crabconfig_2018MC -s NANO --mc --eventcontent NANOAODSIM --datatier NANOAODSIM --conditions 102x_upgrade2018_realisitic_v19-v1 --no_exec --era Run2_2018,run2_nanoAOD_102Xv1 -n 100 --nThreads 8 --filein /store/mc/RunIIAutumn18NanoAODv5/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/60000/8ABD924A-A197-6848-8949-A5539DC012C3.root
 import FWCore.ParameterSet.Config as cms
+from RecoJets.Configuration.RecoGenJets_cff import ak4GenJets
+from RecoJets.Configuration.RecoPFJets_cff import ak4PFJets
 
 from Configuration.StandardSequences.Eras import eras
 

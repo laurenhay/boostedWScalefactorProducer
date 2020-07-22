@@ -1,0 +1,1 @@
+/afs/cern.ch/work/k/kadatta/public/CMSSW_10_6_12/src/PhysicsTools/NanoAODTools/scripts/haddnano.py
