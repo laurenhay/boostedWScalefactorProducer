@@ -3,13 +3,16 @@ import os
 from WTopScalefactorProducer.Fitter.tdrstyle import *
 from InitialiseFits import initialiseFits
 from Dataset import Dataset
+#from Fitter import Fitter
 
 WORKSPACENAME = "WTaggingFitter"
 
 
-class WTaggingFitter:
+class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
     def __init__(self, options):
         self.verbose = options.verbose
+        #Fitter.__init__(self, options) # python 3 super().__init__(options)
+        self.workspacename = WORKSPACENAME
         
         # --- Open the workspace
         self.workspace4fit_ = self.OpenWorkspace(options)
@@ -471,7 +474,7 @@ class WTaggingFitter:
                 print "Aborting!"
                 return #TODO: quit program
 
-        workspace = ROOT.RooWorkspace(WORKSPACENAME, WORKSPACENAME)
+        workspace = ROOT.RooWorkspace(self.workspacename, self.workspacename)
 
         mass = ROOT.RooRealVar(options.massvar, options.massvar, options.minX, options.maxX) #workspace.var("mass") # TODO: Do we really want to set a range here (additional cut w.r.t. tree variable)?
         tagger = ROOT.RooRealVar(options.tagger, options.tagger, 0., options.cutLP)
@@ -523,14 +526,14 @@ class WTaggingFitter:
         if (status == 3): 
             # The file exists and contains a valid workspace
             self.file = ROOT.TFile(filename) #TODO: close file
-            self.workspace  = self.file.Get(WORKSPACENAME)
+            self.workspace  = self.file.Get(self.workspacename)
         
             self.workspace.SetTitle(options.workspace)
             return self.workspace
         else: 
             # Something is wrong with the workspace file
             print message
-            print "\nDo you want to create (overwrite) the workspace? "
+            print "\nDo you want to create (overwrite) the file? " # TODO: is the method writeToFile really overwriting? 
             if (self.PromptYesNo() == 'yes'):
                 self.workspace = self.CreateWorkspace(options, filename)
                 return self.workspace
