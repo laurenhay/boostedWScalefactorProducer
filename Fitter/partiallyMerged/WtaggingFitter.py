@@ -9,6 +9,7 @@ WORKSPACENAME = "WTaggingFitter"
 
 class WTaggingFitter:
     def __init__(self, options):
+        self.verbose = options.verbose
         
         # --- Open the workspace
         self.workspace4fit_ = self.OpenWorkspace(options)
@@ -452,9 +453,9 @@ class WTaggingFitter:
             assert(os.path.isfile(file)), "ERROR: The file: {} does not exist! You may want to update the directory/file name in Dataset.py.".format(file)
             chain.Add(file)
 
-        print chain.GetEntries()
+        if (self.verbose): print "Tree with {} entries.".format(chain.GetEntries())
 
-        print "Importing dataset '{}' from: {}".format(name, ", ".join(files))
+        if (self.verbose): print "Importing dataset '{}' with cut '{}' from: {}".format(name, cut, ", ".join(files))
         dataset = ROOT.RooDataSet(name, name, chain, variables, cut, weightvariable)
 
         return dataset
@@ -464,28 +465,49 @@ class WTaggingFitter:
     def CreateWorkspace(self, options, filename): 
         if (self.CheckWorkspaceExistence(filename)): 
             print "Workspace already exists! "
-        workspace = ROOT.RooWorkspace(WORKSPACENAME, options.workspace)
+            print "A workspace with name '{}' already exists, are you sure you want to overwrite it? ".format(filename) 
+            rep = self.PromptYesNo()
+            if rep == 'no': 
+                print "Aborting!"
+                return #TODO: quit program
+
+        workspace = ROOT.RooWorkspace(WORKSPACENAME, WORKSPACENAME)
 
         mass = ROOT.RooRealVar(options.massvar, options.massvar, options.minX, options.maxX) #workspace.var("mass") # TODO: Do we really want to set a range here (additional cut w.r.t. tree variable)?
+        tagger = ROOT.RooRealVar(options.tagger, options.tagger, 0., options.cutLP)
         weight = ROOT.RooRealVar("weight", "weight", 0., 10000000.)    # variables = ROOT.RooArgSet(x, y)
         # For importing a TTree into RooDataSet the RooRealVar names must match the branch names, see: https://root.cern.ch/root/html608/rf102__dataimport_8C_source.html
 
-        cutPass = "{} < {}".format(options.tagger, options.cutHP)
-        cutFail = "({} > {}) && ({} < {})".format(options.tagger, options.cutHP, options.tagger, options.cutLP)
+        cutPass = "({} <= {})".format(options.tagger, options.cutHP)
+        cutFail = "({0} > {1}) && ({0} <= {2})".format(options.tagger, options.cutHP, options.cutLP)
 
-        argset = ROOT.RooArgSet(mass, weight)  # TODO: Does the weight need to be included here? 
+        argset = ROOT.RooArgSet(mass, weight, tagger)  # TODO: Does the weight need to be included here? 
+
+        weightvarname = "weight"
 
         dataset = Dataset(options.year) 
-        sample = dataset.getSample("tt")
 
-        print "HP cut:", cutPass
+        for sample in ["tt", "VV", "SingleTop"]: 
+            getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "HP:"+sample, argset, cutPass, weightvarname))
+            workspace.writeToFile(filename)
+            getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "LP:"+sample, argset, cutFail, weightvarname))
+            workspace.writeToFile(filename)
 
+        # For tt we need an additional cut to separate it into gen matched merged W and unmerged
+        additionalCutMerged = "&&(isW2017==1)"
+        additionalCutUnmerged = "&&(isW2017==0)"
+        merged = ROOT.RooRealVar("isW2017", "isW2017", 0., 1.)
+        argset.add(merged)
+        getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "HP:ttrealW", argset, cutPass+additionalCutMerged, weightvarname))
+        workspace.writeToFile(filename)
+        getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "HP:ttfakeW", argset, cutPass+additionalCutUnmerged, weightvarname))
+        workspace.writeToFile(filename)
 
-        roodataset = self.CreateDataset(sample, "tt", argset, "", "weight")
-        getattr(workspace, "import")(roodataset) 
+        #sample = dataset.getSample("tt")
+        #roodataset = self.CreateDataset(sample, "tt", argset, cutPass, "weight")
+        #getattr(workspace, "import")(roodataset) 
 
-        print sample
-
+        # TODO: add cut values to workspace
         
         workspace.writeToFile(filename)
 
@@ -501,13 +523,20 @@ class WTaggingFitter:
         if (status == 3): 
             # The file exists and contains a valid workspace
             self.file = ROOT.TFile(filename) #TODO: close file
-            self.workspace  = f.Get(WORKSPACENAME)
+            self.workspace  = self.file.Get(WORKSPACENAME)
         
             self.workspace.SetTitle(options.workspace)
             return self.workspace
         else: 
-            # Something is wrond with the workspace file
+            # Something is wrong with the workspace file
             print message
+            print "\nDo you want to create (overwrite) the workspace? "
+            if (self.PromptYesNo() == 'yes'):
+                self.workspace = self.CreateWorkspace(options, filename)
+                return self.workspace
+            else: 
+                print "Aborting!" 
+
 
 
     def CheckWorkspaceExistence(self, filename): 
@@ -537,5 +566,18 @@ class WTaggingFitter:
             status = 0
 
         return status, message
+
+    def PromptYesNo(self, answerasbool=False): 
+        # Inspired from Fabrice Couderc 
+        rep = ''
+        while not rep in [ 'yes', 'no' ]:
+            rep = raw_input( "(type 'yes' or 'no'): " ).lower()
+        if (answerasbool): 
+            if (rep == 'yes'): 
+                return True
+            else: 
+                return False
+        return rep
+
 
 

@@ -53,6 +53,8 @@ parser.add_argument('-c', '--channel',action="store",type=str,dest="channel",def
 parser.add_argument('--doWS'  ,dest="doWS", default=False, action="store_true", help="Recreate workspace. If NOT set to True (or workspace does not exist), will use workspace as given in options.workspace (workspace.root by default)")
 parser.add_argument('-y', '--year', dest="year", type=int, help="The year for which you want to create the workspace. ")
 parser.add_argument('--weightvar', dest="weightvar", type=str, default="weight", help="The name of the event weight variable in the tree.")
+parser.add_argument('-v', '--verbose', dest="verbose", action='store_true', default=False, help="Print out more messages.")
+
 
 options = parser.parse_args()
 
