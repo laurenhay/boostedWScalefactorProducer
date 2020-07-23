@@ -9,7 +9,7 @@ from WTopScalefactorProducer.Fitter.tdrstyle import *
 from WTopScalefactorProducer.Fitter.CMS_lumi import *
 from WTopScalefactorProducer.Skimmer.getGenEv import getGenEv
 
-from WtaggingFitter import doWtagFits
+from WtaggingFitter import WTaggingFitter
 
 from ROOT import *
 
@@ -26,8 +26,8 @@ RooMsgService.instance().setSilentMode(True)
 parser.add_argument('--tagger', action="store",type=str,dest="tagger",default="SelectedJet_tau21", help="Name of tagger variable (tau32/tau21/ddt)")
 parser.add_argument('--massvar', action="store",type=str,dest="massvar",default="SelectedJet_softDrop_mass", help="Name of mass variable to fit")
 parser.add_argument('--xtitle', action="store",type=str,dest="xtitle",default="Corrected PUPPI softdrop mass (GeV)", help="x axis title of mass variable to fit")
-parser.add_argument('--HP', action="store", type=float,dest="tau2tau1cutHP",default=0.35)
-parser.add_argument('--LP', action="store", type=float,dest="tau2tau1cutLP",default=0.75)
+parser.add_argument('--HP', action="store", type=float,dest="cutHP",default=0.35)
+parser.add_argument('--LP', action="store", type=float,dest="cutLP",default=0.75)
 parser.add_argument('--minX', action="store", type=float,dest="minX",default=50. , help="Lower mass cut")
 parser.add_argument('--maxX', action="store", type=float,dest="maxX",default=130., help="Upper mass cut")
 parser.add_argument('--ptmin', action="store", type=float,dest="pTmin",default=200., help="Lower pT cut")
@@ -51,6 +51,8 @@ parser.add_argument('--doBinned',dest="doBinnedFit", default=False, action="stor
 parser.add_argument('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
 parser.add_argument('-c', '--channel',action="store",type=str,dest="channel",default="em", help="Electron,muon or ele+mu channel. For now, em for all") #FIXME
 parser.add_argument('--doWS'  ,dest="doWS", default=False, action="store_true", help="Recreate workspace. If NOT set to True (or workspace does not exist), will use workspace as given in options.workspace (workspace.root by default)")
+parser.add_argument('-y', '--year', dest="year", type=int, help="The year for which you want to create the workspace. ")
+parser.add_argument('--weightvar', dest="weightvar", type=str, default="weight", help="The name of the event weight variable in the tree.")
 
 options = parser.parse_args()
 
@@ -74,7 +76,7 @@ iPeriod = 4
 #### <refactor> kinda useless as the only thing it does is call another function
 def getSF():
     print "Getting W-tagging SF for cut " ,options.tau2tau1cutHP
-    boostedW_fitter_sim = doWtagFits(options)
+    boostedW_fitter_sim = WTaggingFitter(options)
 #### <\refactor>
 
 def getLegend():
@@ -523,7 +525,7 @@ class initialiseFits:
       
       
       
-      self.file_Directory       = "/work/mhuwiler/data/WScaleFactors/Mergeddefinition2017/"
+      self.file_Directory       = "/eos/home-m/mhuwiler/data/Wtagging/Mergedefinition2017/"
       self.list_file_data       = ["SingleMuon-Run2018A.root", "SingleMuon-Run2018B.root", "SingleMuon-Run2018C.root", "SingleMuon-Run2018D.root"]
       self.list_file_TTbar_mc   = ["TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
       if options.topShower: self.list_file_TTbar_mc   = ["TT_TuneCH3_13TeV-powheg-herwig7.root"]
@@ -1027,18 +1029,27 @@ sys.setprofile(tracefunc)
 ### Start  main
 if __name__ == '__main__':
     channel = options.channel ## ele, mu or ele+mu combined
-    if options.fitTT:
-        print "Doing fits to matched tt MC. Tree must contain branch with flag for match/no-match to generator level W!"
-        cmd = 'rm ttfit_parameters%s.txt'%options.workspace.replace(".root","")
-        os.system(cmd)
-        cmd = 'rm fitres*%s*.txt'%options.workspace.replace(".root","")
-        os.system(cmd)
-        doFitsToMatchedTT()
-    elif options.fitMC:
-        print "Doing fits to MC only"
-        doFitsToMC()
-    else:
-        print 'Getting W-tagging scalefactor for %s sample for n-subjettiness < %.2f' %(channel,options.tau2tau1cutHP) #I am actually not doing a simoultaneous fit. So..... change this
-        getSF()
+
+    fitter = WTaggingFitter(options)
+
+
+    if (not options.doWS): 
+        fitter.OpenWorkspace(options)
+
+    fitter.OpenWorkspace(options)
+
+#    if options.fitTT:
+#        print "Doing fits to matched tt MC. Tree must contain branch with flag for match/no-match to generator level W!"
+#        cmd = 'rm ttfit_parameters%s.txt'%options.workspace.replace(".root","")
+#        os.system(cmd)
+#        cmd = 'rm fitres*%s*.txt'%options.workspace.replace(".root","")
+#        os.system(cmd)
+#        doFitsToMatchedTT()
+#    elif options.fitMC:
+#        print "Doing fits to MC only"
+#        doFitsToMC()
+#    else:
+#        print 'Getting W-tagging scalefactor for %s sample for n-subjettiness < %.2f' %(channel,options.tau2tau1cutHP) #I am actually not doing a simoultaneous fit. So..... change this
+#        getSF()
 
 
