@@ -1,9 +1,11 @@
 import ROOT
 import os
+import sys
 from WTopScalefactorProducer.Fitter.tdrstyle import *
 from InitialiseFits import initialiseFits
 from Dataset import Dataset
 #from Fitter import Fitter
+#import atexit
 
 WORKSPACENAME = "WTaggingFitter"
 
@@ -13,9 +15,18 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
         self.verbose = options.verbose
         #Fitter.__init__(self, options) # python 3 super().__init__(options)
         self.workspacename = WORKSPACENAME
+        #atexit.register(self.Cleanup)
+
+        #TODO: add a mapping from Dataset name to RooDataset name (if needed, unless using RooRealVar.setRange())
         
         # --- Open the workspace
-        self.workspace4fit_ = self.OpenWorkspace(options)
+        self.workspace = self.OpenWorkspace(options)
+
+        dataset = self.LoadDataset("HP:tt")
+
+        print dataset
+
+
 
         self.boostedW_fitter_em = initialiseFits(options, "em", self.workspace4fit_)   # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
         self.boostedW_fitter_em.get_datasets_fit_minor_bkg(options)                    # Loop over intrees to create datasets om Mj and fit the single MCs.
@@ -196,6 +207,10 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
         
         # Delete workspace
         del self.workspace4fit_
+
+    def Cleanup(self):
+        if hasattr(self, "file"): 
+            self.file.Close()
 
 
     def get_mj_dataset(self,in_file_name, label, jet_mass,lumi): 
@@ -448,6 +463,10 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
             getattr(self.workspace4fit_,"import")(rdataset_extremefailtau2tau1cut_mj)
             getattr(self.workspace4fit_,"import")(rdataset4fit_extremefailtau2tau1cut_mj)
 
+    def LoadDataset(self, name): 
+        dataset = self.workspace.data(name)
+        return dataset
+
     def CreateDataset(self, files, name, variables, cut, weightvariable): 
         print "Creating dataset {}".format(name)   
 
@@ -472,12 +491,14 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
             rep = self.PromptYesNo()
             if rep == 'no': 
                 print "Aborting!"
-                return #TODO: quit program
+                sys.exit()
 
         workspace = ROOT.RooWorkspace(self.workspacename, self.workspacename)
 
         mass = ROOT.RooRealVar(options.massvar, options.massvar, options.minX, options.maxX) #workspace.var("mass") # TODO: Do we really want to set a range here (additional cut w.r.t. tree variable)?
         tagger = ROOT.RooRealVar(options.tagger, options.tagger, 0., options.cutLP)
+        tagger.setRange("HP", 0., options.cutHP)
+        tagger.setRange("LP", options.cutHP, options.cutLP)
         weight = ROOT.RooRealVar("weight", "weight", 0., 10000000.)    # variables = ROOT.RooArgSet(x, y)
         # For importing a TTree into RooDataSet the RooRealVar names must match the branch names, see: https://root.cern.ch/root/html608/rf102__dataimport_8C_source.html
 
@@ -490,6 +511,7 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
 
         dataset = Dataset(options.year) 
 
+        # TODO: investigate usage of RooRealVar.setRange() to set HP and LP ranges 
         for sample in ["tt", "VV", "SingleTop"]: 
             getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "HP:"+sample, argset, cutPass, weightvarname))
             workspace.writeToFile(filename)
@@ -505,12 +527,17 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
         workspace.writeToFile(filename)
         getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "HP:ttfakeW", argset, cutPass+additionalCutUnmerged, weightvarname))
         workspace.writeToFile(filename)
+        getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttrealW", argset, cutFail+additionalCutMerged, weightvarname))
+        workspace.writeToFile(filename)
+        getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttfakeW", argset, cutFail+additionalCutUnmerged, weightvarname))
+
 
         #sample = dataset.getSample("tt")
         #roodataset = self.CreateDataset(sample, "tt", argset, cutPass, "weight")
         #getattr(workspace, "import")(roodataset) 
 
         # TODO: add cut values to workspace
+        # TODO: uuse RooDataSet.merge or RooDataDet.append to generate the bkg dataset 
         
         workspace.writeToFile(filename)
 
@@ -519,26 +546,27 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
     def OpenWorkspace(self, options): 
         filename = options.workspace.replace(".root","")+".root"
         if (options.doWS): #create workspace if requested 
-            self.workspace = self.CreateWorkspace(options, filename)
-            return self.workspace
+            workspace = self.CreateWorkspace(options, filename)
+            return workspace
 
         status, message = self.CheckWorkspaceFile(filename)
         if (status == 3): 
             # The file exists and contains a valid workspace
             self.file = ROOT.TFile(filename) #TODO: close file
-            self.workspace  = self.file.Get(self.workspacename)
+            workspace  = self.file.Get(self.workspacename)
         
-            self.workspace.SetTitle(options.workspace)
-            return self.workspace
+            workspace.SetTitle(options.workspace)
+            return workspace
         else: 
             # Something is wrong with the workspace file
             print message
             print "\nDo you want to create (overwrite) the file? " # TODO: is the method writeToFile really overwriting? 
             if (self.PromptYesNo() == 'yes'):
-                self.workspace = self.CreateWorkspace(options, filename)
-                return self.workspace
+                workspace = self.CreateWorkspace(options, filename)
+                return workspace
             else: 
                 print "Aborting!" 
+                sys.exit()
 
 
 
