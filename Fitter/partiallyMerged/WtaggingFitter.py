@@ -12,6 +12,7 @@ WORKSPACENAME = "WTaggingFitter"
 
 class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
     def __init__(self, options):
+        ROOT.gROOT.LoadMacro("PDFs/HWWLVJRooPdfs.cxx+")
         self.verbose = options.verbose
         #Fitter.__init__(self, options) # python 3 super().__init__(options)
         self.workspacename = WORKSPACENAME
@@ -25,6 +26,11 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
         dataset = self.LoadDataset("HP:tt")
 
         print dataset
+
+        self.fitvarname = options.massvar
+
+
+        self.MakeFitModel()
 
 
 
@@ -463,6 +469,41 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
             getattr(self.workspace4fit_,"import")(rdataset_extremefailtau2tau1cut_mj)
             getattr(self.workspace4fit_,"import")(rdataset4fit_extremefailtau2tau1cut_mj)
 
+    def MakeFitModel(self): 
+        print "Making fit model"
+
+        fitvariable = self.workspace.var(self.fitvarname)
+        #self.workspace.factory("DoubleCrystalBall::HP:tt:SignalModel({}, signalMean1[80., 100.], signalMean1[-10., 10.], signalSigma[0., 50.], signalSigma[0., 50.], sign1[0.01, 5.], sign1[0.01, 10.]".format(self.fitvarname)) # TODO: check how we can use the factory syntax with custom Pdfs. 
+
+        # Signal model in the HP category 
+        signalMeanHP   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 100.) 
+        signalSigmaHP  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 5., 20.)
+        signalAlpha1HP  = ROOT.RooRealVar("HP:tt:alpha1", "HP:tt:alpha1", 0.5, 0.1, 10.) 
+        signalAlpha2HP  = ROOT.RooRealVar("HP:tt:alpha2", "HP:tt:alpha2", 1.0, 0.1, 10.) 
+        signalSign1HP   = ROOT.RooRealVar("HP:tt:sign1", "HP:tt:sign1", 0.2, 0.01, 5.)
+        signalSign2HP   = ROOT.RooRealVar("HP:tt:sign2", "HP:tt:sign2", 0.2, 0.01, 10.) 
+        signalModel = ROOT.RooDoubleCrystalBall("HP:tt:signalModel","signalModel", fitvariable, signalMeanHP, signalSigmaHP, signalAlpha1HP, signalSign1HP, signalAlpha2HP, signalSign2HP)
+
+        #getattr(self.workspace, "import")(signalModel)
+        self.ImportToWorkspace(singalModel)
+        #self.workspace.Write()
+        self.SaveWorkspace()
+
+
+    def ImportToWorkspace(self, stuff): 
+        assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, cannot import to workspace."
+        getattr(self.workspace, "import")(stuff)
+        return
+
+    def SaveWorkspace(self, filename=""): 
+        assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, save it to file." 
+        if (filename == ""): 
+            assert(getattr(self, "filename")), "ERROR: No filename was provided and the class has no member 'filename', cannot save file." 
+            filename = self.filename
+        self.workspace.writeToFile(filename)
+        return
+
+
     def LoadDataset(self, name): 
         dataset = self.workspace.data(name)
         return dataset
@@ -545,6 +586,7 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
 
     def OpenWorkspace(self, options): 
         filename = options.workspace.replace(".root","")+".root"
+        self.filename = filename
         if (options.doWS): #create workspace if requested 
             workspace = self.CreateWorkspace(options, filename)
             return workspace
