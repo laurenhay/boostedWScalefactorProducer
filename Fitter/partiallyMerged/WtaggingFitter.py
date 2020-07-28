@@ -17,6 +17,7 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
         #Fitter.__init__(self, options) # python 3 super().__init__(options)
         self.workspacename = WORKSPACENAME
         #atexit.register(self.Cleanup)
+        self.binned = options.doBinnedFit
 
         #TODO: add a mapping from Dataset name to RooDataset name (if needed, unless using RooRealVar.setRange())
         
@@ -485,10 +486,9 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
         signalModel = ROOT.RooDoubleCrystalBall("HP:tt:signalModel","signalModel", fitvariable, signalMeanHP, signalSigmaHP, signalAlpha1HP, signalSign1HP, signalAlpha2HP, signalSign2HP)
 
         #getattr(self.workspace, "import")(signalModel)
-        self.ImportToWorkspace(singalModel)
+        self.ImportToWorkspace(signalModel)
         #self.workspace.Write()
         self.SaveWorkspace()
-
 
     def ImportToWorkspace(self, stuff): 
         assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, cannot import to workspace."
@@ -498,7 +498,7 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
     def SaveWorkspace(self, filename=""): 
         assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, save it to file." 
         if (filename == ""): 
-            assert(getattr(self, "filename")), "ERROR: No filename was provided and the class has no member 'filename', cannot save file." 
+            assert(getattr(self, "filename")), "ERROR: No filename was provided and the class has no member 'filename', cannot save workspace." 
             filename = self.filename
         self.workspace.writeToFile(filename)
         return
@@ -506,6 +506,8 @@ class WTaggingFitter:  #(Fitter) class WTaggingFitter(Fitter)
 
     def LoadDataset(self, name): 
         dataset = self.workspace.data(name)
+        if (self.binned): 
+            dataset = dataset.binnedClone()
         return dataset
 
     def CreateDataset(self, files, name, variables, cut, weightvariable): 
