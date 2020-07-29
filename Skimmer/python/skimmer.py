@@ -63,7 +63,7 @@ class Skimmer(Module):
         self.minJetPt = 200.
         self.maxJetEta = 2.5
         
-        self.minWPt = 150.
+        self.minWPt = 150. #Why?#
 
         self.minBDisc = 0.8484
         ### Medium https://twiki.cern.ch/twiki/bin/view/CMS/BtagRecommendation80XReReco
@@ -91,42 +91,48 @@ class Skimmer(Module):
         pass
         
     def beginFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
-         self.out = wrappedOutputTree
-         self.out.branch("SelectedJet_softDrop_mass",  "F")
-         self.out.branch("SelectedJet_tau42",  "F")
-         self.out.branch("SelectedJet_tau41",  "F")
-         self.out.branch("SelectedJet_tau32",  "F")
-         self.out.branch("SelectedJet_tau21",  "F")
-         self.out.branch("SelectedJet_tau21_ddt",  "F")
-         self.out.branch("SelectedJet_tau21_ddt_retune",  "F")      
-         self.out.branch("SelectedJet_pt",   "F")
-         self.out.branch("SelectedJet_eta",  "F")
-         self.out.branch("SelectedJet_mass", "F")
-         self.out.branch("SelectedLepton_pt",  "F")
-         self.out.branch("SelectedLepton_iso",  "F")
-         self.out.branch("Wlep_type",  "I")
-         self.out.branch("W_pt",  "F")
-         self.out.branch("W_mass",  "F")
-         self.out.branch("dr_LepJet",  "F")
-         self.out.branch("dphi_LepJet",  "F")
-         self.out.branch("dphi_LepMet",  "F")
-         self.out.branch("dphi_MetJet",  "F")
-         self.out.branch("dphi_WJet"  ,  "F")
-         self.out.branch("maxAK4CSV",  "F")
-         self.out.branch("subMaxAK4CSV",  "F")
-         self.out.branch("minJetMetDPhi",  "F")
-         self.out.branch("HT_HEM1516",  "F")
-         self.out.branch("genmatchedAK8",  "I")
-         self.out.branch("genmatchedAK8Quarks",  "I")
-         self.out.branch("genmatchedAK8Subjet",  "I")
-         self.out.branch("genmatchedAK82017",  "I")
-         self.out.branch("AK8Subjet0isMoreMassive",  "I")
-         self.out.branch("passedMETfilters",  "I")
-         self.out.branch("lheweight",  "F")
-         self.out.branch("puweight",  "F")
-         self.out.branch("topweight",  "F")
-         self.out.branch("btagweight",  "F")
-         self.out.branch("triggerweight",  "F")
+         
+         
+        print "Beginning on inputFile, writing new branches"
+        self.out = wrappedOutputTree
+        
+        self.out.branch("SelectedJet_softDrop_mass",  "F")
+        self.out.branch("SelectedJet_tau42",  "F")
+        self.out.branch("SelectedJet_tau41",  "F")
+        self.out.branch("SelectedJet_tau32",  "F")
+        self.out.branch("SelectedJet_tau21",  "F")
+        self.out.branch("SelectedJet_tau21_ddt",  "F")
+        self.out.branch("SelectedJet_tau21_ddt_retune",  "F")      
+        self.out.branch("SelectedJet_pt",   "F")
+        self.out.branch("SelectedJet_eta",  "F")
+        self.out.branch("SelectedJet_mass", "F")
+        self.out.branch("SelectedLepton_pt",  "F")
+        self.out.branch("SelectedLepton_iso",  "F")
+        self.out.branch("Wlep_type",  "I")
+        self.out.branch("W_pt",  "F")
+        self.out.branch("W_mass",  "F")
+        self.out.branch("dr_LepJet",  "F")
+        self.out.branch("dphi_LepJet",  "F")
+        self.out.branch("dphi_LepMet",  "F")
+        self.out.branch("dphi_MetJet",  "F")
+        self.out.branch("dphi_WJet"  ,  "F")
+        self.out.branch("maxAK4CSV",  "F")
+        self.out.branch("subMaxAK4CSV",  "F")
+        self.out.branch("minJetMetDPhi",  "F")
+        self.out.branch("HT_HEM1516",  "F")
+        self.out.branch("genmatchedAK8",  "I")
+        self.out.branch("genmatchedAK8Quarks",  "I")
+        self.out.branch("genmatchedAK8Subjet",  "I")
+        self.out.branch("genmatchedAK82017",  "I")
+        self.out.branch("AK8Subjet0isMoreMassive",  "I")
+        self.out.branch("passedMETfilters",  "I")
+        self.out.branch("lheweight",  "F")
+        self.out.branch("puweight",  "F")
+        self.out.branch("topweight",  "F")
+        self.out.branch("btagweight",  "F")
+        self.out.branch("triggerweight",  "F")
+        
+        pass
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         print "File closed successfully"
@@ -172,7 +178,12 @@ class Skimmer(Module):
             
     def analyze(self, event):
         """process event, return True (go to next module) or False (fail, go to next event)"""
-
+        
+        self.dummy+=1
+        if (self.dummy > 20000): return False
+        if self.verbose: print ('Event : ', event.event)
+        if self.dummy%500==0: print ("Analyzing events...", self.dummy)
+        
         puweight = 1.
         lheweight = 1.
         topweight = 1.

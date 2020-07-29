@@ -14,7 +14,7 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import inputFiles,runsAndLumis
 
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import puWeight_2016, puWeight_2017, puAutoWeight_2016, puAutoWeight_2017, puWeight_2018, puAutoWeight_2018
-from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSF2016, btagSF2017 #btagSF2018
+from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSF2016, btagSF2017, btagSF2018
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
 
 # our module
@@ -155,7 +155,7 @@ fatJetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", 
 modulesToRun = []
 #if isMC:
 modulesToRun.append( puWeight_2018() )
-modulesToRun.append( btagSF2017() )
+modulesToRun.append( btagSF2018() )
 modulesToRun.append( fatJetCorrector() )
 
 
