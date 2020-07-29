@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 
 """
+class Fitter
+
+The Fitter class is a virtual super class containing boilerplate code for file handling, workspace
+creation and handling, and plotting. It can and should be used as super class for an application
+specific Fitter (inheriting) class, which reimplements the task specific methods: CreateWorkspace, 
+MakeFitModel, Fit, and any number of additional relevant methods. 
+
+
 Copyright   2020    Marc Huwiler  <marc.huwiler@cern.ch>, <marc.huwiler@windowlive.com>
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 
@@ -23,6 +32,7 @@ import ROOT
 import os
 import sys
 import atexit
+import time
 
 
 class Fitter: 
@@ -31,7 +41,7 @@ class Fitter:
 
 		self.verbose = options.verbose
 		self.binned = options.doBinnedFit
-		atexit.register(self.Cleanup)
+		#atexit.register(self.Cleanup)
 		
 		# --- Open the workspace
 		self.workspace = self.OpenWorkspace(options)
@@ -88,7 +98,8 @@ class Fitter:
 		self.filename = filename
 		if (options.doWS): #create workspace if requested 
 			workspace = self.CreateWorkspace(options, filename)
-			return workspace
+			#time.sleep(10)
+			#return workspace # TODO: fix this (crash at destruction)
 
 		status, message = self.CheckWorkspaceFile(filename)
 		if (status == 3): 
