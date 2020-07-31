@@ -32,7 +32,6 @@ import ROOT
 import os
 import sys
 import atexit
-import time
 
 
 class Fitter: 
@@ -57,9 +56,14 @@ class Fitter:
 	def MakeFitModel(self): 
 		raise NotImplementedError()
 
-	def ImportToWorkspace(self, stuff): 
+	def ImportToWorkspace(self, stuff, autosave=False): 
 		assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, cannot import to workspace."
 		getattr(self.workspace, "import")(stuff)
+		if (autosave): 
+			if (getattr(self, "filename")): 
+				self.SaveWorkspace()
+			else: 
+				print "WARNING: The fitter has no attribute 'filename', cannot save workspace to file. "
 		return
 
 	def SaveWorkspace(self, filename=""): 
@@ -68,6 +72,9 @@ class Fitter:
 			assert(getattr(self, "filename")), "ERROR: No filename was provided and the class has no member 'filename', cannot save workspace." 
 			filename = self.filename
 		self.workspace.writeToFile(filename)
+		#ROOT.gDirectory.Add(self.workspace) # Also works
+		# Thanks to Bruno Lenzi for this hack
+		ROOT.SetOwnership(self.workspace, 0) # Discard the workspace from python's garbage collector to avoid double deletion (is owned by the TFile)
 		return
 
 
@@ -98,8 +105,7 @@ class Fitter:
 		self.filename = filename
 		if (options.doWS): #create workspace if requested 
 			workspace = self.CreateWorkspace(options, filename)
-			#time.sleep(10)
-			#return workspace # TODO: fix this (crash at destruction)
+			return workspace # TODO: fix this (crash at destruction)
 
 		status, message = self.CheckWorkspaceFile(filename)
 		if (status == 3): 

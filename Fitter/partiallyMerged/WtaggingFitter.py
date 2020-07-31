@@ -299,9 +299,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		signalModel = ROOT.RooDoubleCrystalBall("HP:tt:signalModel","signalModel", fitvariable, signalMeanHP, signalSigmaHP, signalAlpha1HP, signalSign1HP, signalAlpha2HP, signalSign2HP)
 
 		#getattr(self.workspace, "import")(signalModel)
-		self.ImportToWorkspace(signalModel)
+		self.ImportToWorkspace(signalModel, True)
 		#self.workspace.Write()
-		self.SaveWorkspace()
+		#self.SaveWorkspace()
 
 
 	def CreateWorkspace(self, options, filename): 
