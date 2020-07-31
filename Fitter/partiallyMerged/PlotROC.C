@@ -198,7 +198,7 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     {
         finalcutvalue = MVAcutvalues.at(i); 
 
-        std::cout << bkgEffPlot[i] << std::endl; 
+        if (verbose) std::cout << bkgEffPlot[i] << std::endl; 
         
         if (bkgEffPlot[i] > threshold) 
         {
@@ -277,7 +277,6 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
 
 double PlotROC( TChain *signal, TChain *background, const TString cutVariable, const TCut signalCut, const TCut backgroundCut, const Double_t threshold = 0.9, const Int_t distcretisation = 1000, const TString outname = "ROCsummary.root", bool verbose = false) 
 {
-    std::cout << signalCut.GetTitle() << " " << backgroundCut.GetTitle() << std::endl; 
     return PlotROC(signal, background, cutVariable, TString(signalCut.GetTitle()), TString(backgroundCut.GetTitle()), threshold, distcretisation, outname, verbose); 
     //return -1.; 
 }

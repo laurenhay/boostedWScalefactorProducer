@@ -12,6 +12,8 @@ from rootpy.tree import Cut
 
 overflowmargin = 20.
 
+estimatelpstats = False
+
 
 ROOT.gROOT.LoadMacro("PlotROC.C")
 
@@ -26,6 +28,9 @@ parser.add_argument('fakerate', default=None, type=float, help="The desired fake
 parser.add_argument('--workspace', action="store",type=str,dest="workspace",default="workspace", help="Name of workspace")
 parser.add_argument('--sample', action="store",type=str,dest="sample",default="QCD", help='Which tt sample is used')
 parser.add_argument('--tagger', action="store",type=str,dest="tagger",default="SelectedJet_tau21", help="Name of tagger variable (tau32/tau21/ddt)")
+parser.add_argument('--massvar', action="store",type=str,dest="massvar",default="SelectedJet_softDrop_mass", help="Name of mass variable to fit")
+parser.add_argument('--minX', action="store", type=float,dest="minX",default=50. , help="Lower mass cut")
+parser.add_argument('--maxX', action="store", type=float,dest="maxX",default=130., help="Upper mass cut")
 parser.add_argument('--weightvar', dest="weightvar", type=str, default="weight", help="The name of the event weight variable in the tree.")
 parser.add_argument('--HP', action="store", type=float,dest="cutHP",default=0.35)
 parser.add_argument('--LP', action="store", type=float,dest="cutLP",default=0.75)
@@ -34,6 +39,27 @@ parser.add_argument('--min', action="store", type=float, dest="min",default=0. ,
 parser.add_argument('--max', action="store", type=float, dest="max",default=1., help="Upper limit of the range of tagger values considered. ")
 #parser.add_argument('--ptmin', action="store", type=float,dest="pTmin",default=200., help="Lower pT cut")
 #parser.add_argument('--ptmax', action="store", type=float,dest="pTmax",default=10000., help="Upper pT cut")
+
+
+class DummyOptions: 
+	def __init__(self, year, batchmode, verbose, filename, HP, LP, tagger, weightvar, massvar, min, max): 
+		self.noX = batchmode
+		self.verbose = verbose
+		#self.dry = dry
+		self.doBinnedFit = False # TODO: fix this hack
+		self.workspace = filename
+		self.year = year
+		self.doWS = True
+		self.cutHP = HP
+		self.cutLP = LP
+		self.massvar = massvar
+		self.maxX = max
+		self.minX = min
+		self.weightvar = weightvar
+		self.tagger = tagger
+
+	def Description(): 
+		print "This is a dummy options class"
 
 
 def GetWorkingPoint(year, options): 
@@ -126,27 +152,50 @@ if __name__ == '__main__':
 	cut = weight*basecut
 	cutsignal = weight*signalcut
 
-	year = 2018
+	years = [2020] # TODO: remove 
 
-	backgroundchain = GetChain(options.sample, year)
-	signalchain = GetChain("tt", year)
+	fakerate = int(options.fakerate*100.)
+	
 
-	WP = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerate, 10000, "fakerate{}ROC.root".format(int(options.fakerate*100.)), options.verbose)
-
-	print WP
-
-	file = ROOT.TFile.Open("stats{}background{}.root".format(options.tagger, int(options.fakerate*100.)), "RECREATE")
-	histo = ROOT.TH1D("histo", options.tagger+" distribution in background (QCD)", 200, backgroundchain.GetMinimum(options.tagger), backgroundchain.GetMaximum(options.tagger))
-	backgroundchain.Draw(options.tagger+">>"+histo.GetName(), cut*Cut(options.tagger+">{}".format(WP)))
-	file.Write()
-	file.Close()
+	HP = {}
+	LP = {}
 
 	# Looping over all years to determie the working points 
 	for year in years: 
-		WP = GetWorkingPoint(year, options)
+		backgroundchain = GetChain(options.sample, year)
+		signalchain = GetChain("tt", year)
 
-	if not args.dry: 
-		print "Creating workspace {}".format(options.workspace)
+		# Using a previously written C++ script hacked for the purpose (super fast)
+		HP[year] = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerate, 10000, "fakerate{}ROC.root".format(fakerate), options.verbose)
+
+		#print HP[year]
+
+		if  (estimatelpstats): 
+			file = ROOT.TFile.Open("stats{}{}background.root".format(year, options.tagger), "UPDATE")
+			histo = ROOT.TH1D("histo{}".format(fakerate), options.tagger+" distribution in background (QCD) for fakerate {}\%".format(fakerate), 200, backgroundchain.GetMinimum(options.tagger), backgroundchain.GetMaximum(options.tagger))
+			backgroundchain.Draw(options.tagger+">>"+histo.GetName(), cut*Cut(options.tagger+">{}".format(WP)))
+			file.Write()
+			file.Close()
+
+	print "Working points: HP: {}, LP: {}.".format(HP, LP)
+
+	LP[2020] = 0.7 # TODO: remove
+
+	if not options.dry: 
+		print "Creating workspace: {}".format(options.workspace)
+
+		for year in years: 
+			HPcut = HP[year]
+			LPcut = LP[year]
+			print "Creating workspace for {} with HP cut: {} and LP cut: {}".format(year, HPcut, LPcut)
+
+			workspacefilename = options.workspace+str(year)
+			opt = DummyOptions(year, options.noX, options.verbose, workspacefilename, HPcut, LPcut, options.tagger, options.weightvar, options.massvar, options.minX, options.maxX)
+
+			fitter = WTaggingFitter(opt)
+
+
+
 
 		
 
