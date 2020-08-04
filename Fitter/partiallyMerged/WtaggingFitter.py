@@ -47,20 +47,28 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		model = self.workspace.pdf("HP:tt:signalModel")
 
 
+		fitstuff = {model:ttsample}
 
-		fitresult = model.fitTo(ttsample)
+		plot, results = self.FitSample(fitstuff, massvar)
 
-		print fitresult
-
-		plot = massvar.frame()
-
-		model.plotOn(plot)
-		ttsample.plotOn(plot)
+		
 
 		canvas = ROOT.TCanvas("canvas", "Fit to tt realW", 800, 600)
 		plot.Draw()
 
 		canvas.Print("fittest.pdf")
+
+
+	def FitSample(self, samplelist, variable): 
+		plot = variable.frame()
+
+		fitresult = []
+		for model, dataset in samplelist.items(): 
+			fitresult.append(model.fitTo(dataset))
+			model.plotOn(plot)
+			dataset.plotOn(plot)
+
+		return plot, fitresult
 
 
 	def MakeFitModel(self): 
