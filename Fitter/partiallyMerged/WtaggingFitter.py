@@ -29,9 +29,38 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.fitvarname = options.massvar
 
+		# Defining the samples
+		self.background = ["tt", "VV", "SingleTop"] # TODO: define a class "sample" with a chain and cut on it 
+
 
 		self.MakeFitModel()
 
+
+
+	def FitMC(self, options): 
+		print "Fitting MC... "
+
+		ttsample = self.workspace.data("HP:ttrealW")
+
+		massvar = self.workspace.var(options.massvar)
+
+		model = self.workspace.pdf("HP:tt:signalModel")
+
+
+
+		fitresult = model.fitTo(ttsample)
+
+		print fitresult
+
+		plot = massvar.frame()
+
+		model.plotOn(plot)
+		ttsample.plotOn(plot)
+
+		canvas = ROOT.TCanvas("canvas", "Fit to tt realW", 800, 600)
+		plot.Draw()
+
+		canvas.Print("fittest.pdf")
 
 
 	def MakeFitModel(self): 

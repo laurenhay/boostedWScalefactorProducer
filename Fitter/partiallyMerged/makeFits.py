@@ -1036,6 +1036,8 @@ if __name__ == '__main__':
 
     fitter = WTaggingFitter(options)
 
+    fitter.FitMC(options)
+
 
 #    if options.fitTT:
 #        print "Doing fits to matched tt MC. Tree must contain branch with flag for match/no-match to generator level W!"
