@@ -40,16 +40,26 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 	def FitMC(self, options): 
 		print "Fitting MC... "
 
-		ttsample = self.workspace.data("HP:ttrealW")
-
 		massvar = self.workspace.var(options.massvar)
 
-		model = self.workspace.pdf("HP:tt:signalModel")
+		ttsample = self.workspace.data("HP:ttrealW")
+
+		signalmodel = self.workspace.pdf("HP:tt:signalModel")
+
+		VVsample = self.workspace.data("HP:VV")
+		VVmodel = self.workspace.pdf("HP:VV:model")
+
+		STsample = self.workspace.data("HP:SingleTop")
+		STmodel = self.workspace.pdf("HP:st:model")
 
 
-		fitstuff = {model:ttsample}
+		fitstuff = {
+			signalmodel:ttsample, 
+			VVmodel:VVsample, 
+			STmodel:STsample,
+		}
 
-		plot, results = self.FitSample(fitstuff, massvar)
+		plot, results = self.FitSample(fitstuff, massvar) # Working 
 
 		
 
@@ -59,14 +69,21 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		canvas.Print("fittest.pdf")
 
 
-	def FitSample(self, samplelist, variable): 
+	def FitSample(self, samplelist, variable, saveas=""): 
 		plot = variable.frame()
 
 		fitresult = []
-		for model, dataset in samplelist.items(): 
-			fitresult.append(model.fitTo(dataset))
+		for model, dataset in samplelist.items():
+			result = model.fitTo(dataset) 
+			fitresult.append(result)
 			model.plotOn(plot)
 			dataset.plotOn(plot)
+
+		if not saveas == "":
+			canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
+			plot.Draw()
+
+			canvas.Print(saveas)
 
 		return plot, fitresult
 
@@ -87,7 +104,52 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		signalModel = ROOT.RooDoubleCrystalBall("HP:tt:signalModel","signalModel", fitvariable, signalMeanHP, signalSigmaHP, signalAlpha1HP, signalSign1HP, signalAlpha2HP, signalSign2HP)
 
 		#getattr(self.workspace, "import")(signalModel)
-		self.ImportToWorkspace(signalModel, True)
+		self.ImportToWorkspace(signalModel)
+
+		# Background unmerged tt model
+		backgroundOffset = ROOT.RooRealVar("HP:tt:fake:offset" ,"HP:tt:fake:offset", 90, 10, 200) # 90, 10, 200
+		backgroundWidth  = ROOT.RooRealVar("HP:tt:fake:width" ,"HP:tt:fake:width", 40, 25, 300) # 40, 25, 100
+		backgroundCoefficient  = ROOT.RooRealVar("HP:tt:fake:coefficient" ,"HP:tt:fake:coefficient", -0.03, -1., 0.) # -0.04, -1, 0.
+		backgroundModel     = ROOT.RooErfExpPdf("HP:tt:fake:model", "HP:tt:fake:model" ,fitvariable, backgroundCoefficient, backgroundOffset, backgroundWidth)
+		self.ImportToWorkspace(backgroundModel)
+
+		# Background VV model
+		VValpha       = ROOT.RooRealVar("HP:VV:alpha","HP:VV:alpha",-0.01 ,-1., 0.)
+		gaus_means  = 8.2653e+01 # Constraining the gaussian part to the mass of the W (well actually 80)
+		gaussigmas   = 7.
+		VVmean  = ROOT.RooRealVar("HP:VV:mean", "HP:VV:mean", gaus_means, gaus_means*.8, gaus_means*1.2) 
+		VVsigma = ROOT.RooRealVar("HP:VV:sigma", "HP:VV:sigma", gaussigmas, gaussigmas*.5, gaussigmas*1.5)
+		VVfactor        = ROOT.RooRealVar("HP:VV:factor", "GP:VV:factor", 0.7, 0., 1.)
+		VVExp = ROOT.RooExponential("HP:VV:Exponential", "HP:VV:exponential", fitvariable, VValpha)
+		VVGauss = ROOT.RooGaussian("HP:VV:Gaussian", "HP:VV:gaussian", fitvariable ,VVmean, VVsigma)
+		VVmodel = ROOT.RooAddPdf("HP:VV:model","HP:VV:model", ROOT.RooArgList(VVExp, VVGauss), ROOT.RooArgList(VVfactor))
+		self.ImportToWorkspace(VVmodel)
+
+		# Background single top model
+		STcoeff = ROOT.RooRealVar("HP:st:coefficient", "HP:st:coefficient", -0.04, -1., 1.)
+		STwidth = ROOT.RooRealVar("HP:st:width","HP:st:width", 30., 0., 400.)
+		SToffset = ROOT.RooRealVar("HP:st:offset", "HP:st:offset", 60., 50., 100.)
+		STmean = ROOT.RooRealVar("HP:st:mean", "HP:st:mean", gaus_means, gaus_means*.8, gaus_means*1.2)
+		STsigma = ROOT.RooRealVar("HP:st:sigma", "HP:st:sigma", gaussigmas, gaussigmas*.5, gaussigmas*1.5)
+		STErfExp = ROOT.RooErfExpPdf("HP:st:ErfExp", "HP:st:ErfExp", fitvariable, STcoeff, SToffset, STwidth)
+		STGauss = ROOT.RooGaussian ("HP:st:Gaussian" ,"HP:st:Gaussian" , fitvariable, STmean, STsigma)
+		STfactor = ROOT.RooRealVar("HP:st:factor", "HP:st:factor", 0.3, 0.0, 0.99)
+		STmodel = ROOT.RooAddPdf("HP:st:model", "HP:st:model", STErfExp, STGauss, STfactor)
+		self.ImportToWorkspace(STmodel)
+
+		# Backgound W+Jets model
+		WJetscoeff  = ROOT.RooRealVar("HP:WJets:coefficient", "HP:WJets:coefficient", -0.026, -0.05, 0.05)
+		WJetsoffset = ROOT.RooRealVar("HP:WJets:offset", "HP:WJets:offset" ,41. ,0., 100)
+		WJetswidth  = ROOT.RooRealVar("HP:WJets:width", "HP:WJets:width", 30., 1., 100.)
+		WJetsModel  = ROOT.RooErfExpPdf("HP:WJets:model", "HP:WJets:model", fitvariable, WJetscoeff, WJetsoffset, WJetswidth)
+		self.ImportToWorkspace(WJetsModel, True)
+
+		
+		#self.SaveWorkspace()
+
+
+		#getattr(self.workspace, "import")(signalModel)
+		#self.ImportToWorkspace(signalModel, True)
 		#self.workspace.Write()
 		#self.SaveWorkspace()
 
@@ -120,7 +182,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		dataset = Dataset(options.year) 
 
 		# TODO: investigate usage of RooRealVar.setRange() to set HP and LP ranges 
-		for sample in ["tt", "VV", "SingleTop"]: 
+		for sample in ["tt", "VV", "st", "WJets"]: 
 			getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "HP:"+sample, argset, cutPass, weightvarname))
 			workspace.writeToFile(filename)
 			getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "LP:"+sample, argset, cutFail, weightvarname))
