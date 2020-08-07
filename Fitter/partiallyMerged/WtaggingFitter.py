@@ -11,7 +11,7 @@ from Fitter import Fitter
 
 WORKSPACENAME = "WTaggingFitter"
 
-simplemodel = True
+simplemodel = False
 
 
 
@@ -61,10 +61,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		#roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		ttsample = self.workspace.data("HP:ttrealW")
+		ttsample = self.LoadDataset("HP:ttrealW")
 
-		signalmodel = self.workspace.pdf("HP:tt:signalModel")
+		signalmodel = self.workspace.pdf("HP:tt:real:model")
 
+		print ttsample
+		print signalmodel
 		self.FitSample({signalmodel:ttsample}, massvar, "SignalHP.pdf", roofitoptions)
 
 		VVsample = self.workspace.data("HP:VV")
@@ -94,6 +96,24 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 	def FitControlRegion(slef, options): 
 		print "Fitting data and MC... "
+		self.FitMC(options)
+
+		massvar = self.workspace.var(options.massvar)
+
+		fullMC = ROOT.RooDataSet(self.workspace.data("HP:WJets"), "HP:fullMC")
+		fullMC.append(self.workspace.data("HP:st"))
+		fullMC.append(self.workspace.data("HP:VV"))
+		fullMC.append(self.workspace.data("HP:ttfakeW"))
+		fullMC.append(self.workspace.data("HP:ttrealW"))
+
+		modelMC = self.workspace.pdf("HP:fullMC:model")
+
+		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar)
+
+		#data = self.workspace.data("HP:data")
+		modelData = self.workspace.pdf("HP:data:model")
+
+
 
 
 
@@ -131,32 +151,32 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#self.workspace.factory("DoubleCrystalBall::HP:tt:SignalModel({}, signalMean1[80., 100.], signalMean1[-10., 10.], signalSigma[0., 50.], signalSigma[0., 50.], sign1[0.01, 5.], sign1[0.01, 10.]".format(self.fitvarname)) # TODO: check how we can use the factory syntax with custom Pdfs. 
 
 		# Signal model in the HP category 
-		signalMeanHP   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 100.) 
-		signalSigmaHP  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 5., 20.)
-		signalAlpha1HP  = ROOT.RooRealVar("HP:tt:alpha1", "HP:tt:alpha1", 0.5, 0.1, 10.) 
-		signalAlpha2HP  = ROOT.RooRealVar("HP:tt:alpha2", "HP:tt:alpha2", 1.0, 0.1, 10.) 
-		signalSign1HP   = ROOT.RooRealVar("HP:tt:sign1", "HP:tt:sign1", 0.2, 0.01, 5.)
-		signalSign2HP   = ROOT.RooRealVar("HP:tt:sign2", "HP:tt:sign2", 0.2, 0.01, 10.) 
-		signalShape = ROOT.RooDoubleCrystalBall("HP:tt:signalShape","HP:tt:signalShape", fitvariable, signalMeanHP, signalSigmaHP, signalAlpha1HP, signalSign1HP, signalAlpha2HP, signalSign2HP)
-		signalNumber = ROOT.RooRealVar("HP:tt:signalNumber", "HP:tt:signalNumber", 0., 1e15)
-		signalModel = ROOT.RooExtendPdf("HP:tt:signalModel", "HP:tt:signalModel", signalShape, signalNumber)
-		if (simplemodel): signalModel = signalShape
+		ttrealWmean   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 100.) 
+		ttrealWsigma  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 5., 20.)
+		ttrealWalpha1  = ROOT.RooRealVar("HP:tt:alpha1", "HP:tt:alpha1", 0.5, 0.1, 10.) 
+		ttrealWalpha2  = ROOT.RooRealVar("HP:tt:alpha2", "HP:tt:alpha2", 1.0, 0.1, 10.) 
+		ttrealWsign1   = ROOT.RooRealVar("HP:tt:sign1", "HP:tt:sign1", 0.2, 0.01, 5.)
+		ttrealWsign2   = ROOT.RooRealVar("HP:tt:sign2", "HP:tt:sign2", 0.2, 0.01, 10.) 
+		ttrealWshape = ROOT.RooDoubleCrystalBall("HP:tt:real:shape","HP:tt:real:shape", fitvariable, ttrealWmean, ttrealWsigma, ttrealWalpha1, ttrealWsign1, ttrealWalpha2, ttrealWsign2)
+		ttrealWnumber = ROOT.RooRealVar("HP:tt:real:number", "HP:tt:real:number", 0., 1e15)
+		ttrealWmodel = ROOT.RooExtendPdf("HP:tt:real:model", "HP:tt:real:model", ttrealWshape, ttrealWnumber)
+		if (simplemodel): ttrealWmodel = ttrealWshape
 
 		#getattr(self.workspace, "import")(signalModel)
-		self.ImportToWorkspace(signalModel)
+		self.ImportToWorkspace(ttrealWmodel, True)
 		#params = signalModel.getParameters(fitvariable)
 		#self.workspace.defineSet("signalParams", params)
 		#self.workspace.saveSnapshot("buildmodel", params, ROOT.kTRUE)
 
 		# Background unmerged tt model
-		backgroundOffset = ROOT.RooRealVar("HP:tt:fake:offset" ,"HP:tt:fake:offset", 90, 10, 200) # 90, 10, 200
-		backgroundWidth  = ROOT.RooRealVar("HP:tt:fake:width" ,"HP:tt:fake:width", 40, 25, 300) # 40, 25, 100
-		backgroundCoefficient  = ROOT.RooRealVar("HP:tt:fake:coefficient" ,"HP:tt:fake:coefficient", -0.03, -1., 0.) # -0.04, -1, 0.
-		backgroundShape     = ROOT.RooErfExpPdf("HP:tt:fake:shape", "HP:tt:fake:shape" ,fitvariable, backgroundCoefficient, backgroundOffset, backgroundWidth)
-		backgroundNumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 0., 1e15)
-		backgroundModel = ROOT.RooExtendPdf("HP:tt:fake:model", "HP:tt:fake:model", backgroundShape, backgroundNumber)
-		if (simplemodel): backgroundModel = backgroundShape
-		self.ImportToWorkspace(backgroundModel)
+		ttfakeWoffset = ROOT.RooRealVar("HP:tt:fake:offset" ,"HP:tt:fake:offset", 90, 10, 200) # 90, 10, 200
+		ttfakeWwidth  = ROOT.RooRealVar("HP:tt:fake:width" ,"HP:tt:fake:width", 40, 25, 300) # 40, 25, 100
+		ttfakeWcoefficient  = ROOT.RooRealVar("HP:tt:fake:coefficient" ,"HP:tt:fake:coefficient", -0.03, -1., 0.) # -0.04, -1, 0.
+		ttfakeWshape     = ROOT.RooErfExpPdf("HP:tt:fake:shape", "HP:tt:fake:shape" ,fitvariable, ttfakeWcoefficient, ttfakeWoffset, ttfakeWwidth)
+		ttfakeWnumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 0., 1e15)
+		ttfakeWmodel = ROOT.RooExtendPdf("HP:tt:fake:model", "HP:tt:fake:model", ttfakeWshape, ttfakeWnumber)
+		if (simplemodel): ttfakeWmodel = ttfakeWshape
+		self.ImportToWorkspace(ttfakeWmodel)
 
 		# Background VV model
 		VValpha       = ROOT.RooRealVar("HP:VV:alpha","HP:VV:alpha",-0.01 ,-1., 0.)
@@ -199,11 +219,39 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.ImportToWorkspace(WJetsmodel, True)
 
 		self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(STcoeff, STwidth, SToffset, STmean, STsigma, STfactor), ROOT.kTRUE) # works! 
-		self.workspace.saveSnapshot("buildmodel", VVmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE) # works too
+		self.workspace.saveSnapshot("buildmodel", VVmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE) # works too - recommended! 
 
-		
+		# Full background model (MC)
+		fullbackgroundMCnumber = ROOT.RooRealVar("HP:background:MC:number", "HP:background:MC:number", 0., 1e15)
+		fullbackgroundMCmodel = ROOT.RooExtendPdf("HP:background:MC:model", "HP:background:MC:model", ttfakeWshape, fullbackgroundMCnumber)
+		#self.ImportToWorkspace(fullbackgroundMCmodel)
 
-		#self.SaveWorkspace()
+		# Full signal model (MC)
+		fullsignalMCnumber = ROOT.RooRealVar("HP:signal:MC:number", "HP:signal:MC:number", 0., 1e15)
+		fullsignalMCmodel = ROOT.RooExtendPdf("HP:signal:MC:model", "HP:signal:MC:model", ttrealWshape, fullsignalMCnumber)
+
+		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(fullsignalMCmodel, fullbackgroundMCmodel))
+
+		self.ImportToWorkspace(fullMCmodel)
+
+		# Full background model in for data
+		fullbackgrounddatanumber = ROOT.RooRealVar("HP:background:data:number", "HP:background:data:number", 0., 1e15)
+		fullbackgrounddatamodel = ROOT.RooExtendPdf("HP:background:data:model", "HP:background:data:model", ttrealWshape, fullbackgrounddatanumber)
+		self.ImportToWorkspace(fullbackgrounddatamodel)
+
+		# Full signal model for data
+		fullsignaldatanumber = ROOT.RooRealVar("HP:signal:data:number", "HP:signal:data:number", 0., 1e15)
+		fullsignaldatamodel = ROOT.RooExtendPdf("HP:signal:data:model", "HP:signal:data:model", ttrealWshape, fullsignaldatanumber)
+
+		fulldatamodel = ROOT.RooAddPdf("HP:data:model", "HP:data:model", ROOT.RooArgList(fullsignaldatamodel, fullbackgrounddatamodel))
+		self.ImportToWorkspace(fulldatamodel, True)
+
+		#self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)), fulldatamodel.getParameters(ROOT.RooArgSet(fitvariable))), ROOT.kTRUE) # works too - recommended! 
+
+
+
+
+		self.SaveWorkspace()
 
 
 		#getattr(self.workspace, "import")(signalModel)
