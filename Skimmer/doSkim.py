@@ -1,7 +1,7 @@
 #!/Usr-/bin/env python
 import os,sys
-from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import * 
-from WTopScalefactorProducer.Skimmer.skimmer import Skimmer
+#from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import * 
+from boostedWScalefactorProducer.Skimmer.python.skimmer import Skimmer
 
 year = 2018
 

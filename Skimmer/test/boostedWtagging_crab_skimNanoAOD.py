@@ -26,7 +26,7 @@ print '---------------------------------------------------'
 print 'Input files:'
 print inputFiles()
 
-'''
+
 import argparse
 
 parser = argparse.ArgumentParser(description='Runs MEAnalysis')
@@ -74,13 +74,13 @@ parser.add_argument(
     required=False
 )
 
-parser.add_argument(
-    '--selection',
-    action="store",
-    help="Event selection",
-    choices=["dijet", "Wtop"],
-    default="W",
-    required=False
+#parser.add_argument(
+#    '--selection',
+#    action="store",
+#    help="Event selection",
+#    choices=["el", "mu", "elmu"],#To add, or not to add? 
+#    default="elmu",
+#    required=False
 )
 
 
@@ -97,8 +97,9 @@ if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 
 #if args.selection.startswith('dijet'):
 #    Triggers = '( (HLT_PFHT900==1) && (HLT_AK8PFJet360_TrimMass30==1) && (HLT_AK8PFHT700_TrimR0p1PT0p03Mass50==1) && (HLT_PFJet450==1) )'
-#if args.sample.startswith(('Single', '/Single') or ('Single' in args.iFile or '\Single' in args.iFile)): 
-Triggers = '(HLT_Mu50==1)'
+if args.sample.startswith(('SingleMuon', '/SingleMuon') or ('SingleMuon' in args.iFile or '\SingleMuon' in args.iFile)): Triggers = '(HLT_Mu50==1)' 
+
+if  args.sample.startswith(('SingleElectron', '/SingleElectron', 'EGamma', '/EGamma')) or ('SingleElectron' in args.iFile or '\SingleElectron' in args.iFile or 'EGamma' in args.iFile or '\EGamma' in args.iFile)): Triggers = '(HLT_Ele32_WPTight_Gsf==1) && (HLT_Ele28_eta2p1_WPTight_Gsf_HT150==1)'
 #if args.year.startswith('2016'): Triggers = ...
 #elif args.year.startswith('2017'): Triggers =  ...
 #elif args.year.startswith('2018'): Triggers = ...
