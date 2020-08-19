@@ -44,11 +44,11 @@ class Fitter:
 
 		# Setting the verbosity of RooFit
 		if self.verbose: 
-			RooMsgService.instance().setSilentMode(False)
+			ROOT.RooMsgService.instance().setSilentMode(False)
 		else: 
-			RooMsgService.instance().setSilentMode(True)
+			ROOT.RooMsgService.instance().setSilentMode(True)
 
-		RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
+		ROOT.RooMsgService.instance().setGlobalKillBelow(ROOT.RooFit.FATAL)
 		
 		# --- Open the workspace
 		self.workspace = self.OpenWorkspace(options)
