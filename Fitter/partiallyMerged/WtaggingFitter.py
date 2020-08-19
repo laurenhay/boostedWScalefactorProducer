@@ -35,6 +35,17 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		# Defining the samples
 		self.background = ["tt", "VV", "SingleTop"] # TODO: define a class "sample" with a chain and cut on it 
 
+		# TODO: fix directroy handling
+		self.directory = {} 
+		self.directory["fitMC"] = "plots/{}/fitMC/".format(options.year)
+		self.directory["fitMClogs"] = "logs/{}/fitMC/".format(options.year)
+
+		# Creatring the output directories if they don't exist 
+		for directory in self.directory.values(): 
+			if not os.path.isdir(directory): 
+				assert(not os.path.isfile(directory)), "ERROR: The path '{}' is a file, cannot create directory with such name!" 
+				os.system("mkdir -p "+directory)
+
 		# Defining the fit options to be used 
 		#ROOT.Math:MinimizerOptions.SetDefaultTolerance()
 		#self.fitoptions = roofitoptions
@@ -48,6 +59,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		print "Fitting MC... "
 
 		self.MakeFitModel(True)
+
+		
 
 		massvar = self.workspace.var(options.massvar)
 
@@ -68,7 +81,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		ttsample.Print()
 
-		self.FitSample({signalmodel:ttsample}, massvar, "SignalHP.pdf", self.fitoptions)
+		self.FitSample({signalmodel:ttsample}, massvar, self.directory["fitMC"]+"SignalHP.pdf")
 
 		VVsample = self.workspace.data("HP:VV")
 		VVmodel = self.workspace.pdf("HP:VV:model")
@@ -77,11 +90,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		VVmodel.Print()
 
-		self.FitSample({VVmodel:VVsample}, massvar, "plots/2020/VVbackgroundHP.pdf", self.fitoptions)
+		self.FitSample({VVmodel:VVsample}, massvar, self.directory["fitMC"]+"VVbackgroundHP.pdf")
 
 		STsample = self.workspace.data("HP:st")
 		STmodel = self.workspace.pdf("HP:st:model")
-		self.FitSample({STmodel:STsample}, massvar, "plots/2020/STbackgroundHP.pdf", self.fitoptions)
+		self.FitSample({STmodel:STsample}, massvar, self.directory["fitMC"]+"STbackgroundHP.pdf")
 
 
 		#fitstuff = {
@@ -140,7 +153,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		fitresult = []
 		for model, dataset in samplelist.items():
-			result = model.fitTo(dataset) 
+			result = model.fitTo(dataset, ROOT.RooFit.Save(1), ROOT.RooFit.SumW2Error(ROOT.kTRUE), ROOT.RooFit.Extended(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2")) 
 			fitresult.append(result)
 			dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
 			model.plotOn(plot)
@@ -206,6 +219,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 			canvas.Print(savename)
 
+		self.workspace.saveSnapshot(model.GetName()+"fitMC", ttrealWmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE)
+
 
 
 	def MakeFitModel(self, importmodel=False): 
@@ -230,7 +245,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		if (importmodel): 
 			self.ImportToWorkspace(ttrealWmodel, True)
 
-		self.workspace.saveSnapshot("ttinitial", ttrealWmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE)
+		#self.workspace.saveSnapshot("ttinitial", ttrealWmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE)
 		#params = signalModel.getParameters(fitvariable)
 		#self.workspace.defineSet("signalParams", params)
 		#self.workspace.saveSnapshot("buildmodel", params, ROOT.kTRUE)
