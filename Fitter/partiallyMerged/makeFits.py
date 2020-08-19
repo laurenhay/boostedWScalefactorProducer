@@ -21,8 +21,8 @@ parser = argparse.ArgumentParser(description='Fitter')
 
 setTDRStyle()
 gStyle.SetOptTitle(0)
-RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
-RooMsgService.instance().setSilentMode(True)
+#RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
+#RooMsgService.instance().setSilentMode(True)
 
 # --- Tagging options
 parser.add_argument('--tagger', action="store",type=str,dest="tagger",default="SelectedJet_tau21", help="Name of tagger variable (tau32/tau21/ddt)")

@@ -40,7 +40,15 @@ class Fitter:
 
 		self.verbose = options.verbose
 		self.binned = options.doBinnedFit
-		#atexit.register(self.Cleanup)
+		atexit.register(self.Cleanup)
+
+		# Setting the verbosity of RooFit
+		if self.verbose: 
+			RooMsgService.instance().setSilentMode(False)
+		else: 
+			RooMsgService.instance().setSilentMode(True)
+
+		RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
 		
 		# --- Open the workspace
 		self.workspace = self.OpenWorkspace(options)
