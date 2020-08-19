@@ -71,34 +71,16 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		ttsample = self.LoadDataset1D("HP:ttrealW", massvar)
-
-		signalmodel = self.workspace.pdf("HP:tt:real:model")
-
-		print ttsample
-		print signalmodel
+		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, self.directory["fitMC"]+"SignalHP.pdf")
 
 
-		ttsample.Print()
+		self.FitSampleStr("HP:VV:model", "HP:VV", massvar, self.directory["fitMC"]+"VVbackgroundHP.pdf")
 
-		self.FitSample({signalmodel:ttsample}, massvar, self.directory["fitMC"]+"SignalHP.pdf")
 
-		VVsample = self.LoadDataset1D("HP:VV", massvar)
-		VVmodel = self.workspace.pdf("HP:VV:model")
+		self.FitSampleStr("HP:st:model", "HP:st", massvar, self.directory["fitMC"]+"STbackgroundHP.pdf")
 
-		VVsample.Print()
-
-		VVmodel.Print()
-
-		self.FitSample({VVmodel:VVsample}, massvar, self.directory["fitMC"]+"VVbackgroundHP.pdf")
-
-		STsample = self.LoadDataset1D("HP:st", massvar)
-		STmodel = self.workspace.pdf("HP:st:model")
-		self.FitSample({STmodel:STsample}, massvar, self.directory["fitMC"]+"STbackgroundHP.pdf")
-
-		ttfakeW = self.LoadDataset1D("HP:ttfakeW", massvar)
-		ttfakeWmodel = self.workspace.pdf("HP:tt:fake:model")
-		plot, result = self.FitSample({ttfakeWmodel:ttfakeW}, massvar, self.directory["fitMC"]+"TTfakeWHP.pdf")
+		
+		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", massvar, self.directory["fitMC"]+"TTfakeWHP.pdf")
 
 
 		#fitstuff = {
@@ -143,6 +125,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 
 
+
+	def FitSampleStr(self, modelname, samplename, variable, saveas="", fitoptions=None): 
+		sample = self.LoadDataset1D(samplename, variable)
+		model = self.workspace.pdf(modelname)
+		return self.FitSample({model:sample}, variable, saveas, fitoptions)
 
 	def FitSample(self, samplelist, variable, saveas="", fitoptions=None): 
 		if (fitoptions==None): # TODO: fix! 
