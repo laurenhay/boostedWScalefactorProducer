@@ -63,7 +63,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		#roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		ttsample = self.LoadDataset("HP:ttrealW")
+		ttsample = self.LoadDataset1D("HP:ttrealW", massvar)
 
 		signalmodel = self.workspace.pdf("HP:tt:real:model")
 
@@ -158,6 +158,28 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		return plot, fitresult
 
+	def TestFit(self): 
+		self.MakeFitModel(True)
+
+		variable = self.workspace.var(self.fitvarname)
+
+		dataset = self.LoadDataset1D("HP:ttrealW", variable)
+
+
+		model = self.workspace.pdf("HP:tt:real:model")
+
+		plot = variable.frame()
+		result = model.fitTo(dataset) 
+		model.plotOn(plot)
+		dataset.plotOn(plot)
+		canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
+		plot.Draw()
+
+		savename = "testfit.pdf"
+		print "Do you want to save the plot as {} ?".format(savename)
+		if(self.PromptYesNo(True)): 
+
+			canvas.Print(savename)
 
 
 

@@ -78,8 +78,11 @@ class Fitter:
 		return
 
 
-	def LoadDataset(self, name): 
-		dataset = self.workspace.data(name)
+	def LoadDataset1D(self, name, variable): 
+		return self.LoadDataset(name, ROOT.RooArgSet(variable))
+
+	def LoadDataset(self, name, variables): 
+		dataset = self.workspace.data(name).reduce(variables)
 		if (self.binned): 
 			dataset = dataset.binnedClone()
 		return dataset
