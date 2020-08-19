@@ -33,7 +33,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.fitvarname = options.massvar
 
 		# Defining the samples
-		self.background = ["tt", "VV", "SingleTop"] # TODO: define a class "sample" with a chain and cut on it 
+		self.background = ["tt", "VV", "SingleTop", ] # TODO: define a class "sample" with a chain and cut on it 
 
 		# TODO: fix directroy handling
 		self.directory = {} 
@@ -51,14 +51,14 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#self.fitoptions = roofitoptions
 
 
-		self.MakeFitModel()
+		self.MakeFitModel(True)
 
 
 
 	def FitMC(self, options, fitoptions = ""): 
 		print "Fitting MC... "
 
-		self.MakeFitModel(True)
+		#self.MakeFitModel(True)
 
 		
 
@@ -83,7 +83,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.FitSample({signalmodel:ttsample}, massvar, self.directory["fitMC"]+"SignalHP.pdf")
 
-		VVsample = self.workspace.data("HP:VV")
+		VVsample = self.LoadDataset1D("HP:VV", massvar)
 		VVmodel = self.workspace.pdf("HP:VV:model")
 
 		VVsample.Print()
@@ -92,9 +92,13 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.FitSample({VVmodel:VVsample}, massvar, self.directory["fitMC"]+"VVbackgroundHP.pdf")
 
-		STsample = self.workspace.data("HP:st")
+		STsample = self.LoadDataset1D("HP:st", massvar)
 		STmodel = self.workspace.pdf("HP:st:model")
 		self.FitSample({STmodel:STsample}, massvar, self.directory["fitMC"]+"STbackgroundHP.pdf")
+
+		ttfakeW = self.LoadDataset1D("HP:ttfakeW", massvar)
+		ttfakeWmodel = self.workspace.pdf("HP:tt:fake:model")
+		plot, result = self.FitSample({ttfakeWmodel:ttfakeW}, massvar, self.directory["fitMC"]+"TTfakeWHP.pdf")
 
 
 		#fitstuff = {
@@ -157,6 +161,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			fitresult.append(result)
 			dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
 			model.plotOn(plot)
+
+			if (self.verbose): 
+				result.Print()
 			
 
 		if not (saveas == ""):
