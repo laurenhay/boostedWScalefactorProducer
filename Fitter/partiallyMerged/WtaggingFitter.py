@@ -52,6 +52,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 	def FitMC(self, options, fitoptions = ""): 
 		print "Fitting MC... "
 
+		self.MakeFitModel(True)
+
 		massvar = self.workspace.var(options.massvar)
 
 		roofitoptions = ROOT.RooLinkedList()
@@ -67,16 +69,24 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		print ttsample
 		print signalmodel
+
+
+		ttsample.Print()
+
 		self.FitSample({signalmodel:ttsample}, massvar, "SignalHP.pdf", roofitoptions)
 
 		VVsample = self.workspace.data("HP:VV")
 		VVmodel = self.workspace.pdf("HP:VV:model")
 
-		self.FitSample({VVmodel:VVsample}, massvar, "VVbackgroundHP.pdf", roofitoptions)
+		VVsample.Print()
+
+		VVmodel.Print()
+
+		self.FitSample({VVmodel:VVsample}, massvar, "plots/2020/VVbackgroundHP.pdf", roofitoptions)
 
 		STsample = self.workspace.data("HP:st")
 		STmodel = self.workspace.pdf("HP:st:model")
-		self.FitSample({STmodel:STsample}, massvar, "STbackgroundHP.pdf", roofitoptions)
+		self.FitSample({STmodel:STsample}, massvar, "plots/2020/STbackgroundHP.pdf", roofitoptions)
 
 
 		#fitstuff = {
@@ -106,7 +116,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		fullMC.append(self.workspace.data("HP:ttfakeW"))
 		fullMC.append(self.workspace.data("HP:ttrealW"))
 
+		fullMC.Print()
+
+
 		modelMC = self.workspace.pdf("HP:fullMC:model")
+
+		modelMC.Print()
 
 		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar)
 
@@ -135,7 +150,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			model.plotOn(plot)
 			dataset.plotOn(plot)
 
-		if not saveas == "":
+		if not (saveas == ""):
 			canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
 			plot.Draw()
 
@@ -144,7 +159,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		return plot, fitresult
 
 
-	def MakeFitModel(self): 
+
+
+	def MakeFitModel(self, importmodel=False): 
 		print "Making fit model"
 
 		fitvariable = self.workspace.var(self.fitvarname)
@@ -163,7 +180,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		if (simplemodel): ttrealWmodel = ttrealWshape
 
 		#getattr(self.workspace, "import")(signalModel)
-		self.ImportToWorkspace(ttrealWmodel, True)
+		if (importmodel): 
+			self.ImportToWorkspace(ttrealWmodel, True)
 		#params = signalModel.getParameters(fitvariable)
 		#self.workspace.defineSet("signalParams", params)
 		#self.workspace.saveSnapshot("buildmodel", params, ROOT.kTRUE)
@@ -176,7 +194,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		ttfakeWnumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 0., 1e15)
 		ttfakeWmodel = ROOT.RooExtendPdf("HP:tt:fake:model", "HP:tt:fake:model", ttfakeWshape, ttfakeWnumber)
 		if (simplemodel): ttfakeWmodel = ttfakeWshape
-		self.ImportToWorkspace(ttfakeWmodel)
+		if (importmodel): 
+			self.ImportToWorkspace(ttfakeWmodel)
 
 		# Background VV model
 		VValpha       = ROOT.RooRealVar("HP:VV:alpha","HP:VV:alpha",-0.01 ,-1., 0.)
@@ -191,7 +210,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		VVnumber = ROOT.RooRealVar("HP:VV:number", "HP:VV:number", 0., 1e15)
 		VVmodel = ROOT.RooExtendPdf("HP:VV:model", "HP:VV:model", VVshape, VVnumber)
 		if (simplemodel): VVmodel = VVshape
-		self.ImportToWorkspace(VVmodel)
+		if (importmodel): 
+			self.ImportToWorkspace(VVmodel)
 
 		# Background single top model
 		STcoeff = ROOT.RooRealVar("HP:st:coefficient", "HP:st:coefficient", -0.04, -1., 1.)
@@ -206,7 +226,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		STnumber = ROOT.RooRealVar("HP:st:number", "HP:st:number", 0., 1e15)
 		STmodel = ROOT.RooExtendPdf("HP:st:model", "HP:st:model", STshape, STnumber)
 		if (simplemodel): STmodel = STshape
-		self.ImportToWorkspace(STmodel)
+		if (importmodel): 
+			self.ImportToWorkspace(STmodel)
 
 		# Backgound W+Jets model
 		WJetscoeff  = ROOT.RooRealVar("HP:WJets:coefficient", "HP:WJets:coefficient", -0.026, -0.05, 0.05)
@@ -216,10 +237,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		WJetsnumber = ROOT.RooRealVar("HP:WJets:number", "HP:WJets:number", 0., 1e15)
 		WJetsmodel = ROOT.RooExtendPdf("HP:WJets:model", "HP:WJets:model", WJetsshape, WJetsnumber)
 		if (simplemodel): WJetsmodel = WJetsshape
-		self.ImportToWorkspace(WJetsmodel, True)
+		if (importmodel): 
+			self.ImportToWorkspace(WJetsmodel, True)
 
-		self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(STcoeff, STwidth, SToffset, STmean, STsigma, STfactor), ROOT.kTRUE) # works! 
-		self.workspace.saveSnapshot("buildmodel", VVmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE) # works too - recommended! 
+		if (importmodel): 
+			self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(STcoeff, STwidth, SToffset, STmean, STsigma, STfactor), ROOT.kTRUE) # works! 
+			#self.workspace.saveSnapshot("buildmodel", VVmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE) # works too - recommended! 
 
 		# Full background model (MC)
 		fullbackgroundMCnumber = ROOT.RooRealVar("HP:background:MC:number", "HP:background:MC:number", 0., 1e15)
@@ -232,26 +255,29 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(fullsignalMCmodel, fullbackgroundMCmodel))
 
-		self.ImportToWorkspace(fullMCmodel)
+		if (importmodel): 
+			self.ImportToWorkspace(fullMCmodel)
 
 		# Full background model in for data
 		fullbackgrounddatanumber = ROOT.RooRealVar("HP:background:data:number", "HP:background:data:number", 0., 1e15)
 		fullbackgrounddatamodel = ROOT.RooExtendPdf("HP:background:data:model", "HP:background:data:model", ttrealWshape, fullbackgrounddatanumber)
-		self.ImportToWorkspace(fullbackgrounddatamodel)
+		if (importmodel): 
+			self.ImportToWorkspace(fullbackgrounddatamodel)
 
 		# Full signal model for data
 		fullsignaldatanumber = ROOT.RooRealVar("HP:signal:data:number", "HP:signal:data:number", 0., 1e15)
 		fullsignaldatamodel = ROOT.RooExtendPdf("HP:signal:data:model", "HP:signal:data:model", ttrealWshape, fullsignaldatanumber)
 
 		fulldatamodel = ROOT.RooAddPdf("HP:data:model", "HP:data:model", ROOT.RooArgList(fullsignaldatamodel, fullbackgrounddatamodel))
-		self.ImportToWorkspace(fulldatamodel, True)
+		if (importmodel): 
+			self.ImportToWorkspace(fulldatamodel, True)
 
 		#self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)), fulldatamodel.getParameters(ROOT.RooArgSet(fitvariable))), ROOT.kTRUE) # works too - recommended! 
 
 
 
 
-		self.SaveWorkspace()
+		#self.SaveWorkspace()
 
 
 		#getattr(self.workspace, "import")(signalModel)

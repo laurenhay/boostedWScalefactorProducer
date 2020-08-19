@@ -67,7 +67,7 @@ class Fitter:
 		return
 
 	def SaveWorkspace(self, filename=""): 
-		assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, save it to file." 
+		assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, unable to save it to file." 
 		if (filename == ""): 
 			assert(getattr(self, "filename")), "ERROR: No filename was provided and the class has no member 'filename', cannot save workspace." 
 			filename = self.filename
