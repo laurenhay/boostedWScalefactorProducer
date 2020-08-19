@@ -36,13 +36,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.background = ["tt", "VV", "SingleTop"] # TODO: define a class "sample" with a chain and cut on it 
 
 		# Defining the fit options to be used 
-		roofitoptions = ROOT.RooLinkedList()
-		roofitoptions.Add(ROOT.RooFit.Save(1)) # Produce the fit result
-		roofitoptions.Add(ROOT.RooFit.SumW2Error(ROOT.kTRUE)) # Interpret errors as errors on MC (see https://root.cern.ch/doc/master/classRooAbsPdf.html#af43c48c044f954b0e0e9d4fe38347551)
-		roofitoptions.Add(ROOT.RooFit.Extended(ROOT.kTRUE)) # Add extended likelihood term 
-		roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
-		#roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
-		self.fitoptions = roofitoptions
+		#ROOT.Math:MinimizerOptions.SetDefaultTolerance()
+		#self.fitoptions = roofitoptions
 
 
 		self.MakeFitModel()
@@ -56,12 +51,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		massvar = self.workspace.var(options.massvar)
 
-		roofitoptions = ROOT.RooLinkedList()
-		roofitoptions.Add(ROOT.RooFit.Save(1)) # Produce the fit result
-		roofitoptions.Add(ROOT.RooFit.SumW2Error(ROOT.kTRUE)) # Interpret errors as errors on MC (see https://root.cern.ch/doc/master/classRooAbsPdf.html#af43c48c044f954b0e0e9d4fe38347551)
-		roofitoptions.Add(ROOT.RooFit.Extended(ROOT.kTRUE)) # Add extended likelihood term 
-		roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
-		#roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
+		#roofitoptions = ROOT.RooLinkedList()
+		#roofitoptions.Add(ROOT.RooFit.Save(1)) # Produce the fit result
+		#roofitoptions.Add(ROOT.RooFit.SumW2Error(ROOT.kTRUE)) # Interpret errors as errors on MC (see https://root.cern.ch/doc/master/classRooAbsPdf.html#af43c48c044f954b0e0e9d4fe38347551)
+		#roofitoptions.Add(ROOT.RooFit.Extended(ROOT.kTRUE)) # Add extended likelihood term 
+		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
+		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
 		ttsample = self.LoadDataset1D("HP:ttrealW", massvar)
 
@@ -73,7 +68,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		ttsample.Print()
 
-		self.FitSample({signalmodel:ttsample}, massvar, "SignalHP.pdf", roofitoptions)
+		self.FitSample({signalmodel:ttsample}, massvar, "SignalHP.pdf", self.fitoptions)
 
 		VVsample = self.workspace.data("HP:VV")
 		VVmodel = self.workspace.pdf("HP:VV:model")
@@ -82,11 +77,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		VVmodel.Print()
 
-		self.FitSample({VVmodel:VVsample}, massvar, "plots/2020/VVbackgroundHP.pdf", roofitoptions)
+		self.FitSample({VVmodel:VVsample}, massvar, "plots/2020/VVbackgroundHP.pdf", self.fitoptions)
 
 		STsample = self.workspace.data("HP:st")
 		STmodel = self.workspace.pdf("HP:st:model")
-		self.FitSample({STmodel:STsample}, massvar, "plots/2020/STbackgroundHP.pdf", roofitoptions)
+		self.FitSample({STmodel:STsample}, massvar, "plots/2020/STbackgroundHP.pdf", self.fitoptions)
 
 
 		#fitstuff = {
@@ -147,8 +142,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		for model, dataset in samplelist.items():
 			result = model.fitTo(dataset) 
 			fitresult.append(result)
-			model.plotOn(plot)
 			dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
+			model.plotOn(plot)
+			
 
 		if not (saveas == ""):
 			canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
@@ -164,19 +160,48 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		variable = self.workspace.var(self.fitvarname)
 
 		dataset = self.LoadDataset1D("HP:ttrealW", variable)
+		dataset.Print()
 
 
 		model = self.workspace.pdf("HP:tt:real:model")
+		#ttrealWmean   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 95.) 
+		#ttrealWsigma  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 2.5, 50.)
+		#ttrealWalpha1  = ROOT.RooRealVar("HP:tt:alpha1", "HP:tt:alpha1", 0.5, 0.1, 10.) 
+		#ttrealWalpha2  = ROOT.RooRealVar("HP:tt:alpha2", "HP:tt:alpha2", 1.0, 0.1, 10.) 
+		#ttrealWsign1   = ROOT.RooRealVar("HP:tt:sign1", "HP:tt:sign1", 0.2, 0.01, 5.)
+		#ttrealWsign2   = ROOT.RooRealVar("HP:tt:sign2", "HP:tt:sign2", 0.2, 0.01, 10.) 
+		#ttrealWshape = ROOT.RooDoubleCrystalBall("HP:tt:real:shape","HP:tt:real:shape", variable, ttrealWmean, ttrealWsigma, ttrealWalpha1, ttrealWsign1, ttrealWalpha2, ttrealWsign2)
+		#ttrealWnumber = ROOT.RooRealVar("HP:tt:real:number", "HP:tt:real:number", 500., 100., 1e20)
+		#model = ROOT.RooExtendPdf("HP:tt:real:model", "HP:tt:real:model", ttrealWshape, ttrealWnumber)
+
+		#mean = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 50., 130.) 
+		#sigma = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 2.5, 100.)
+		#shape = ROOT.RooGaussian("HP:tt:Gaussian", "HP:tt:Gaussian", variable, mean, sigma)
+
+		#model = shape 
+
+		snapshot = self.workspace.getSnapshot("ttinitial")
+		params = model.getParameters(ROOT.RooArgSet(variable))
+		#params = snapshot
+
+		roofitoptions = ROOT.RooLinkedList()
+		roofitoptions.Add(ROOT.RooFit.Save(1)) # Produce the fit result
+		roofitoptions.Add(ROOT.RooFit.SumW2Error(ROOT.kTRUE)) # Interpret errors as errors on MC (see https://root.cern.ch/doc/master/classRooAbsPdf.html#af43c48c044f954b0e0e9d4fe38347551)
+		roofitoptions.Add(ROOT.RooFit.Extended(ROOT.kTRUE)) # Add extended likelihood term 
+		roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
+
 
 		plot = variable.frame()
-		result = model.fitTo(dataset) 
-		model.plotOn(plot)
+		result = model.fitTo(dataset, ROOT.RooFit.Save(1), ROOT.RooFit.SumW2Error(ROOT.kTRUE), ROOT.RooFit.Extended(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2")) 
+		result.Print()
 		dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
+		model.plotOn(plot)
 		canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
 		plot.Draw()
+		canvas.Update()
 
 		savename = "testfit.pdf"
-		print "Do you want to save the plot as {} ?".format(savename)
+		print "Do you want to save the plot as '{}' ?".format(savename)
 		if(self.PromptYesNo(True)): 
 
 			canvas.Print(savename)
@@ -190,20 +215,22 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#self.workspace.factory("DoubleCrystalBall::HP:tt:SignalModel({}, signalMean1[80., 100.], signalMean1[-10., 10.], signalSigma[0., 50.], signalSigma[0., 50.], sign1[0.01, 5.], sign1[0.01, 10.]".format(self.fitvarname)) # TODO: check how we can use the factory syntax with custom Pdfs. 
 
 		# Signal model in the HP category 
-		ttrealWmean   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 100.) 
-		ttrealWsigma  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 5., 20.)
+		ttrealWmean   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 95.) 
+		ttrealWsigma  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 2.5, 50.)
 		ttrealWalpha1  = ROOT.RooRealVar("HP:tt:alpha1", "HP:tt:alpha1", 0.5, 0.1, 10.) 
 		ttrealWalpha2  = ROOT.RooRealVar("HP:tt:alpha2", "HP:tt:alpha2", 1.0, 0.1, 10.) 
 		ttrealWsign1   = ROOT.RooRealVar("HP:tt:sign1", "HP:tt:sign1", 0.2, 0.01, 5.)
 		ttrealWsign2   = ROOT.RooRealVar("HP:tt:sign2", "HP:tt:sign2", 0.2, 0.01, 10.) 
 		ttrealWshape = ROOT.RooDoubleCrystalBall("HP:tt:real:shape","HP:tt:real:shape", fitvariable, ttrealWmean, ttrealWsigma, ttrealWalpha1, ttrealWsign1, ttrealWalpha2, ttrealWsign2)
-		ttrealWnumber = ROOT.RooRealVar("HP:tt:real:number", "HP:tt:real:number", 0., 1e15)
+		ttrealWnumber = ROOT.RooRealVar("HP:tt:real:number", "HP:tt:real:number", 500., 0., 1e20)
 		ttrealWmodel = ROOT.RooExtendPdf("HP:tt:real:model", "HP:tt:real:model", ttrealWshape, ttrealWnumber)
 		if (simplemodel): ttrealWmodel = ttrealWshape
 
 		#getattr(self.workspace, "import")(signalModel)
 		if (importmodel): 
 			self.ImportToWorkspace(ttrealWmodel, True)
+
+		self.workspace.saveSnapshot("ttinitial", ttrealWmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE)
 		#params = signalModel.getParameters(fitvariable)
 		#self.workspace.defineSet("signalParams", params)
 		#self.workspace.saveSnapshot("buildmodel", params, ROOT.kTRUE)
