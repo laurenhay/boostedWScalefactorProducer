@@ -148,7 +148,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			result = model.fitTo(dataset) 
 			fitresult.append(result)
 			model.plotOn(plot)
-			dataset.plotOn(plot)
+			dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
 
 		if not (saveas == ""):
 			canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
@@ -171,7 +171,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		plot = variable.frame()
 		result = model.fitTo(dataset) 
 		model.plotOn(plot)
-		dataset.plotOn(plot)
+		dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
 		canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
 		plot.Draw()
 
