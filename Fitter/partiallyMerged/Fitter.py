@@ -66,6 +66,7 @@ class Fitter:
 		raise NotImplementedError()
 
 	def ImportToWorkspace(self, stuff, autosave=False): 
+		# TODO: check if an object with given name already exists in workspace
 		assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, cannot import to workspace."
 		getattr(self.workspace, "import")(stuff)
 		if (autosave): 
@@ -87,17 +88,26 @@ class Fitter:
 		return
 
 
-	def LoadPdf(self, name): 
-		assert(self.workspace.pdf(name)), "Error: the workspace does not contin any pdf named '{}'!".format(name)
-		return self.workspace.pdf(name) 
-		
-	def LoadDataset1D(self, name, variable): 
-		return self.LoadDataset(name, ROOT.RooArgSet(variable))
+	def LoadVariable(self, name): 
+		assert(self.workspace.var(name)), "ERROR: the workspace does not contain any variable named '{}'!".format(name)
+		return self.workspace.var(name)
 
-	def LoadDataset(self, name, variables): # TODO: give the possibility to load it binned or not independent of the attribute
+	# Wrapper function to display an error message if the pdf does not exist in the workspace
+	def LoadPdf(self, name): 
+		assert(self.workspace.pdf(name)), "ERROR: the workspace does not contin any pdf named '{}'!".format(name)
+		return self.workspace.pdf(name) 
+
+	def LoadDataset1D(self, name, variable, binned = None): 
+		return self.LoadDataset(name, ROOT.RooArgSet(variable), binned)
+
+	def LoadDataset(self, name, variables, binned = None): 
 		assert(self.workspace.data(name)), "ERROR: the workspace does not containg any dataset named '{}'!".format(name)
+		# TODO: check if the dataset depends on the variables given in the RooArgSet
 		dataset = self.workspace.data(name).reduce(variables)
-		if (self.binned): 
+		if (binned == None): 
+			binned = self.binned
+		assert(binned in [0, 1]), "ERROR: the parameter 'binned' provided: {}, is invalid, should be a boolean.".format(binned)
+		if (binned): 
 			dataset = dataset.binnedClone()
 		return dataset
 

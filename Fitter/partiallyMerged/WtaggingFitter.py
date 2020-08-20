@@ -62,7 +62,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		
 
-		massvar = self.workspace.var(options.massvar)
+		massvar = self.LoadVariable(options.massvar)
 
 		#roofitoptions = ROOT.RooLinkedList()
 		#roofitoptions.Add(ROOT.RooFit.Save(1)) # Produce the fit result
@@ -213,7 +213,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 			canvas.Print(savename)
 
-		self.workspace.saveSnapshot(model.GetName()+"fitMC", ttrealWmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE)
+		self.workspace.saveSnapshot(model.GetName()+"fitMC", model.getParameters(ROOT.RooArgSet(variable)), ROOT.kTRUE)
 
 
 
