@@ -43,6 +43,7 @@ class Fitter:
 		#atexit.register(self.Cleanup)
 
 		# Setting the verbosity of RooFit
+		# TODO: set verbosity levels in options (enable self.verbosity (True) if greater than 0 and add dictionary to map int to RooFit level)
 		if self.verbose: 
 			ROOT.RooMsgService.instance().setSilentMode(False)
 		else: 
@@ -86,10 +87,14 @@ class Fitter:
 		return
 
 
+	def LoadPdf(self, name): 
+		assert(self.workspace.pdf(name)), "Error: the workspace does not contin any pdf named '{}'!".format(name)
+		return self.workspace.pdf(name) 
+		
 	def LoadDataset1D(self, name, variable): 
 		return self.LoadDataset(name, ROOT.RooArgSet(variable))
 
-	def LoadDataset(self, name, variables): 
+	def LoadDataset(self, name, variables): # TODO: give the possibility to load it binned or not independent of the attribute
 		assert(self.workspace.data(name)), "ERROR: the workspace does not containg any dataset named '{}'!".format(name)
 		dataset = self.workspace.data(name).reduce(variables)
 		if (self.binned): 

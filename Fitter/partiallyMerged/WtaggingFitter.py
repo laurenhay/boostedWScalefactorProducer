@@ -71,7 +71,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, self.directory["fitMC"]+"SignalHP.pdf")
+		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, self.directory["fitMC"]+"SignalHP.pdf") # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
 
 
 		self.FitSampleStr("HP:VV:model", "HP:VV", massvar, self.directory["fitMC"]+"VVbackgroundHP.pdf")
@@ -128,7 +128,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 	def FitSampleStr(self, modelname, samplename, variable, saveas="", fitoptions=None): 
 		sample = self.LoadDataset1D(samplename, variable)
-		model = self.workspace.pdf(modelname)
+		model = self.LoadPdf(modelname)
 		return self.FitSample({model:sample}, variable, saveas, fitoptions)
 
 	def FitSample(self, samplelist, variable, saveas="", fitoptions=None): 
