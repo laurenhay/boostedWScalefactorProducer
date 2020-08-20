@@ -90,6 +90,7 @@ class Fitter:
 		return self.LoadDataset(name, ROOT.RooArgSet(variable))
 
 	def LoadDataset(self, name, variables): 
+		assert(self.workspace.data(name)), "ERROR: the workspace does not containg any dataset named '{}'!".format(name)
 		dataset = self.workspace.data(name).reduce(variables)
 		if (self.binned): 
 			dataset = dataset.binnedClone()
