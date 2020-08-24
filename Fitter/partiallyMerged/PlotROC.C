@@ -63,20 +63,6 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     Double_t MVAmin = min(signal->GetMinimum(cutVariable), background->GetMinimum(cutVariable));       // <- Set this        // Maybe take the min of the mins of signal and background ...
     Double_t MVAmax = max(signal->GetMaximum(cutVariable), background->GetMaximum(cutVariable));       // <- Set this
     
-    if (MVAmax == MVAmin) 
-    {
-        std::cerr << "ERROR: The MVA variable is constant. Cannot create a ROC curve. "; 
-        return -999; 
-    }
-    Double_t MVAit = (MVAmax-MVAmin)/static_cast<Double_t>(distcretisation); //0.02;
-    
-    
-    
-    for (double cutvalue=MVAmin; cutvalue<=MVAmax; cutvalue+=MVAit)
-    {
-        MVAcutvalues.push_back(cutvalue);
-        //cout <<cutvalue << std::endl;
-    }
     
     TH1D *signalaftercut = nullptr;
     TH1D *backgroundaftercut = nullptr;
@@ -94,6 +80,27 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     
     const Double_t Nsignal = signalaftercut->Integral();
     const Double_t Nbackground = backgroundaftercut->Integral();
+
+
+    const Double_t minaxis = MVAmin; 
+    MVAmin = signalaftercut->GetBinCenter(min(signalaftercut->FindFirstBinAbove(minaxis), backgroundaftercut->FindFirstBinAbove(minaxis))-1); 
+    MVAmax = signalaftercut->GetBinCenter(max(signalaftercut->FindLastBinAbove(minaxis), backgroundaftercut->FindLastBinAbove(minaxis))+1); 
+
+
+    if (MVAmax == MVAmin) 
+    {
+        std::cerr << "ERROR: The MVA variable is constant. Cannot create a ROC curve. "; 
+        return -999; 
+    }
+    Double_t MVAit = (MVAmax-MVAmin)/static_cast<Double_t>(distcretisation); //0.02;
+    
+    
+    
+    for (double cutvalue=MVAmin; cutvalue<=MVAmax; cutvalue+=MVAit)
+    {
+        MVAcutvalues.push_back(cutvalue);
+        //cout <<cutvalue << std::endl;
+    }
     
     
     
@@ -271,6 +278,10 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     
 
     plotFile->Close(); 
+
+    delete canvas; 
+    delete signalaftercut; 
+    delete backgroundaftercut; 
     
     return finalcutvalue; 
 }

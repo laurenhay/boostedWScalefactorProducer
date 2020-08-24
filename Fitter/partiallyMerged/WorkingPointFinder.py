@@ -12,7 +12,7 @@ from rootpy.tree import Cut
 
 overflowmargin = 20.
 
-estimatelpstats = False
+estimatelpstats = True
 
 
 ROOT.gROOT.LoadMacro("PlotROC.C")
@@ -24,7 +24,8 @@ parser.add_argument('-b', action='store_true', dest='noX', default=False, help='
 parser.add_argument('-d','--dry', action = 'store_true', help = 'Run in dry mode (just displaying WP but not creating workspaces)')
 parser.add_argument('-v', '--verbose', dest="verbose", action='store_true', default=False, help="Print out more messages.")
 parser.add_argument('-y', '--year', dest="year", default = "all", help="The year for which you want to create the workspace. ")
-parser.add_argument('fakerate', default=None, type=float, help="The desired fake-rate. ")
+parser.add_argument('fakerateHP', default=None, type=float, help="The desired fake-rate for the HP region. ")
+parser.add_argument('fakerateLP', default=None, type=float, help="The desired fake-rate for the LP region. ")
 parser.add_argument('--workspace', action="store",type=str,dest="workspace",default="workspace", help="Name of workspace")
 parser.add_argument('--sample', action="store",type=str,dest="sample",default="QCD", help='Which tt sample is used')
 parser.add_argument('--tagger', action="store",type=str,dest="tagger",default="SelectedJet_tau21", help="Name of tagger variable (tau32/tau21/ddt)")
@@ -91,6 +92,13 @@ def GetChain(sample, year):
 
 	return chain
 
+def GetYield(tree, variable, cut, rangemin, rangemax): 
+	canvas = ROOT.TCanvas("canvas", "canvas", 800, 600)
+	histo = ROOT.TH1D("histoyield", "histoyield", 200, tree.GetMinimum(variable), tree.GetMaximum(variable))
+	signalchain.Draw(variable+">>"+histo.GetName(), cut)
+	number = histo.Integral(histo.FindBin(rangemin), histo.FindBin(rangemax))
+	return number
+
 
 
 def GetEfficiency(cutvalue, chain): 
@@ -132,7 +140,8 @@ if __name__ == '__main__':
 		ROOT.gROOT.SetBatch(True)
 	
 
-	assert(options.fakerate > 0. and options.fakerate < 1.), "ERROR: Invalid fake-rate: {}. You must specify a fakerate in ]0,1[. ".format(options.fakerate)	
+	assert(options.fakerateHP > 0. and options.fakerateHP < 1.), "ERROR: Invalid fake-rate: {}. You must specify a fakerate in ]0,1[. ".format(options.fakerate)	
+	assert(options.fakerateLP > 0. and options.fakerateLP < 1.), "ERROR: Invalid fake-rate: {}. You must specify a fakerate in ]0,1[. ".format(options.fakerate)	
 	
 
 	allyears = [2016, 2017, 2018]
@@ -144,7 +153,7 @@ if __name__ == '__main__':
 
 	variable = options.tagger
 	weight = Cut("eventweightlumi") #options.weightvar	
-	basecut = Cut("SelectedJet_pt>300. && SelectedJet_pt<500.")
+	basecut = Cut("SelectedJet_pt>300. && SelectedJet_pt<500. && SelectedJet_mass>50. && SelectedJet_mass<130.")
 	signalcut = Cut("genmatchedAK82017")
 	#cutHP = Cut("SelectedJet_tau21<0.35")
 	#cutLP = Cut("SelectedJet_tau21<0.75 && SelectedJet_tau21>=0.35")
@@ -152,9 +161,17 @@ if __name__ == '__main__':
 	cut = weight*basecut
 	cutsignal = weight*signalcut
 
-	years = [2020] # TODO: remove 
+	years = [2018] # TODO: remove 
 
-	fakerate = int(options.fakerate*100.)
+	# Computing the fakerate string for naming objects 
+	fakerateHP = options.fakerateHP*100.
+	fakeratestringHP = "{:.0f}".format(fakerateHP) if fakerateHP.is_integer() else str(fakerateHP).replace(".", "p")
+
+	fakerateLP = options.fakerateLP*100.
+	fakeratestringLP = "{:.0f}".format(fakerateLP) if fakerateLP.is_integer() else str(fakerateLP).replace(".", "p")
+
+	print fakerateHP
+	print fakerateLP
 	
 
 	HP = {}
@@ -166,20 +183,40 @@ if __name__ == '__main__':
 		signalchain = GetChain("tt", year)
 
 		# Using a previously written C++ script hacked for the purpose (super fast)
-		HP[year] = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerate, 10000, "fakerate{}ROC.root".format(fakerate), options.verbose)
+		HP[year] = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerateHP, 10000, "HPfakerate{}ROC.root".format(fakeratestringHP), options.verbose)
+		signalyieldHP = GetYield(signalchain, options.tagger, cutsignal, 0., HP[year])
+		backgroundyieldHP = GetYield(backgroundchain, options.tagger, cut, 0., HP[year])
+
+		# Now we need to remove the HP categroy (additional cut) and compute the ROC curve for the LP sample
+		cutHP = Cut("{}>{}".format(options.tagger, HP[year]))
+		cutsignal = cutsignal*cutHP
+		cut = cut*cutHP
+		print cutsignal, cut
+		LP[year] = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerateLP, 10000, "LPfakerate{}ROC.root".format(fakeratestringLP), options.verbose)
+		signalyieldLP = GetYield(signalchain, options.tagger, cutsignal, HP[year], LP[year])
+		backgroundyieldLP = GetYield(backgroundchain, options.tagger, cut, HP[year], LP[year])
+
+		print "year: {}, HP fakerate: {}, HP cut value: {}, HP signal yield: {}, HP background yield: {}".format(year, options.fakerateHP, HP[year], signalyieldHP, backgroundyieldHP)
+		print "year: {}, LP fakerate: {}, LP cut value: {}, LP signal yield: {}, LP background yield: {}".format(year, options.fakerateLP, LP[year], signalyieldLP, backgroundyieldLP)
+
 
 		#print HP[year]
 
 		if  (estimatelpstats): 
-			file = ROOT.TFile.Open("stats{}{}background.root".format(year, options.tagger), "UPDATE")
-			histo = ROOT.TH1D("histo{}".format(fakerate), options.tagger+" distribution in background (QCD) for fakerate {}\%".format(fakerate), 200, backgroundchain.GetMinimum(options.tagger), backgroundchain.GetMaximum(options.tagger))
-			backgroundchain.Draw(options.tagger+">>"+histo.GetName(), cut*Cut(options.tagger+">{}".format(WP)))
+			WP = HP[year]
+			file = ROOT.TFile.Open("stats{}{}masswindow.root".format(year, options.tagger), "UPDATE")
+			histobackground = ROOT.TH1D("histobackgroundHP{}".format(fakerateHP), options.tagger+" distribution in background (merged tt) for HP fakerate {}%".format(fakerateHP), 200, backgroundchain.GetMinimum(options.tagger), backgroundchain.GetMaximum(options.tagger))
+			histosignal = ROOT.TH1D("histosignalHP{}".format(fakerateHP), options.tagger+" distribution in signal (merged tt) for HP fakerate {}%".format(fakerateHP), 200, signalchain.GetMinimum(options.tagger), signalchain.GetMaximum(options.tagger))
+			backgroundchain.Draw(options.tagger+">>"+histobackground.GetName(), cut*Cut(options.tagger+">{}".format(WP)))
+			signalchain.Draw(options.tagger+">>"+histosignal.GetName(), cutsignal*Cut(options.tagger+">{}".format(WP)))
 			file.Write()
 			file.Close()
 
 	print "Working points: HP: {}, LP: {}.".format(HP, LP)
 
-	LP[2020] = 0.7 # TODO: remove
+	print fakerateHP
+
+	#LP[2020] = 0.7 # TODO: remove
 
 	if not options.dry: 
 		print "Creating workspace: {}".format(options.workspace)
