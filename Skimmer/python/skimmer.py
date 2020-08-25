@@ -79,7 +79,7 @@ class Skimmer(Module):
         self.range2ElectronEta = [1.56,2.5]
 
         self.totalEventWeight = 1
-	self.dummy=0
+	self.nEventsProcessed=0
  	
 	'''	
 	#Angular selection (to be implemented later, in fitting code):
@@ -95,8 +95,8 @@ class Skimmer(Module):
         Module.beginJob(self, histFile, histDirName)
         
         #self.yearSpecificConfig = SpecificYearConfig(self.year, self.verbose)
-   	self.dummy=0
-	print ('Beginning job, current dummy=%d'%self.dummy)
+   	self.nEventsProcessed=0
+	print ('Beginning job, current nEventsProcessed=%d'%self.nEventsProcessed)
 	#self.addObject( ROOT.TH1F('PUweight',   ';PUweight',   40, 0, 2) )
         #self.addObject( ROOT.TH1F('Lepweight',   ';LepWeight',   40, 0, 2) )
         '''### Book histograms
@@ -115,7 +115,7 @@ class Skimmer(Module):
         
     def endJob(self):
         Module.endJob(self)
-        print "Module ended successfully,", self.nEvent, "events analyzed"
+        print "Module ended successfully,", self.nEventsProcessed, "events analyzed"
         pass
 
     #############################################################################
@@ -241,9 +241,9 @@ class Skimmer(Module):
         """process event, return True (go to next module) or False (fail, go to next event)"""
         
         self.isMC = event.run == 1        
-        if self.dummy%500==0: print ("Analyzing events...", self.dummy)
-        self.dummy+=1
-        if (self.dummy > 20000): return False
+        if self.nEventsProcessed%500==0: print ("Analyzing events...", self.nEventsProcessed)
+        self.nEventsProcessed+=1
+        if (self.nEventsProcessed > 20000): return False
         if self.verbose: print ('Event : ', event.event)
 
 
@@ -251,7 +251,7 @@ class Skimmer(Module):
         recoJet = OrderedDict()
         if passRecoSel:
             self.out.fillBranch( 'eventCategory', 1 )
-	    if (self.dummy < 10000): print ("Event %d passed the selection!"%self.dummy)
+	    if (self.nEventsProcessed < 10000): print ("Event %d passed the selection!"%self.nEventsProcessed)
             #WEIGHT =  self.totalEventWeight
             
         else: self.out.fillBranch('eventCategory', 0)
@@ -397,18 +397,8 @@ class Skimmer(Module):
         if not dR_jetlep > 1.5708: return False
         if not abs(jetAK8_4v.DeltaPhi(MET)) > 1.5708: return False
         
-	'''
-        HT_HEM1516 = 0. #TODO: What is this doing?
-        for j in Jets:
-            if j.eta > -3.0 and j.eta < -1.3 and j.phi > -1.57 and j.phi < -0.87:
-                HT_HEM1516 += j.pt
-	'''
 
-        # Gen
-        self.isW = 0
-        
-        
-        #### Weight calculation
+	#### Weight calculation
         if self.isMC: #implement lepton weights
             if len(muons)>0: leptonweight = self.leptonSF( "muon", muons[0] )
 	    elif len(electrons)>0: leptonweight = self.leptonSF( "electron", electrons[0] )
@@ -428,7 +418,13 @@ class Skimmer(Module):
                 if event.LHEWeight_originalXWGTUP < 0.: lheweight = -1.
             except:
                 pass
-       #### Matching AK8 to gen-level hadronically decaying, boosted W
+
+
+        # Gen
+        self.isW = 0
+        if self.isMC:
+
+       	    #### Matching AK8 to gen-level hadronically decaying, boosted W
             ### Look at generator level particles
             ### find events where a W decays to two partons 
             

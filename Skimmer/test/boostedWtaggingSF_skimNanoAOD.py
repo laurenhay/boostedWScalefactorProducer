@@ -43,14 +43,16 @@ parser.add_argument(
     action="store",
     type=int,
     help="Number of events to process",
-    default=10000,
+    default=1000000000000,
 )
 
 parser.add_argument(
     '--iFile',
     action="store",
     help="Input file (for condor)",
-    default='root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv5/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/120000/B53AD17E-D55D-074B-843D-AD8A597C2D74.root'
+    default=""
+    #'root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv5/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/120000/B53AD17E-D55D-074B-843D-AD8A597C2D74.root'
+    #required=True
 )
 
 parser.add_argument(
@@ -85,7 +87,7 @@ parser.add_argument(
     action="store",
     help="Event selection: decay channel for semileptonic ttbar",
     choices=["mu", "el", "elmu"],
-    default="mu",
+    default="elmu",
     required=False
 )
 
@@ -112,7 +114,7 @@ if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 
 if args.channel.startswith(('mu')): Triggers = '(HLT_Mu50==1)' 
 if args.channel.startswith(('el')): Triggers = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
-#if args.channel=='elmu': Triggers = '(HLT_Mu50==1) && (HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)' ???
+if args.channel=='elmu': Triggers = '((HLT_Mu50==1) || ((HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)))' 
 
 cuts = PV + " && " + METFilters + " && " + Triggers
 
@@ -174,7 +176,7 @@ modulesToRun.append( Skimmer(channel=args.channel, leptonSF=LeptonSF[args.year],
 #### Make it run
 p1=PostProcessor(
         '.', (inputFiles() if not args.iFile else [args.iFile]),
-        #cut          = cuts,
+        cut          = cuts,
         outputbranchsel   = "keep_and_drop.txt",
         modules      = modulesToRun,
         provenance   = True,
