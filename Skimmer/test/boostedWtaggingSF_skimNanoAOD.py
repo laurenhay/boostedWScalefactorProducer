@@ -20,7 +20,7 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 impor
 # our module
 from boostedWScalefactorProducer.Skimmer.skimmer import Skimmer
 
-haddname = "boostedWtagging_2016_nanoskim.root"
+
 
 print '---------------------------------------------------'
 print 'Input files:'
@@ -30,36 +30,42 @@ print inputFiles()
 import argparse
 
 parser = argparse.ArgumentParser(description='Runs MEAnalysis')
+
 parser.add_argument(
     '--sample',
     action="store",
     help="Sample to process",
-    default='ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8'
+    default=''#ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8'
 )
+
 parser.add_argument(
     '--numEvents',
     action="store",
     type=int,
     help="Number of events to process",
-    default=100000,
+    default=10000,
 )
+
 parser.add_argument(
     '--iFile',
     action="store",
     help="Input file (for condor)",
-    default=""
+    default='root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv5/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/120000/B53AD17E-D55D-074B-843D-AD8A597C2D74.root'
 )
+
 parser.add_argument(
     '--oFile',
     action="store",
     help="Output file (for condor)",
     default=""
 )
+
 parser.add_argument(
     '--local',
     action="store_true",
-    help="Run local or condor/crab"
+    help="Run local (0) or condor/crab (1)",
 )
+
 #parser.add_argument(
 #    '--createTrees',
 #    action="store_true",
@@ -70,21 +76,23 @@ parser.add_argument(
     action="store",
     help="year of data",
     choices=["2016", "2017", "2018"],
-    default="2016",
+    default="2018",
     required=False
 )
 
-#parser.add_argument(
-#    '--selection',
-#    action="store",
-#    help="Event selection",
-#    choices=["el", "mu", "elmu"],#To add, or not to add? 
-#    default="elmu",
-#    required=False
+parser.add_argument(
+    '--channel',
+    action="store",
+    help="Event selection: decay channel for semileptonic ttbar",
+    choices=["mu", "el", "elmu"],
+    default="mu",
+    required=False
 )
 
 
+
 args = parser.parse_args(sys.argv[1:])
+#haddname = "boostedWtagging_%s_nanoskim.root"%args.year
 if args.sample.startswith(('/EGamma', '/Single', 'EGamma', 'Single' )) or ('EGamma' in args.iFile or 'Single' in args.iFile ):
     isMC = False
     print "sample is data"
@@ -92,21 +100,22 @@ else: isMC = True
 
 ### General selections:
 PV = "(PV_npvsGood>0)"
+
 METFilters = "( (Flag_goodVertices==1) && (Flag_globalSuperTightHalo2016Filter==1) && (Flag_HBHENoiseFilter==1) && (Flag_HBHENoiseIsoFilter==1) && (Flag_EcalDeadCellTriggerPrimitiveFilter==1) && (Flag_BadPFMuonFilter==1) )"
 if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 
-#if args.selection.startswith('dijet'):
-#    Triggers = '( (HLT_PFHT900==1) && (HLT_AK8PFJet360_TrimMass30==1) && (HLT_AK8PFHT700_TrimR0p1PT0p03Mass50==1) && (HLT_PFJet450==1) )'
-if args.sample.startswith(('SingleMuon', '/SingleMuon') or ('SingleMuon' in args.iFile or '\SingleMuon' in args.iFile)): Triggers = '(HLT_Mu50==1)' 
+#if args.sample.startswith(('SingleMuon', '/SingleMuon') or ('SingleMuon' in args.iFile or '\SingleMuon' in args.iFile)): 
+#    Triggers = '(HLT_Mu50==1)' 
 
-if  args.sample.startswith(('SingleElectron', '/SingleElectron', 'EGamma', '/EGamma')) or ('SingleElectron' in args.iFile or '\SingleElectron' in args.iFile or 'EGamma' in args.iFile or '\EGamma' in args.iFile)): Triggers = '(HLT_Ele32_WPTight_Gsf==1) && (HLT_Ele28_eta2p1_WPTight_Gsf_HT150==1)'
-#if args.year.startswith('2016'): Triggers = ...
-#elif args.year.startswith('2017'): Triggers =  ...
-#elif args.year.startswith('2018'): Triggers = ...
+#if args.sample.startswith(('SingleElectron', '/SingleElectron', 'EGamma', '/EGamma') or ('SingleElectron' in args.iFile or '\SingleElectron' in args.iFile or 'EGamma' in args.iFile or '\EGamma' in args.iFile)): 
+#    Triggers = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
+
+if args.channel.startswith(('mu')): Triggers = '(HLT_Mu50==1)' 
+if args.channel.startswith(('el')): Triggers = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
+#if args.channel=='elmu': Triggers = '(HLT_Mu50==1) && (HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)' ???
 
 cuts = PV + " && " + METFilters + " && " + Triggers
 
-systSources = [ '_jesTotal', '_jer', '_pu' ] if isMC else []
 
 ### Lepton scale factors
 LeptonSF = {
@@ -148,38 +157,33 @@ LeptonSF = {
     },
 }
 
-'''
+
 #### Modules to run
 jetmetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", redojec=True)
 fatJetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", redojec=True, jetType = "AK8PFPuppi")
 
 modulesToRun = []
-#if isMC:
-modulesToRun.append( puWeight_2018() )
-modulesToRun.append( btagSF2018() )
+if isMC:
+    modulesToRun.append( puWeight_2018() )
+    modulesToRun.append( btagSF2018() )
 modulesToRun.append( fatJetCorrector() )
-
-
-#if args.selection.startswith('dijet'):
-#    modulesToRun.append( nSubProd( sysSource=systSources ) )
-#else:
-#    modulesToRun.append( jetmetCorrector() )
-#    modulesToRun.append( nSubProd( selection=args.selection, sysSource=systSources, leptonSF=LeptonSF[args.year], createTrees=args.createTrees ) )
+modulesToRun.append( jetmetCorrector() )
+modulesToRun.append( Skimmer(channel=args.channel, leptonSF=LeptonSF[args.year], year=args.year)) 
 
 
 #### Make it run
 p1=PostProcessor(
-        '.', inputFiles(), "", # if not args.iFile else [args.iFile]),
+        '.', (inputFiles() if not args.iFile else [args.iFile]),
         #cut          = cuts,
         outputbranchsel   = "keep_and_drop.txt",
         modules      = modulesToRun,
         provenance   = True,
         #jsonInput   = runsAndLumis(),
-        #maxEntries   = args.numEvents,
-        #prefetch     = args.local,
-        #longTermCache= args.local,
+        maxEntries   = args.numEvents,
+        prefetch     = args.local,
+        longTermCache= args.local,
         fwkJobReport = True,
-        haddFileName = haddname#"boostedWtagging_"+args.year+"_nanoskim.root",
+        haddFileName = "boostedWtagging_"+args.year+"_"+args.channel+"_nanoskim.root" if args.local else "boostedWtagging_nanoskim.root",
         #histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
         #histDirName  = 'boostedWtagging',
         )
