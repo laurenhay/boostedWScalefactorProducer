@@ -12,6 +12,7 @@ from boostedWScalefactorProducer.Skimmer.SpecificYearConfig import SpecificYearC
 import math,os,sys
 import random
 import array
+import numpy as np
 
 
 # This is a loose selection to select events for T Tbar semileptonic events where 
@@ -48,7 +49,7 @@ class Skimmer(Module):
         print(self.leptonSFhelper)
 
         ### Cuts for selections
-        self.minLeadAK8JetPtW = 200.
+        #self.minLeadAK8JetPtW = 200.
 	self.minLepWPt = 200. #to select boosted topologies in semi-leptonic ttbar
         self.minSDMassW = 50.   
         self.maxSDMassW = 130. #changing from previous
@@ -56,13 +57,13 @@ class Skimmer(Module):
 	self.mindRLepJet = 1.0  #removal of any AK8 jet within dR<=1. of a lepton
 
         ### Kinematics Cuts AK4Jets ###
-        self.minAK4JetPt = 20
+        self.minAK4JetPt = 20.
         self.maxAK4JetEta = 2.4
         self.minBDisc = 0.3093  ### L: 0.0614, M: 0.3093, T: 07221, for DeepJet (ie, DeepFlavB)
         
         ### Kinematics Cuts AK8Jets ###
         self.minAK8JetPt = 200  ### this is the basic minimum, not the final
-        self.maxJetAK8Eta = 2.4
+        self.maxAK8JetEta = 2.4
         
         ### Kinenatic Cuts Muons ###
         self.minMupt = 53. #where are these numbers coming from?
@@ -133,6 +134,7 @@ class Skimmer(Module):
         #self.puWeightTool = PileupWeightTool(yearMC=2018, yearData=2018) 
         self.out.branch("eventWeight", "F")
         self.out.branch('eventCategory', "I") #1 = pass, matched reco AK8; 2 = pass, unmatched reco AK8; 0 = failed to pass reco selection
+
         self.out.branch("SelectedJet_softDrop_mass",  "F")
         self.out.branch("SelectedJet_tau42",  "F")
         self.out.branch("SelectedJet_tau41",  "F")
@@ -143,31 +145,37 @@ class Skimmer(Module):
         self.out.branch("SelectedJet_pt",   "F")
         self.out.branch("SelectedJet_eta",  "F")
         self.out.branch("SelectedJet_mass", "F")
+
         self.out.branch("SelectedLepton_pt",  "F")
         self.out.branch("SelectedLepton_iso",  "F")
+
         self.out.branch("Wlep_type",  "I")
-        self.out.branch("W_pt",  "F")
-        self.out.branch("W_mass",  "F")
+        self.out.branch("Wlep_pt",  "F")
+        self.out.branch("Wlep_mass",  "F")
+
         self.out.branch("dr_LepJet",  "F")
         self.out.branch("dphi_LepJet",  "F")
         self.out.branch("dphi_LepMet",  "F")
         self.out.branch("dphi_MetJet",  "F")
         self.out.branch("dphi_WJet"  ,  "F")
-        self.out.branch("maxAK4CSV",  "F")
-        self.out.branch("subMaxAK4CSV",  "F")
+
+        #self.out.branch("maxAK4CSV",  "F")
+        #self.out.branch("subMaxAK4CSV",  "F")
         self.out.branch("minJetMetDPhi",  "F")
-        self.out.branch("HT_HEM1516",  "F")
+        #self.out.branch("HT_HEM1516",  "F")
+
         self.out.branch("genmatchedAK8",  "I")
         self.out.branch("genmatchedAK8Quarks",  "I")
         self.out.branch("genmatchedAK8Subjet",  "I")
         self.out.branch("genmatchedAK82017",  "I")
         self.out.branch("AK8Subjet0isMoreMassive",  "I")
-        self.out.branch("passedMETfilters",  "I")
+
+        #self.out.branch("passedMETfilters",  "I")
         self.out.branch("lheweight",  "F")
         self.out.branch("puweight",  "F")
         self.out.branch("topweight",  "F")
         self.out.branch("btagweight",  "F")
-        self.out.branch("leptonWeight",  "F")
+        self.out.branch("leptonweight",  "F")
 
         pass
 
@@ -200,12 +208,12 @@ class Skimmer(Module):
         SFISO = histoSFISO.GetBinContent( histoSFISO_X, histoSFISO_Y )
         SFISO = SFISO if SFISO>0 else 1
 
-        return [SFTrigger , SFID , SFISO]
+        return np.array([SFTrigger , SFID , SFISO])
     
     
     def getBTagWeight(self, nBTagged=0, jet_SFs=[0]): #implementing https://github.com/ferencek/cms-MyAnalyzerDijetCode/blob/5bca32a7bb58a16abdb2c31b4c0379e6ffa27c91/MyAnalyzer_MainAnalysis_DijetBBTag_2011.cc#L1297 following recommendations on https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagSFMethods
         bTagWeight=0
-        if len(jets_SFs)>2 or nBTagged>2: 
+        if len(jet_SFs)>2 or nBTagged>2: 
             print "Error, only leading and subleading AK4 jets are considered: # of btagged jets cannot exceed 2"
         if nBTagged>len(jet_SFs): 
             print "Number of b-tagged jets cannot be greater than number of them for which SFs are provided!"
@@ -213,18 +221,18 @@ class Skimmer(Module):
         if nBTagged==0 and len(jet_SFs)==0: return 1
         
         if len(jet_SFs)==1:
-            SF = jets_SFs[0]
+            SF = jet_SFs[0]
             
             for i in range(0,2):
                 if i!=nBTagged: continue
-                bTagWeight+=ROOT.TMath.pow(SF,i)*ROOT.TMath.pow(1-SF,1-i)
+                bTagWeight+=pow(SF,i)*pow(1-SF,1-i)
         
         elif len(jet_SFs)==2:
             SF1, SF2 = jet_SFs[0], jet_SFs[1]
             for i in range(0,2):
                 for j in range(0,2):
                     if (i+j)!=nBTagged: continue
-                    bTagWeight+=ROOT.TMath.pow(SF1,i)*ROOT.TMath.pow(1-SF,1-i)*pow(SF2,j)*pow(1-SF2,1-j)
+                    bTagWeight+=pow(SF1,i)*pow(1-SF1,1-i)*pow(SF2,j)*pow(1-SF2,1-j)
         
         return bTagWeight
     
@@ -235,26 +243,24 @@ class Skimmer(Module):
         self.isMC = event.run == 1        
         if self.dummy%500==0: print ("Analyzing events...", self.dummy)
         self.dummy+=1
-        if (self.dummy > 10000): return False
+        if (self.dummy > 20000): return False
         if self.verbose: print ('Event : ', event.event)
 
 
-        passRecoSel, selRecoMuons, selRecoElectrons, selRecoAK4bjets, selRecoJets, selRecoMET = self.recoSelection( event )
+        passRecoSel = self.boostedWSelection( event )
         recoJet = OrderedDict()
-        if passRecoSel==1:
+        if passRecoSel:
             self.out.fillBranch( 'eventCategory', 1 )
+	    if (self.dummy < 10000): print ("Event %d passed the selection!"%self.dummy)
             #WEIGHT =  self.totalEventWeight
             
         else: self.out.fillBranch('eventCategory', 0)
 	return True
 
-    def boostedWSel(self, event, muons, electrons, AK4bjets, AK8jets, MET):
-
-	
-    def recoSelection(self, event):
+    def boostedWSelection(self, event):
         '''Analyzing reco-level objects'''
         '''Encapsulating selections, and objects stored/returned thereafter into one function'''
-        passSelection = False
+        #passSelection = False
 	isMC = (event.run == 1)
 	
         FatJets = list(Collection(event, "FatJet"))
@@ -264,26 +270,20 @@ class Skimmer(Module):
         met = Object(event, 'MET')        
 
         puweight = event.puWeight
+	genweight = event.genWeight
         lheweight = 1.
         topweight = 1.
         btagweight = 1.
-        #triggerweight = 1.
         leptonweight = 1.
 
-    
-	####
-    	#TODO: this is being done in crab script, remove from here?
-	###
-
-	#if not (event.HLT_Mu50 or (event.HLT_Ele35_WPTight_Gsf or event.HLT_Ele40_WPTight_Gsf or event.HLT_Ele115_CaloIdVT_GsfTrkIdT)): return False  #excluding event.HLT_Ele32_WPTight_Gsf to work across both 2018 re-reco and 2017 UL
-        
+   
 	if not (event.nMuon > 0 or event.nElectron > 0): return False 
         if not event.nFatJet > 0: return False                                  #?
 
         
         ### Find high-pT lepton, veto additional leptons, check trigger ###
 
-        # Here we make some loose selections for each category; including loose pT cuts for veto
+        # Make some loose lepton selections; including loose pT cuts for veto
         electrons = [x for x in allelectrons if x.pt > 10. and x.cutBased >= 2 and ( abs(x.eta) < 1.44 or ( abs(x.eta) > 1.56 and abs(x.eta) < 2.5 ) )] 
         muons     = [x for x in allmuons if x.pt > 10. and x.looseId and abs(x.eta) < self.maxMuEta and x.pfIsoId >= 2] 
 
@@ -319,45 +319,29 @@ class Skimmer(Module):
             self.Vlep_type = 0
             lepton = muons[0].p4()
             iso = muons[0].pfRelIso03_all
-            if isMC: leptonweight = np.prod(leptonWeights)
-	    #triggerweight = yearSpecificConfig.MuonTriggerSF(muons[0].pt, muons[0].eta)
-	    #self.getSimplifiedMuonTriggerSF2018(muons[0].pt, muons[0].eta)
-
+            
         elif ("el" in self.chan and electronTight and (len(electrons) == 1) and (len(muons) == 0)) :  
 	# There is a tight electron and no other loose muon or electron
           
-	    #triggerEl = (event.HLT_Ele32_WPTight_Gsf or event.HLT_Ele35_WPTight_Gsf or event.HLT_Ele40_WPTight_Gsf or event.HLT_Ele115_CaloIdVT_GsfTrkIdT)
-            triggerMu = 0
+	    triggerMu = 0
             #if not triggerEl: return False
             self.Vlep_type = 1
             lepton = electrons[0].p4()
             iso = electrons[0].pfRelIso03_all
-            if isMC: leptonweight = np.prod(leptonWeights)
-	    #triggerweight = self.getSimplifiedElectronTriggerSF2018(electrons[0].pt, electrons[0].eta)  
 	    # TODO: Add this to the SpecificYearConfig (class and config file)
 
         else : 
           return False 
 
 
-        passedMETFilters = True
-	''' implemented in crab script        
-	    thus, commenting the following out
-	'''
-
-	#try:
-        #  if event.Flag_goodVertices and event.Flag_globalSuperTightHalo2016Filter and event.Flag_BadPFMuonFilter and event.Flag_EcalDeadCellTriggerPrimitiveFilter and event.Flag_HBHENoiseFilter and event.Flag_HBHENoiseIsoFilter and (isMC or event.Flag_eeBadScFilter) and event.Flag_ecalBadCalibFilterV2:  # TODO: check if this makes sense => DONE:, all available/used filters are legitimate, except the last one where the recommendations on https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2 recommend ecalBadCalibReducedMINIAODFilter which isn't lsited as available in the nano-102X or 106X documentation
-        #    passedMETFilters = True
-        #except:
-        #   passedMETFilters = False
-        
-
-        if not passedMETFilters: return False
+        #passedMETFilters = True #### Check now done in job submission script
+	
+        #if not passedMETFilters: return False
         
         # Apply MET cut    
         met = Object(event, "MET")
-	if self.Vlep_type == 0 and met.sumEt < self.minMuMETPt : return False
-	if self.Vlep_type == 1 and met.sumEt < self.minElMETPt : return False
+	if self.Vlep_type == 0 and met.sumEt < self.minMuMETPt : return False # Muons = 0
+	if self.Vlep_type == 1 and met.sumEt < self.minElMETPt : return False # Electrons = 1
         
 	MET  = ROOT.TLorentzVector()
         MET.SetPtEtaPhiE(met.pt, 0., met.phi, met.sumEt)
@@ -376,7 +360,7 @@ class Skimmer(Module):
         if not WcandLep.Pt() >= self.minLepWPt: return False   
         
         # Find fat jet
-        recoAK8 = [ x for x in FatJets if x.p4().Perp() >=self.minAK8JetPt and  abs(x.p4().Eta()) < self.maxJetEta and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW] #unecessary part commented out, relevant contingent ifs are put in place to deal with the case addressed by: "and x.tau1 > 0. and x.tau2 > 0."]
+        recoAK8 = [ x for x in FatJets if x.p4().Perp() >=self.minAK8JetPt and  abs(x.p4().Eta()) < self.maxAK4JetEta and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW] #unecessary part commented out, relevant contingent ifs are put in place to deal with the case addressed by: "and x.tau1 > 0. and x.tau2 > 0."]
         recoAK8.sort(key=lambda x:x.pt,reverse=True)
         if not len(recoAK8) > 0: return False
 
@@ -386,11 +370,11 @@ class Skimmer(Module):
         
         
         #Check for b-jet in the event, apply DeepJet later
-        recoAK4 = [ x for x in Jets if x.p4().Perp() > self.minAK4Pt and abs(x.p4().Eta()) < self.maxJetEta and jetAK8_4v.DeltaR(x.p4())>1.0 and x.btagDeepFlavB > self.minBDisc]
+        recoAK4 = [ x for x in Jets if x.p4().Perp() > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta and jetAK8_4v.DeltaR(x.p4())>1.0 and x.btagDeepFlavB > self.minBDisc]
         if len(recoAK4) < 1: return False
         
       	#obtain btag SFs
-	bTagSFs =  [x.btagSF for x in recoAK4]
+	bTagSFs =  [x.btagSF_deepjet_shape for x in recoAK4] # Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
         '''
         maxAK4CSV = -1.
         subMaxAK4CSV = -1.
@@ -413,37 +397,30 @@ class Skimmer(Module):
         if not dR_jetlep > 1.5708: return False
         if not abs(jetAK8_4v.DeltaPhi(MET)) > 1.5708: return False
         
+	'''
         HT_HEM1516 = 0. #TODO: What is this doing?
         for j in Jets:
             if j.eta > -3.0 and j.eta < -1.3 and j.phi > -1.57 and j.phi < -0.87:
                 HT_HEM1516 += j.pt
+	'''
 
         # Gen
         self.isW = 0
-        self.isWqq = 0
-        self.matchedJ = 0
-        self.matchedSJ = 0
         
-        #### Weight
-        if self.isMC:
-            if len(recoMuons)>0: leptonWeights= self.leptonSF( "muon", recoMuons[0] )
-            else: leptonWeights = [0, 0, 0]
         
-            if len(recoElectrons)>0: leptonWeights= self.leptonSF( "electron", recoElectrons[0] )
-            else: leptonWeights = [0, 0, 0]
-
-        else: leptonWeights = [1, 1, 1]
+        #### Weight calculation
+        if self.isMC: #implement lepton weights
+            if len(muons)>0: leptonweight = self.leptonSF( "muon", muons[0] )
+	    elif len(electrons)>0: leptonweight = self.leptonSF( "electron", electrons[0] )
+            else: leptonweight = np.array([0., 0., 0.])
+        else: leptonweight = np.array([1., 1., 1.])
 
         if self.isMC:
-            btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=btagSFs) #obtaining btagSF's from nanoAODTools' BTagSFPRoducer 
-            weight = event.puWeight * event.genWeight * np.prod(leptonWeights) * btagweight
-            getattr( self, 'PUWeight' ).Fill( event.puWeight )
-            getattr( self, 'LepWeight' ).Fill( np.prod(leptonWeights) )
-            self.leptonWeight = np.prod(leptonWeights)
+            btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs) #obtain b-tagging event weight from per jet SFs
+            weight =  np.prod(leptonweight) * btagweight * puweight *  genweight #combining all weights
+            
         else:
-            weight = 1
-            self.leptonWeight = 1
-        self.out.fillBranch("leptonWeight", np.prod(leptonWeights) )  ### dummy for nanoAOD Tools
+            weight = 1.
         self.totalEventWeight = weight
     
         if self.isMC:
@@ -451,19 +428,17 @@ class Skimmer(Module):
                 if event.LHEWeight_originalXWGTUP < 0.: lheweight = -1.
             except:
                 pass
-        
+       #### Matching AK8 to gen-level hadronically decaying, boosted W
             ### Look at generator level particles
-            ### find events where :
-            ### a W decays to quarks (Type 1 - partially merged)
-            ###    OR
-            ### a Top decays to W + b (Type 2 - fully merged top quark) <----deprecated
+            ### find events where a W decays to two partons 
+            
             gens = Collection(event, "GenPart")
             Wdaus =  [x for x in gens if x.pt>1 and 0<abs(x.pdgId)<9]
             Ws =  [x for x in gens if x.pt>10 and abs(x.pdgId)==24]
 
             TWdaus =  [x for x in gens if x.pt>1 and  0<abs(x.pdgId)<4]
             Tdaus =  [x for x in gens if x.pt>1 and (abs(x.pdgId)==5  or  abs(x.pdgId)==24 )]
-            Tops =  [x for x in gens if x.pdgId==6]
+            Top =  [x for x in gens if x.pdgId==6]
             AntiTop =  [x for x in gens if x.pdgId==-6]
             
             realVs = []
@@ -473,7 +448,7 @@ class Skimmer(Module):
             realWs = []
             realqs = []
             self.matchedJ = 0
-            self.matchedSJ = 0
+            #self.matchedSJ = 0
 
             if len(Ws)>0 and len(Wdaus)>0:
               for dau in Wdaus:
@@ -484,19 +459,7 @@ class Skimmer(Module):
                       realVdaus.append(dau)    
                   except:
                     continue    
-            '''
-            if len(Ts)>0 and len(Tdaus)>0:   # TODO: remove? 
-              for gdau in TWdaus :
-                for dau in Tdaus:
-                  for mom in Ts:
-                    try:
-                      if mom == gens[dau.genPartIdxMother] and dau == gens[gdau.genPartIdxMother]: 
-                        realTs.append(mom)
-                        realWs.append(dau)
-                        realqs.append(gdau)    
-                    except:
-                      continue  
-            '''
+            
 
             if len(Top)>0 and len(AntiTop)>0:
                 topSF = math.exp(0.0615 - 0.0005 * Top[0].pt) #where are these numbers coming from?
@@ -527,69 +490,27 @@ class Skimmer(Module):
                   	    nDau +=1                 
                   	    self.isW = 1
           
-        '''
-        #for fully merged:  # TODO: remove this part (not used anymore)
-        self.SJ0isW = -1
-        # List of reco subjets:
-        recosubjets = list(Collection(event,"SubJet"))
-        # Dictionary to hold ungroomed-->groomed for reco
-        recoAK8Groomed = {}        
-        # Get the groomed reco jets
-        maxrecoSJmass = 1.
-        WHadreco = None
-        for ireco,reco in enumerate(recoAK8):
-            if reco.subJetIdx2 >= len(recosubjets) or reco.subJetIdx1 >= len(recosubjets) :
-                if self.verbose: print "Reco subjet indices not in Subjet list, Skipping"
-                continue
-            if reco.subJetIdx1 >= 0 and reco.subJetIdx2 >= 0 :
-                recoAK8Groomed[reco] = recosubjets[reco.subJetIdx1].p4() + recosubjets[reco.subJetIdx2].p4()
-                if recosubjets[reco.subJetIdx1].p4().M() > maxrecoSJmass and recosubjets[reco.subJetIdx1].p4().M() >  recosubjets[reco.subJetIdx2].p4().M() :
-                    maxrecoSJmass = recosubjets[reco.subJetIdx1].p4().M()
-                    WHadreco = recosubjets[reco.subJetIdx1].p4()
-                    if recosubjets[reco.subJetIdx1].btagCSVV2 >  self.minBDisc  or recosubjets[reco.subJetIdx2].btagCSVV2 >  self.minBDisc :
-                        self.SJ0isW = 1
-                if recosubjets[reco.subJetIdx2].p4().M() > maxrecoSJmass and recosubjets[reco.subJetIdx2].p4().M() < recosubjets[reco.subJetIdx2].p4().M() :
-                    maxrecoSJmass = recosubjets[reco.subJetIdx1].p4().M()
-                    WHadreco = recosubjets[reco.subJetIdx2].p4()
-                    if recosubjets[reco.subJetIdx1].btagCSVV2 >  self.minBDisc  or recosubjets[reco.subJetIdx2].btagCSVV2 >  self.minBDisc :
-                        self.SJ0isW = 0
-                if isMC and WHadreco != None and self.SJ0isW >= 0 :
-                      
-                    for q in realqs:
-                        gen_4v = ROOT.TLorentzVector()
-                        gen_4v.SetPtEtaPhiM(q.pt,q.eta,q.phi,q.mass)
-                        dR = WHadreco.DeltaR(gen_4v)
-                        if dR < 0.6: self.matchedSJ = 1
-            else :
-                recoAK8Groomed[reco] = None
-                WHadreco = None
-        '''
-
+     
         #Fill output branches
 	self.out.fillBranch("eventWeight", self.totalEventWeight)
         self.out.fillBranch("genmatchedAK8",  self.isW)
-        #self.out.fillBranch("genmatchedAK8Quarks",  self.isWqq)
-        #self.out.fillBranch("genmatchedAK82017",  self.isW2017)
-        self.out.fillBranch("genmatchedAK8Subjet", self.matchedSJ)
-        #self.out.fillBranch("AK8Subjet0isMoreMassive", self.SJ0isW )
         self.out.fillBranch("puweight", puweight )
         self.out.fillBranch("btagweight", btagweight )
-        #self.out.fillBranch("leptonweight", triggerweight )
+        self.out.fillBranch("leptonweight", np.prod(leptonweight) )
         self.out.fillBranch("topweight", topweight )
         self.out.fillBranch("lheweight", lheweight )
-        self.out.fillBranch("passedMETfilters", passedMETFilters)
+
+        #self.out.fillBranch("passedMETfilters", passedMETFilters)
         self.out.fillBranch("dr_LepJet"  , abs(dR_jetlep))
         self.out.fillBranch("dphi_LepJet", abs(jetAK8_4v.DeltaPhi(lepton)))
         self.out.fillBranch("dphi_LepMet", abs(lepton.DeltaPhi(MET)))
         self.out.fillBranch("dphi_MetJet", abs(jetAK8_4v.DeltaPhi(MET)))
         self.out.fillBranch("dphi_WJet"  , abs(jetAK8_4v.DeltaPhi(WcandLep)))
-        self.out.fillBranch("Wlep_type",self.Vlep_type)
-        self.out.fillBranch("W_pt", WcandLep.Pt() )
-        self.out.fillBranch("W_mass", WcandLep.M() )
-        self.out.fillBranch("maxAK4CSV", maxAK4CSV )
-        self.out.fillBranch("subMaxAK4CSV", subMaxAK4CSV )
         self.out.fillBranch("minJetMetDPhi", minJetMetDPhi )
-        self.out.fillBranch("HT_HEM1516", HT_HEM1516 )
+        self.out.fillBranch("Wlep_type",self.Vlep_type)
+        self.out.fillBranch("Wlep_pt", WcandLep.Pt() )
+        self.out.fillBranch("Wlep_mass", WcandLep.M() )
+        
         self.out.fillBranch("SelectedJet_softDrop_mass",  recoAK8[0].msoftdrop)
         self.out.fillBranch("SelectedJet_pt",   recoAK8[0].pt)
         self.out.fillBranch("SelectedJet_eta",  recoAK8[0].eta)
@@ -617,11 +538,9 @@ class Skimmer(Module):
         self.out.fillBranch("SelectedJet_tau42",tau42)
         self.out.fillBranch("SelectedJet_tau41",tau41)
         
-        #self.nEvent += 1
-        #if self.nEvent % 1000 == 0: print "Filled event", self.nEvent
-        
-        #return passRecoSel, selRecoMuons, selRecoElectrons, selRecoAK4bjets, selRecoJets, selRecoMET
-        return True, muons[0], electrons[0], recoAK4, recoAK8, met
+	
+	
+	return True
 
 
     ######################################################

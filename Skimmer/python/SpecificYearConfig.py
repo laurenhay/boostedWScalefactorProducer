@@ -31,7 +31,7 @@ separator = ","
 
 class SpecificYearConfig:
     def __init__(self, year, verbose = False): 
-        assert(year in [2016, 2017, 2018]), "ERROR: Invalid year. Please set a year of run 2: '2016', '2017', '2018'!"
+        assert(year in ['2016', '2017', '2018']), "ERROR: Invalid year. Please set a year of run 2: '2016', '2017', '2018'!"
         self.year = year
         self.verbose = verbose
 

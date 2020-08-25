@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
-from RecoJets.Configuration.RecoGenJets_cff import ak4GenJets
-from RecoJets.Configuration.RecoPFJets_cff import ak4PFJets
+#from RecoJets.Configuration.RecoGenJets_cff import ak4GenJets
+#from RecoJets.Configuration.RecoPFJets_cff import ak4PFJets
 
 from Configuration.StandardSequences.Eras import eras
 
@@ -24,13 +24,11 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/mc/RunIIAutumn18NanoAODv5/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/60000/8ABD924A-A197-6848-8949-A5539DC012C3.root'),
+    fileNames = cms.untracked.vstring('root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv5/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/60000/8ABD924A-A197-6848-8949-A5539DC012C3.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
-process.options = cms.untracked.PSet(
-
-)
+process.options = cms.untracked.PSet()
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
@@ -69,8 +67,8 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(8)
-process.options.numberOfStreams=cms.untracked.uint32(0)
+#process.options.numberOfThreads=cms.untracked.uint32(8)
+#process.options.numberOfStreams=cms.untracked.uint32(0)
 
 # customisation of the process.
 
