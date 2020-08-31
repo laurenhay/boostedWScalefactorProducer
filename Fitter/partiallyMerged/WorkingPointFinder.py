@@ -95,9 +95,28 @@ def GetChain(sample, year):
 def GetYield(tree, variable, cut, rangemin, rangemax): 
 	canvas = ROOT.TCanvas("canvas", "canvas", 800, 600)
 	histo = ROOT.TH1D("histoyield", "histoyield", 200, tree.GetMinimum(variable), tree.GetMaximum(variable))
-	signalchain.Draw(variable+">>"+histo.GetName(), cut)
+	tree.Draw(variable+">>"+histo.GetName(), cut)
 	number = histo.Integral(histo.FindBin(rangemin), histo.FindBin(rangemax))
 	return number
+
+def PromptYesNo(answerasbool=False): 
+		# Inspired from Fabrice Couderc 
+		rep = ''
+		while not rep in [ 'yes', 'no' ]:
+			rep = raw_input( "(type 'yes' or 'no'): " ).lower()
+		if (answerasbool): 
+			if (rep == 'yes'): 
+				return True
+			else: 
+				return False
+		return rep
+
+def TestGetYield(): # Works
+	tree = GetChain("tt", 2018)
+	canvas = ROOT.TCanvas("dummycanvas", "dummycanvas", 800, 600)
+	tree.Draw("SelectedJet_tau21", "SelectedJet_pt>300. && SelectedJet_pt<500. && SelectedJet_mass>50. && SelectedJet_mass<130.")
+	integral = GetYield(tree, "SelectedJet_tau21", "SelectedJet_pt>300. && SelectedJet_pt<500. && SelectedJet_mass>50. && SelectedJet_mass<130.", 0., 1.)
+	PromptYesNo(True)
 
 
 
@@ -184,8 +203,13 @@ if __name__ == '__main__':
 
 		# Using a previously written C++ script hacked for the purpose (super fast)
 		HP[year] = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerateHP, 10000, "HPfakerate{}ROC.root".format(fakeratestringHP), options.verbose)
-		signalyieldHP = GetYield(signalchain, options.tagger, cutsignal, 0., HP[year])
-		backgroundyieldHP = GetYield(backgroundchain, options.tagger, cut, 0., HP[year])
+		hpcut = HP[year]
+		signalyieldHP = GetYield(signalchain, options.tagger, cutsignal, 0., hpcut)
+		backgroundyieldHP = GetYield(backgroundchain, options.tagger, cut, 0., hpcut)
+		signalyieldtotal = GetYield(signalchain, options.tagger, cutsignal, 0., 1.)
+		backgroundyieldtotal = GetYield(backgroundchain, options.tagger, cut, 0., 1.)
+		signalefficiencyHP = signalyieldHP/signalyieldtotal
+		backgroundefficiencyHP = backgroundyieldHP/backgroundyieldtotal
 
 		# Now we need to remove the HP categroy (additional cut) and compute the ROC curve for the LP sample
 		cutHP = Cut("{}>{}".format(options.tagger, HP[year]))
@@ -193,11 +217,16 @@ if __name__ == '__main__':
 		cut = cut*cutHP
 		print cutsignal, cut
 		LP[year] = ROOT.PlotROC(signalchain, backgroundchain, options.tagger, cutsignal, cut, options.fakerateLP, 10000, "LPfakerate{}ROC.root".format(fakeratestringLP), options.verbose)
-		signalyieldLP = GetYield(signalchain, options.tagger, cutsignal, HP[year], LP[year])
-		backgroundyieldLP = GetYield(backgroundchain, options.tagger, cut, HP[year], LP[year])
+		lpcut = LP[year]
+		signalyieldLP = GetYield(signalchain, options.tagger, cutsignal, hpcut, lpcut)
+		backgroundyieldLP = GetYield(backgroundchain, options.tagger, cut, hpcut, lpcut)
+		signalyieldtotal = GetYield(signalchain, options.tagger, cutsignal, hpcut, 1.)
+		backgroundyieldtotal = GetYield(backgroundchain, options.tagger, cut, hpcut, 1.)
+		signalefficiencyLP = signalyieldLP/signalyieldtotal
+		backgroundefficiencyLP = backgroundyieldLP/backgroundyieldtotal
 
-		print "year: {}, HP fakerate: {}, HP cut value: {}, HP signal yield: {}, HP background yield: {}".format(year, options.fakerateHP, HP[year], signalyieldHP, backgroundyieldHP)
-		print "year: {}, LP fakerate: {}, LP cut value: {}, LP signal yield: {}, LP background yield: {}".format(year, options.fakerateLP, LP[year], signalyieldLP, backgroundyieldLP)
+		print "year: {}, HP fakerate: {}, HP cut value: {}, HP signal yield: {}, HP background yield: {}, HP signal efficiency: {}, HP background efficiency: {}".format(year, options.fakerateHP, HP[year], signalyieldHP, backgroundyieldHP, signalefficiencyHP, backgroundefficiencyHP)
+		print "year: {}, LP fakerate: {}, LP cut value: {}, LP signal yield: {}, LP background yield: {}, LP signal efficiency: {}, LP background efficiency: {}".format(year, options.fakerateLP, LP[year], signalyieldLP, backgroundyieldLP, signalefficiencyLP, backgroundefficiencyLP)
 
 
 		#print HP[year]

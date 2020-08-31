@@ -201,6 +201,7 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     } */
 
     Double_t finalcutvalue = -888.; 
+    Double_t signalEfficiencyatcut = -999.; 
     for (unsigned i = 0; i<MVAcutvalues.size(); i++) 
     {
         finalcutvalue = MVAcutvalues.at(i); 
@@ -217,6 +218,9 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
 
             finalcutvalue = MVAcutvalues.at(i-1); 
             std::cout << "Closest cut for " << 100*threshold << "\% background efficiency : " << finalcutvalue << std::endl; 
+
+            signalEfficiencyatcut = sigEffPlot[i-1]; 
+            std::cout << bkgEffPlot[i-1] << " " << signalEfficiencyatcut << std::endl; 
             break; 
 
         }
@@ -248,6 +252,8 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     
     Double_t bkgEffat80 = ROCcurve->Eval(0.8);
 
+    Double_t signalEfficiency = ROCcurve->Eval(threshold); 
+
     
     ROCcurve = new TGraphErrors(MVAcutvalues.size(), invBkgEffPlot, sigEffPlot, bkgEffErrPlot, sigEffErrPlot);
     ROCcurve->SetName("TMVA-like_ROC");
@@ -271,9 +277,7 @@ double PlotROC( TChain *signal, TChain *background, const TString cutVariable, c
     ROCcurve->Write(); 
 
 
-    Double_t signalEfficiency = ROCcurve->Eval(threshold); 
-
-    std::cout << "Signal efficiency at background efficiency of " << threshold << ": " << signalEfficiency << std::endl; 
+    std::cout << "Signal efficiency at background efficiency of " << threshold << ": " << signalEfficiencyatcut << std::endl; 
 
     
 
