@@ -35,7 +35,7 @@ parser.add_argument(
     '--sample',
     action="store",
     help="Sample to process",
-    default=''#ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8'
+    default='ttHTobb_M125_TuneCP5_13TeV-powheg-pythia8'
 )
 
 parser.add_argument(
@@ -43,7 +43,7 @@ parser.add_argument(
     action="store",
     type=int,
     help="Number of events to process",
-    default=1000000000000,
+    default=2000000000000,
 )
 
 parser.add_argument(
@@ -51,8 +51,6 @@ parser.add_argument(
     action="store",
     help="Input file (for condor)",
     default=""
-    #'root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv5/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano1June2019_102X_upgrade2018_realistic_v19-v1/120000/B53AD17E-D55D-074B-843D-AD8A597C2D74.root'
-    #required=True
 )
 
 parser.add_argument(
@@ -79,7 +77,7 @@ parser.add_argument(
     help="year of data",
     choices=["2016", "2017", "2018"],
     default="2018",
-    required=False
+#    required=True
 )
 
 parser.add_argument(
@@ -113,8 +111,8 @@ if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 #    Triggers = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
 
 if args.channel.startswith(('mu')): Triggers = '(HLT_Mu50==1)' 
-if args.channel.startswith(('el')): Triggers = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
-if args.channel=='elmu': Triggers = '((HLT_Mu50==1) || ((HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)))' 
+if args.channel.startswith(('el')): Triggers  = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
+if args.channel=='elmu': Triggers  = '((HLT_Mu50==1) || ((HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)))' 
 
 cuts = PV + " && " + METFilters + " && " + Triggers
 
@@ -161,13 +159,21 @@ LeptonSF = {
 
 
 #### Modules to run
-jetmetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", redojec=True)
-fatJetCorrector = createJMECorrector(isMC=True, dataYear=2018, jesUncert="All", redojec=True, jetType = "AK8PFPuppi")
+jetmetCorrector = createJMECorrector(isMC=isMC, dataYear=int(args.year), jesUncert="All", redojec=True)
+fatJetCorrector = createJMECorrector(isMC=isMC, dataYear=int(args.year), jesUncert="All", redojec=True, jetType = "AK8PFPuppi")
 
 modulesToRun = []
 if isMC:
-    modulesToRun.append( puWeight_2018() )
-    modulesToRun.append( btagSF2018() )
+    if args.year=='2018':
+	modulesToRun.append( puWeight_2018() )
+	modulesToRun.append( btagSF2018() )
+    if args.year=='2017':
+	modulesToRun.append( puWeight_2017() )
+	modulesToRun.append( btagSF2017() )
+    if args.year=='2016':
+	modulesToRun.append( puWeight_2016() )
+	modulesToRun.append( btagSF2016() )
+    
 modulesToRun.append( fatJetCorrector() )
 modulesToRun.append( jetmetCorrector() )
 modulesToRun.append( Skimmer(channel=args.channel, leptonSF=LeptonSF[args.year], year=args.year)) 
@@ -185,7 +191,7 @@ p1=PostProcessor(
         prefetch     = args.local,
         longTermCache= args.local,
         fwkJobReport = True,
-        haddFileName = "boostedWtagging_"+args.year+"_"+args.channel+"_nanoskim.root" if args.local else "boostedWtagging_nanoskim.root",
+        haddFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_nanoskim.root" if args.local else "boostedWtaggingSF_nanoskim.root",
         #histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
         #histDirName  = 'boostedWtagging',
         )
