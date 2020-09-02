@@ -76,7 +76,7 @@ parser.add_argument(
     action="store",
     help="year of data",
     choices=["2016", "2017", "2018"],
-    default="2018",
+    default="2017",
 #    required=True
 )
 
@@ -85,7 +85,7 @@ parser.add_argument(
     action="store",
     help="Event selection: decay channel for semileptonic ttbar",
     choices=["mu", "el", "elmu"],
-    default="elmu",
+    default="mu",
     required=False
 )
 
@@ -117,7 +117,8 @@ if args.channel=='elmu': Triggers  = '((HLT_Mu50==1) || ((HLT_Ele35_WPTight_Gsf=
 cuts = PV + " && " + METFilters + " && " + Triggers
 
 
-### Lepton scale factors
+### Lepton scale factors 
+### TODO: Change files for electrons (all years, as necessary), for Muons waiting for ID/ISO SFs  for 2018/2016, 2017 all available.
 LeptonSF = {
     '2016' : {
         'muon' : {
@@ -134,8 +135,8 @@ LeptonSF = {
     '2017' : {
         'muon' : {
             'Trigger' : [ "EfficienciesAndSF_RunBtoF_Nov17Nov2017.root", "IsoMu27_PtEtaBins/pt_abseta_ratio" ],
-            'ID' : [ "MuonID_2017_RunBCDEF_SF_ID.root", "NUM_TightID_DEN_genTracks_pt_abseta", True ],     ### True: X:pt Y:eta
-            'ISO' : [ "MuonID_2017_RunBCDEF_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta", True ],
+            'ID' : [ "RunBCDEF_UL2017_SF_ID.root", "NUM_TightID_DEN_genTracks_pt_abseta", True ],     ### True: X:pt Y:eta
+            'ISO' : [ "RunBCDEF_UL2017_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta", True ],
         },
         'electron' : {
             'Trigger' : [ "SingleEG_JetHT_Trigger_Scale_Factors_ttHbb_Data_MC_v5.0.histo.root", "SFs_ele_pt_ele_sceta_ele28_ht150_OR_ele35_2017BCDEF" ],

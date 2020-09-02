@@ -59,7 +59,7 @@ def submitJobs( job, inputFiles, unitJobs ):
     config.section_("JobType")
     config.JobType.pluginName = 'Analysis'
     config.JobType.psetName = 'PSet.py'
-    #config.JobType.maxMemoryMB = 3000
+    #config.JobType.maxMemoryMB = 5000
     config.JobType.allowUndistributedCMSSW = True
 
     config.section_("Data")
@@ -152,45 +152,93 @@ if __name__ == '__main__':
 
 
     dictSamples = {}
+    
+    dictSamples['SingleMuon2017UL_B'] = ['/SingleMuon/Run2017B-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2017UL_C'] = ['/SingleMuon/Run2017C-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2017UL_D'] = ['/SingleMuon/Run2017D-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2017UL_E'] = ['/SingleMuon/Run2017E-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2017UL_F'] = ['/SingleMuon/Run2017F-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+
+    dictSamples['TTToSemiLeptonic-powheg-pythia8_2017UL'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
+
+    dictSamples['TTTo2L2Nu-powheg-pythia8_2017UL'] = [ '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['TT-powheg-herwig7_2017UL'] = [ '/TT_TuneCH3_13TeV-powheg-herwig7/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['TTJets-amcatnloFXFX-pythia8_2017UL'] = [ '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
+
+    
+    dictSamples['ST_s-channel-madgraph-pythia8_2017UL'] = ['/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_t-channel-powheg-madspin-pythia8_antitop_2017UL'] = ['/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_t-channel-powheg-madspin-pythia8_top_2017UL'] = ['/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_tW_antitop-powheg-pythia8_2017UL'] = ['/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_tW_top-powheg-pythia8_2017UL'] = ['/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
+
+    dictSamples['WJetsToLNu-madgraphMLM-pythia8_inclusive_2017UL'] = ['/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT70-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT100-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT200-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT400-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT600-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT800-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT1200-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT2500-madgraphMLM-pythia8_inclusive_2017UL'] = [ '/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
+    dictSamples['WZ-pythia8_2017UL'] = ['/WZ_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['ZZ-pythia8_2017UL'] = ['/ZZ_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WW-pythia8_2017UL'] = ['/WW_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
+    dictSamples['QCD_HT100-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT100to200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT200-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT200to300_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT300-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT500-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT700-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT1000-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT1500-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT2000-madgraphMLM-pythia8_2017UL'] = ['/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
+
 
     '''
-    dictSamples['SingleMuon2016B'] = ['/SingleMuon/algomez-SingleMuon_Run2016B-17Jul2018_ver2-v1-c59ef3ac16263506c0c61b1b9e3fa54b/USER', 2 ]
-    dictSamples['SingleMuon2016C'] = ['/SingleMuon/algomez-SingleMuon_Run2016C-17Jul2018-v1-c59ef3ac16263506c0c61b1b9e3fa54b/USER', 2 ]
-    dictSamples['SingleMuon2016D'] = ['/SingleMuon/algomez-SingleMuon_Run2016D-17Jul2018-v1-c59ef3ac16263506c0c61b1b9e3fa54b/USER', 2 ]
-    dictSamples['SingleMuon2016E'] = ['/SingleMuon/algomez-SingleMuon_Run2016E-17Jul2018-v1-c59ef3ac16263506c0c61b1b9e3fa54b/USER', 2 ]
-    dictSamples['SingleMuon2016F'] = ['/SingleMuon/algomez-SingleMuon_Run2016F-17Jul2018-v1-c59ef3ac16263506c0c61b1b9e3fa54b/USER', 2 ]
-    dictSamples['SingleMuon2016G'] = ['/SingleMuon/algomez-SingleMuon_Run2016G-17Jul2018-v1-c59ef3ac16263506c0c61b1b9e3fa54b/USER', 2 ]
-    dictSamples['SingleMuon2016H'] = ['/SingleMuon/kadatta-SingleMuon_Run2016H-17Jul2018-v1-5ffac30f2c7d804e43ff60dc5e74139f/USER', 2 ]
-    '''
+    dictSamples['SingleMuon2018RR_A'] = ['/SingleMuon/Run2018A-02Apr2020-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2018RR_B'] = ['/SingleMuon/Run2018B-02Apr2020-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2018RR_C'] = ['/SingleMuon/Run2018C-02Apr2020-v1/NANOAOD', 1 ]
+    dictSamples['SingleMuon2018RR_D'] = ['/SingleMuon/Run2018D-02Apr2020-v1/NANOAOD', 1 ]
 
-    dictSamples['TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv5-Nano1June2019_102X_upgrade2018_realistic_v19-v1/NANOAODSIM', 1 ]
-    '''
-    dictSamples['TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8'] = ['/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/algomez-TTJetsTuneCUETP8M113TeV-madgraphMLM-pythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 2 ]
-    dictSamples['ST_s-channel'] = ['/ST_s-channel_4f_InclusiveDecays_13TeV-amcatnlo-pythia8/algomez-STs-channel4fInclusiveDecays13TeV-amcatnlo-pythia8RunIISummer16MiniAODv3-PUMoriond17-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 2 ]
-    dictSamples['ST_t-channel_antitop'] = ['/ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1/algomez-STt-channelantitop4finclusiveDecays13TeV-powhegV2-madspin-pythia8TuneCUETP8M1-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 2 ]
-    dictSamples['ST_t-channel_top'] = ["/ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1/algomez-STt-channeltop4finclusiveDecays13TeV-powhegV2-madspin-pythia8TuneCUETP8M1-dafc15ff64439ee3efd0c8e48ce3e57e/USER", 2 ]
-    dictSamples['ST_tW_antitop'] = ["/ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4/algomez-STtWantitop5finclusiveDecays13TeV-powheg-pythia8TuneCUETP8M2T4-dafc15ff64439ee3efd0c8e48ce3e57e/USER", 2 ]
-    dictSamples['ST_tW_top'] = ["/ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4/algomez-STtWtop5finclusiveDecays13TeV-powheg-pythia8TuneCUETP8M2T4-dafc15ff64439ee3efd0c8e48ce3e57e/USER", 2 ]
-    #dictSamples['WJetsToLNu'] = ['/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/algomez-WJetsToLNuTuneCUETP8M113TeV-amcatnloFXFX-pythia8RunIISummer16MiniAODv3-PUMoriond1794X-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 2 ]
-    #dictSamples['WJetsToLNu_EXT'] = ['/WJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/algomez-WJetsToLNuTuneCUETP8M113TeV-amcatnloFXFX-pythia8RunIISummer16MiniAODv3-PUMoriond1794X_ext2-v1-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 2 ]
-    dictSamples['WJetsToLNu_HT200'] = [ "/WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/kadatta-WJetsToLNuHT-200To400TuneCUETP8M113TeV-madgraphMLM-pythia8-fd760739df9b2ee03d9d70fced1126d8/USER", 1 ]
-    dictSamples['WJetsToLNu_HT400'] = [ "/WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/kadatta-WJetsToLNuHT-400To600TuneCUETP8M113TeV-madgraphMLM-pythia8-fd760739df9b2ee03d9d70fced1126d8/USER", 1 ]
-    dictSamples['WJetsToLNu_HT600'] = [ "/WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/kadatta-WJetsToLNuHT-600To800TuneCUETP8M113TeV-madgraphMLM-pythia8-fd760739df9b2ee03d9d70fced1126d8/USER", 1 ]
-    dictSamples['WJetsToLNu_HT800'] = [ "/WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/kadatta-WJetsToLNuHT-800To1200TuneCUETP8M113TeV-madgraphMLM-pythia8-fd760739df9b2ee03d9d70fced1126d8/USER", 1 ]
-    dictSamples['WJetsToLNu_HT1200'] = [ "/WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/kadatta-WJetsToLNuHT-1200To2500TuneCUETP8M113TeV-madgraphMLM-pythia8-fd760739df9b2ee03d9d70fced1126d8/USER", 1 ]
+    dictSamples['TTToSemiLeptonic-powheg-pythia8_2018'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    
+    dictSamples['TTTo2L2Nu-powheg-pythia8_2018'] = [ '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['TT-powheg-herwig7_2018'] = [ '/TT_TuneCH3_13TeV-powheg-herwig7/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['TTJets-amcatnloFXFX-pythia8_2018'] = [ '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
 
+    
+    dictSamples['ST_s-channel-madgraph-pythia8_2018'] = ['/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_t-channel-powheg-madspin-pythia8_antitop_2018'] = ['/ST_t-channel_antitop_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_t-channel-powheg-madspin-pythia8_top_2018'] = ['/ST_t-channel_top_4f_InclusiveDecays_TuneCP5_13TeV-powheg-madspin-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_tW_antitop-powheg-pythia8_2018'] = ['/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
+    dictSamples['ST_tW_top-powheg-pythia8_2018'] = ['/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
 
-    dictSamples[ 'QCD_Herwigpp' ] = [ '/QCD_Pt-15to7000_TuneCUETHS1_Flat_13TeV_herwigpp/kadatta-QCDPt-15to7000TuneCUETHS1Flat13TeVherwigppRunIISummer16MiniAODv3-PUMoriond1794X-fd760739df9b2ee03d9d70fced1126d8/USER', 1 ]
-    dictSamples['QCD_Pt170to300'] = ['/QCD_Pt_170to300_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt170to300TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt300to470'] = ['/QCD_Pt_300to470_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt300to470TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt470to600'] = ['/QCD_Pt_470to600_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt470to600TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt600to800'] = ['/QCD_Pt_600to800_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt600to800TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt800to1000'] = ['/QCD_Pt_800to1000_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt800to1000TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt1000to1400'] = ['/QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt1000to1400TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt1400to1800'] = ['/QCD_Pt_1400to1800_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt1400to1800TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt1800to2400'] = ['/QCD_Pt_1800to2400_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt1800to2400TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt2400to3200'] = [ '/QCD_Pt_2400to3200_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt2400to3200TuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
-    dictSamples['QCD_Pt3200toInf'] = ['/QCD_Pt_3200toInf_TuneCUETP8M1_13TeV_pythia8/algomez-QCDPt3200toInfTuneCUETP8M113TeVpythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2-dafc15ff64439ee3efd0c8e48ce3e57e/USER', 1 ]
+    dictSamples['WJetsToLNu-madgraphMLM-pythia8_inclusive_2018'] = ['/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT70-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT100-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT200-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT400-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT600-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT800-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT1200-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WJetsToLNu_HT2500-madgraphMLM-pythia8_inclusive_2018'] = [ '/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
+    dictSamples['WZ-pythia8_2018'] = ['/WZ_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['ZZ-pythia8_2018'] = ['/ZZ_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['WW-pythia8_2018'] = ['/WW_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
+    dictSamples['QCD_HT100-madgraphMLM-pythia8_2018'] = ['/QCD_HT100to200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT200-madgraphMLM-pythia8_2018'] = ['/QCD_HT200to300_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT300-madgraphMLM-pythia8_2018'] = ['/QCD_HT300to500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT500-madgraphMLM-pythia8_2018'] = ['/QCD_HT500to700_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT700-madgraphMLM-pythia8_2018'] = ['/QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT1000-madgraphMLM-pythia8_2018'] = ['/QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT1500-madgraphMLM-pythia8_2018'] = ['/QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+    dictSamples['QCD_HT2000-madgraphMLM-pythia8_2018'] = ['/QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
     '''
     processingSamples = {}
     if 'all' in options.datasets:

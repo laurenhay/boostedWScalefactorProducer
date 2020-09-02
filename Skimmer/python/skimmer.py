@@ -190,11 +190,11 @@ class Skimmer(Module):
         if lepton.startswith("muon"): leptonP4eta = abs(leptonP4.eta)
         else: leptonP4eta = leptonP4.eta
 
-        SFFileTrigger = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/"+self.leptonSFhelper[lepton]['Trigger'][0] )
+        SFFileTrigger = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['Trigger'][0] )
         histoSFTrigger = SFFileTrigger.Get( self.leptonSFhelper[lepton]['Trigger'][1] )
         SFTrigger = histoSFTrigger.GetBinContent( histoSFTrigger.GetXaxis().FindBin( leptonP4.pt ), histoSFTrigger.GetYaxis().FindBin( leptonP4eta ) )
 
-        SFFileID = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/"+self.leptonSFhelper[lepton]['ID'][0] )
+        SFFileID = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['ID'][0] )
         histoSFID = SFFileID.Get( self.leptonSFhelper[lepton]['ID'][1] )
         histoSFID_X = histoSFID.GetXaxis().FindBin( leptonP4.pt if self.leptonSFhelper[lepton]['ID'][2] else leptonP4eta )
         histoSFID_Y = histoSFID.GetYaxis().FindBin( leptonP4eta if self.leptonSFhelper[lepton]['ID'][2] else leptonP4.pt )
@@ -202,7 +202,7 @@ class Skimmer(Module):
         SFID = SFID if SFID>0 else 1
 
         if self.year.startswith('2016') and lepton.startswith("muon"): leptonP4eta = leptonP4.eta   
-        SFFileISO = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/"+self.leptonSFhelper[lepton]['ISO'][0] )
+        SFFileISO = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['ISO'][0] )
         histoSFISO = SFFileISO.Get( self.leptonSFhelper[lepton]['ISO'][1] )
         histoSFISO_X = histoSFISO.GetXaxis().FindBin( leptonP4.pt if self.leptonSFhelper[lepton]['ISO'][2] else leptonP4eta )
         histoSFISO_Y = histoSFISO.GetYaxis().FindBin( leptonP4eta if self.leptonSFhelper[lepton]['ISO'][2] else leptonP4.pt )
