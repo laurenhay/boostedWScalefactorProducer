@@ -89,8 +89,8 @@ def submitJobs( job, inputFiles, unitJobs ):
     config.JobType.sendPythonFolder  = True
     if job.startswith(('Single', 'EGamma')): 
 	if '2016' in job: config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Final/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt'
-	if '2017' in job: config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/Final/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt'
-	if '2017' in job: config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/PromptReco/Cert_314472-315801_13TeV_PromptReco_Collisions18_JSON.txt'
+	if '2017' in job: config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/Legacy_2017/Cert_294927-306462_13TeV_UL2017_Collisions17_GoldenJSON.txt'
+	if '2018' in job: config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/PromptReco/Cert_314472-315801_13TeV_PromptReco_Collisions18_JSON.txt'
 
     #config.Data.userInputFiles = inputFiles
     config.Data.inputDataset = inputFiles
@@ -154,13 +154,13 @@ if __name__ == '__main__':
     dictSamples = {}
     
     dictSamples['SingleMuon2017UL_B'] = ['/SingleMuon/Run2017B-UL2017_02Dec2019-v1/NANOAOD', 1 ]
-    dictSamples['SingleMuon2017UL_C'] = ['/SingleMuon/Run2017C-UL2017_02Dec2019-v1/NANOAOD', 1 ]
-    dictSamples['SingleMuon2017UL_D'] = ['/SingleMuon/Run2017D-UL2017_02Dec2019-v1/NANOAOD', 1 ]
-    dictSamples['SingleMuon2017UL_E'] = ['/SingleMuon/Run2017E-UL2017_02Dec2019-v1/NANOAOD', 1 ]
-    dictSamples['SingleMuon2017UL_F'] = ['/SingleMuon/Run2017F-UL2017_02Dec2019-v1/NANOAOD', 1 ]
-
+    #dictSamples['SingleMuon2017UL_C'] = ['/SingleMuon/Run2017C-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    #dictSamples['SingleMuon2017UL_D'] = ['/SingleMuon/Run2017D-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    #dictSamples['SingleMuon2017UL_E'] = ['/SingleMuon/Run2017E-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    #dictSamples['SingleMuon2017UL_F'] = ['/SingleMuon/Run2017F-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    
     dictSamples['TTToSemiLeptonic-powheg-pythia8_2017UL'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
-
+    '''
     dictSamples['TTTo2L2Nu-powheg-pythia8_2017UL'] = [ '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
     dictSamples['TT-powheg-herwig7_2017UL'] = [ '/TT_TuneCH3_13TeV-powheg-herwig7/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
     dictSamples['TTJets-amcatnloFXFX-pythia8_2017UL'] = [ '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1/NANOAODSIM', 1 ]
@@ -197,7 +197,7 @@ if __name__ == '__main__':
 
 
 
-    '''
+    
     dictSamples['SingleMuon2018RR_A'] = ['/SingleMuon/Run2018A-02Apr2020-v1/NANOAOD', 1 ]
     dictSamples['SingleMuon2018RR_B'] = ['/SingleMuon/Run2018B-02Apr2020-v1/NANOAOD', 1 ]
     dictSamples['SingleMuon2018RR_C'] = ['/SingleMuon/Run2018C-02Apr2020-v1/NANOAOD', 1 ]

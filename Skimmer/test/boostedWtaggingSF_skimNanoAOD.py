@@ -122,7 +122,7 @@ cuts = PV + " && " + METFilters + " && " + Triggers
 LeptonSF = {
     '2016' : {
         'muon' : {
-            'Trigger' : [ "EfficienciesAndSF_RunBtoF.root", "IsoMu24_OR_IsoTkMu24_PtEtaBins/pt_abseta_ratio" ],
+            'Trigger' : [ "EfficienciesAndSF_RunBtoF.root", "Mu50_OR_TkMu50_PtEtaBins/pt_abseta_ratio" ],
             'ID' : [ "MuonID_2016_RunBCDEF_SF_ID.root", "NUM_TightID_DEN_genTracks_eta_pt", False ],       ### True: X:pt Y:eta
             'ISO' : [ "MuonID_2016_RunBCDEF_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_eta_pt", True ],
         },
@@ -134,8 +134,8 @@ LeptonSF = {
     },
     '2017' : {
         'muon' : {
-            'Trigger' : [ "EfficienciesAndSF_RunBtoF_Nov17Nov2017.root", "IsoMu27_PtEtaBins/pt_abseta_ratio" ],
-            'ID' : [ "RunBCDEF_UL2017_SF_ID.root", "NUM_TightID_DEN_genTracks_pt_abseta", True ],     ### True: X:pt Y:eta
+            'Trigger' : [ "EfficienciesAndSF_RunBtoF_Nov17Nov2017.root", "Mu50_PtEtaBins/pt_abseta_ratio" ],
+            'ID' : [ "RunBCDEF_UL2017_SF_ID.root", "NUM_TightID_DEN_genTracks_pt_abseta", True ],     ### TODO: Change to tracker muons??? ### (True: X:pt Y:eta)
             'ISO' : [ "RunBCDEF_UL2017_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta", True ],
         },
         'electron' : {
@@ -146,7 +146,7 @@ LeptonSF = {
     },
     '2018' : {
         'muon' : {
-            'Trigger' : [ "EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root", "IsoMu24_PtEtaBins/pt_abseta_ratio" ],
+            'Trigger' : [ "EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root", "Mu50_OR_OldMu100_OR_TkMu100_PtEtaBins/pt_abseta_ratio" ],
             'ID' : [ "MuonID_2018_RunABCD_SF_ID.root", "NUM_TightID_DEN_TrackerMuons_pt_abseta", True ],
             'ISO' : [ "MuonID_2018_RunABCD_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta", True ],
         },
