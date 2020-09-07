@@ -85,7 +85,7 @@ parser.add_argument(
     action="store",
     help="Event selection: decay channel for semileptonic ttbar",
     choices=["mu", "el", "elmu"],
-    default="mu",
+    default="elmu",
     required=False
 )
 
@@ -111,8 +111,10 @@ if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 #    Triggers = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
 
 if args.channel.startswith(('mu')): Triggers = '(HLT_Mu50==1)' 
-if args.channel.startswith(('el')): Triggers  = '(HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
-if args.channel=='elmu': Triggers  = '((HLT_Mu50==1) || ((HLT_Ele35_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)))' 
+if args.channel.startswith(('el')): 
+    if args.year=='2017': Triggers  = '(((HLT_Ele32WPTight==1) && ((L1_SingleLooseIsoEG26er2p5==1) || (L1_SingleLooseIsoEG26er1p5==1) || (L1_SingleLooseIsoEG28er2p5==1) || (L1_SingleLooseIsoEG28er2p1==1) || (L1_SingleLooseIsoEG28er1p5==1) || (L1_SingleLooseIsoEG30er2p5==1) || (L1_SingleLooseIsoEG30er1p5)==1 || (L1_SingleEG26er2p5==1) || (L1_SingleEG38er2p5==1) || (L1_SingleEG40er2p5==1) || (L1_SingleEG42er2p5==1) || (L1_SingleEG45er2p5==1) || (L1_SingleEG60==1) || (L1_SingleEG34er2p5==1) || (L1_SingleEG36er2p5==1) || (L1_SingleIsoEG24er2p1==1) || (L1_SingleIsoEG26er2p1==1) || (L1_SingleIsoEG28er2p1==1) || (L1_SingleIsoEG30er2p1==1) || (L1_SingleIsoEG32er2p1==1) || (L1_SingleIsoEG26er2p5==1) || (L1_SingleIsoEG28er2p5==1) || (L1_SingleIsoEG30er2p5==1) || (L1_SingleIsoEG32er2p5==1) || (L1_SingleIsoEG34er2p5==1)))'
+    else: Triggers  = '((HLT_Ele32_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
+if args.channel=='elmu': Triggers  = Triggers+' || (HLT_Mu50==1))' 
 
 cuts = PV + " && " + METFilters + " && " + Triggers
 
