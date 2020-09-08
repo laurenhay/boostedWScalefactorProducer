@@ -55,6 +55,9 @@ class Fitter:
 		# --- Open the workspace
 		self.workspace = self.OpenWorkspace(options)
 
+		# --- Attributes used in this class's methods, shoud be overriden in daughter class
+		self.saveconstraints = False
+
 
 	def Cleanup(self):
 		if hasattr(self, "file"): 
@@ -89,6 +92,39 @@ class Fitter:
 		ROOT.SetOwnership(self.workspace, 0) # Discard the workspace from python's garbage collector to avoid double deletion (is owned by the TFile)
 		return
 
+	def GetComponent(self, model, component): 
+		comp = model.pdfList().find(component)
+		assert(comp), "ERROR: The model '{}' does not contain a component named '{}'!".format(model.GetName(), component)
+		return comp
+
+	def AddConstraint(self, variable, mean, sigma):
+		mean = ROOT.RooRealVar(variable.GetName()+"_mean", variable.GetName()+"_mean", mean)
+		sigma = ROOT.RooRealVar(variable.GetName()+"_sigma", variable.GetName()+"_sigma", sigma)
+		constraintpdf = ROOT.RooGaussian("constraintpdf_"+variable.GetName(), "constraintpdf_"+variable.GetName(), variable, mean, sigma)
+		self.constraintlist.append(constraintpdf.GetName())
+		self.ImportToWorkspace(constraintpdf, self.saveconstraints)
+		if (self.verbose): 
+			print "Added Gaussian constraint to parameter '{}', with mean '{}': {}, and sigma '{}': {}. ".format(variable.GetName(), mean.GetName(), mean.getVal(), sigma.GetName(), sigma.getVal())
+		return constraintpdf
+
+	def FixAllParameters(self, model, dataset):
+		parameters = model.getParameters(dataset)
+		paramIter = parameters.createIterator()
+		paramIter.Reset()
+		param=paramIter.Next()
+		while (param):
+			param.setConstant(True)
+			param=paramIter.Next()
+		if (self.verbose): 
+			print "Fixed all parameters of model '{}'.".format(model.GetName())
+
+	def FixParameter(self, model, dataset, parametername):
+		parameters = model.getParameters(dataset)
+		param = parameters.find(parametername)
+		assert(param), "ERROR: The model '{}' does  not contain any parameter named '{}'. Check if the parameter name and dataset provided are correct!".format(model.GetName(), parametername)
+		param.setConstant(True)
+		if (self.verbose): 
+			print "Fixed parameter '{}' in model '{}'.".format(parametername, model.GetName())
 
 	def LoadVariable(self, name): 
 		assert(self.workspace.var(name)), "ERROR: The workspace does not contain any variable named '{}'!".format(name)
