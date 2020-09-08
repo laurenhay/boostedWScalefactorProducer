@@ -91,24 +91,24 @@ class Fitter:
 
 
 	def LoadVariable(self, name): 
-		assert(self.workspace.var(name)), "ERROR: the workspace does not contain any variable named '{}'!".format(name)
+		assert(self.workspace.var(name)), "ERROR: The workspace does not contain any variable named '{}'!".format(name)
 		return self.workspace.var(name)
 
 	# Wrapper function to display an error message if the pdf does not exist in the workspace
 	def LoadPdf(self, name): 
-		assert(self.workspace.pdf(name)), "ERROR: the workspace does not contain any pdf named '{}'!".format(name)
+		assert(self.workspace.pdf(name)), "ERROR: The workspace does not contain any pdf named '{}'!".format(name)
 		return self.workspace.pdf(name) 
 
 	def LoadDataset1D(self, name, variable, binned = None): 
 		return self.LoadDataset(name, ROOT.RooArgSet(variable), binned)
 
 	def LoadDataset(self, name, variables, binned = None): 
-		assert(self.workspace.data(name)), "ERROR: the workspace does not contain any dataset named '{}'!".format(name)
+		assert(self.workspace.data(name)), "ERROR: The workspace does not contain any dataset named '{}'!".format(name)
 		# TODO: check if the dataset depends on the variables given in the RooArgSet
 		dataset = self.workspace.data(name).reduce(variables)
 		if (binned == None): 
 			binned = self.binned
-		assert(binned in [0, 1]), "ERROR: the parameter 'binned' provided: {}, is invalid, should be a boolean.".format(binned)
+		assert(binned in [0, 1]), "ERROR: The parameter 'binned' provided: {}, is invalid, should be a boolean.".format(binned)
 		if (binned): 
 			dataset = dataset.binnedClone()
 		return dataset
