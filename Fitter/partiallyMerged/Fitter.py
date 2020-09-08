@@ -185,7 +185,7 @@ class Fitter:
 
 	def SaveSnapshot(self, model, dataset, snapshotname): 
 		#self.workspace.saveSnapshot(snapshotname, model.getParameters(dataset), True)
-		self.SaveSnapshotParams(model.getParameters(dataset), snapshotname)
+		self.SaveSnapshotParams(model.getParameters(dataset), snapshotname) # TODO: check if we could use the fit variable instead of the dataset
 
 	def SaveSnapshotParams(self, params, snapshotname): 
 		if (self.verbose): 

@@ -57,7 +57,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.savemodel = False
 
 
-		#self.MakeFitModel(True)
+		self.MakeFitModel(True)
 
 
 
@@ -190,7 +190,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			model.plotOn(plot)
 
 			if (savesnapshot): 
-				params.add(model.getParameters(dataset))
+				params.add(model.getParameters(dataset)) # TODO: put here variable
 
 			if (self.verbose): 
 				result.Print()
@@ -450,6 +450,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			self.ImportToWorkspace(fulldatamodel, True, ROOT.RooFit.RecycleConflictNodes())
 
 		#self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)), fulldatamodel.getParameters(ROOT.RooArgSet(fitvariable))), ROOT.kTRUE) # works too - recommended! 
+
+		self.workspace.defineSet("parameters", fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)))
+		self.workspace.defineSet("observables", ROOT.RooArgSet(fitvariable))
+
+		self.SaveWorkspace()
 
 
 
