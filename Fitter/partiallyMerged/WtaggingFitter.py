@@ -124,11 +124,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		print "Parameters:", modelMC.getParameters(fullMC).find("HP:WJets:offset") # works! 
 
-		self.addConstraint(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
+		self.AddConstraint(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
 
-		self.fixAllParameters(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
+		self.FixAllParameters(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
 
-		self.fixParameter(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
+		self.FixParameter(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
 
 
 
@@ -139,7 +139,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#data = self.workspace.data("HP:data")
 		modelData = self.LoadPdf("HP:data:model")
 
-	def addConstraint(self, variable, mean, sigma):
+	def AddConstraint(self, variable, mean, sigma):
 		mean = ROOT.RooRealVar(variable.GetName()+"_mean", variable.GetName()+"_mean", mean)
 		sigma = ROOT.RooRealVar(variable.GetName()+"_sigma", variable.GetName()+"_sigma", sigma)
 		constraintpdf = ROOT.RooGaussian("constraintpdf_"+variable.GetName(), "constraintpdf_"+variable.GetName(), variable, mean, sigma)
@@ -149,7 +149,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			print "Added Gaussian constraint to parameter '{}', with mean '{}': {}, and sigma '{}': {}. ".format(variable.GetName(), mean.GetName(), mean.getVal(), sigma.GetName(), sigma.getVal())
 		return constraintpdf
 
-	def fixAllParameters(self, model, dataset):
+	def FixAllParameters(self, model, dataset):
 		parameters = model.getParameters(dataset)
 		paramIter = parameters.createIterator()
 		paramIter.Reset()
@@ -158,7 +158,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			param.setConstant(True)
 			param=paramIter.Next()
 
-	def fixParameter(self, model, dataset, parametername):
+	def FixParameter(self, model, dataset, parametername):
 		parameters = model.getParameters(dataset)
 		param = parameters.find(parametername)
 		param.setConstant(True)
