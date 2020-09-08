@@ -50,12 +50,17 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#ROOT.Math:MinimizerOptions.SetDefaultTolerance()
 		#self.fitoptions = roofitoptions
 
+		self.constraintlist = []
 
-		self.MakeFitModel(True)
+		self.savemodel = False
+
+
+		#self.MakeFitModel(True)
 
 
 
 	def FitMC(self, options, fitoptions = ""): 
+		# TODO: might remove options and set massvar as attribute 
 		print "Fitting MC... "
 
 		#self.MakeFitModel(True)
@@ -98,29 +103,66 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		#canvas.Print("fittest.pdf")
 
-	def FitControlRegion(slef, options): 
+	def FitControlRegion(self, options): 
 		print "Fitting data and MC... "
-		self.FitMC(options)
+		#self.FitMC(options)
 
-		massvar = self.workspace.var(options.massvar)
+		massvar = self.LoadVariable(options.massvar)
 
-		fullMC = ROOT.RooDataSet(self.workspace.data("HP:WJets"), "HP:fullMC")
-		fullMC.append(self.workspace.data("HP:st"))
-		fullMC.append(self.workspace.data("HP:VV"))
-		fullMC.append(self.workspace.data("HP:ttfakeW"))
-		fullMC.append(self.workspace.data("HP:ttrealW"))
+		fullMC = ROOT.RooDataSet(self.LoadDataset1D("HP:WJets", massvar), "HP:fullMC")
+		fullMC.append(self.LoadDataset1D("HP:st", massvar))
+		fullMC.append(self.LoadDataset1D("HP:VV", massvar))
+		fullMC.append(self.LoadDataset1D("HP:ttfakeW", massvar))
+		fullMC.append(self.LoadDataset1D("HP:ttrealW", massvar))
 
 		fullMC.Print()
 
 
-		modelMC = self.workspace.pdf("HP:fullMC:model")
+		modelMC = self.LoadPdf("HP:fullMC:model")
+
+		modelWJets = modelMC.pdfList().find("HP:WJets:model") 
+
+		print "Parameters:", modelMC.getParameters(fullMC).find("HP:WJets:offset") # works! 
+
+		self.addConstraint(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
+
+		self.fixAllParameters(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
+
+		self.fixParameter(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
+
+
 
 		modelMC.Print()
 
-		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar)
+		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar, self.directory["fitMC"]+"FullMCFit.pdf")
 
 		#data = self.workspace.data("HP:data")
-		modelData = self.workspace.pdf("HP:data:model")
+		modelData = self.LoadPdf("HP:data:model")
+
+	def addConstraint(self, variable, mean, sigma):
+		mean = ROOT.RooRealVar(variable.GetName()+"_mean", variable.GetName()+"_mean", mean)
+		sigma = ROOT.RooRealVar(variable.GetName()+"_sigma", variable.GetName()+"_sigma", sigma)
+		constraintpdf = ROOT.RooGaussian("constraintpdf_"+variable.GetName(), "constraintpdf_"+variable.GetName(), variable, mean, sigma)
+		self.constraintlist.append(constraintpdf.GetName())
+		self.ImportToWorkspace(constraintpdf, self.savemodel)
+		if (self.verbose): 
+			print "Added Gaussian constraint to parameter '{}', with mean '{}': {}, and sigma '{}': {}. ".format(variable.GetName(), mean.GetName(), mean.getVal(), sigma.GetName(), sigma.getVal())
+		return constraintpdf
+
+	def fixAllParameters(self, model, dataset):
+		parameters = model.getParameters(dataset)
+		paramIter = parameters.createIterator()
+		paramIter.Reset()
+		param=paramIter.Next()
+		while (param):
+			param.setConstant(True)
+			param=paramIter.Next()
+
+	def fixParameter(self, model, dataset, parametername):
+		parameters = model.getParameters(dataset)
+		param = parameters.find(parametername)
+		param.setConstant(True)
+			
 
 
 
@@ -311,16 +353,19 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		fullsignalMCnumber = ROOT.RooRealVar("HP:signal:MC:number", "HP:signal:MC:number", 0., 1e15)
 		fullsignalMCmodel = ROOT.RooExtendPdf("HP:signal:MC:model", "HP:signal:MC:model", ttrealWshape, fullsignalMCnumber)
 
-		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(fullsignalMCmodel, fullbackgroundMCmodel))
+		mcTTnumber = ROOT.RooRealVar("HP:MC:number", "HP:MC:number", 500., 0., 1e20)
+
+		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(WJetsshape, VVshape, STshape, ttfakeWshape, ttrealWshape), ROOT.RooArgList(WJetsnumber, VVnumber, STnumber, ttfakeWnumber, mcTTnumber))
+		print fullMCmodel
 
 		if (importmodel): 
-			self.ImportToWorkspace(fullMCmodel)
+			self.ImportToWorkspace(fullMCmodel, True, ROOT.RooFit.RecycleConflictNodes())
 
 		# Full background model in for data
 		fullbackgrounddatanumber = ROOT.RooRealVar("HP:background:data:number", "HP:background:data:number", 0., 1e15)
 		fullbackgrounddatamodel = ROOT.RooExtendPdf("HP:background:data:model", "HP:background:data:model", ttrealWshape, fullbackgrounddatanumber)
-		if (importmodel): 
-			self.ImportToWorkspace(fullbackgrounddatamodel)
+		#if (importmodel): 
+			#self.ImportToWorkspace(fullbackgrounddatamodel)
 
 		# Full signal model for data
 		fullsignaldatanumber = ROOT.RooRealVar("HP:signal:data:number", "HP:signal:data:number", 0., 1e15)
@@ -328,7 +373,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		fulldatamodel = ROOT.RooAddPdf("HP:data:model", "HP:data:model", ROOT.RooArgList(fullsignaldatamodel, fullbackgrounddatamodel))
 		if (importmodel): 
-			self.ImportToWorkspace(fulldatamodel, True)
+			self.ImportToWorkspace(fulldatamodel, True, ROOT.RooFit.RecycleConflictNodes())
 
 		#self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)), fulldatamodel.getParameters(ROOT.RooArgSet(fitvariable))), ROOT.kTRUE) # works too - recommended! 
 

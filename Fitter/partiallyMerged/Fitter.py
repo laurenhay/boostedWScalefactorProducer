@@ -48,8 +48,9 @@ class Fitter:
 			ROOT.RooMsgService.instance().setSilentMode(False)
 		else: 
 			ROOT.RooMsgService.instance().setSilentMode(True)
+			ROOT.RooMsgService.instance().setGlobalKillBelow(ROOT.RooFit.WARNING)
 
-		ROOT.RooMsgService.instance().setGlobalKillBelow(ROOT.RooFit.FATAL)
+		ROOT.RooMsgService.instance().setGlobalKillBelow(ROOT.RooFit.DEBUG) #DEBUG,INFO,PROGRESS,WARNING,ERROR or FATAL
 		
 		# --- Open the workspace
 		self.workspace = self.OpenWorkspace(options)
@@ -65,10 +66,11 @@ class Fitter:
 	def MakeFitModel(self): 
 		raise NotImplementedError()
 
-	def ImportToWorkspace(self, stuff, autosave=False): 
+	def ImportToWorkspace(self, stuff, autosave=False, options=ROOT.RooFit.Silence()): 
 		# TODO: check if an object with given name already exists in workspace
 		assert(getattr(self, "workspace")), "ERROR: The class has no member 'workspace' yet, cannot import to workspace."
-		getattr(self.workspace, "import")(stuff)
+		errorDuringImport = getattr(self.workspace, "import")(stuff, options)
+		assert(not errorDuringImport), "ERROR: There was an error during the import of '{}' into the workspace! Check if the pdf or some components already exist in the workspace and set a conflict strategy.".format(stuff.GetName())
 		if (autosave): 
 			if (getattr(self, "filename")): 
 				self.SaveWorkspace()
@@ -94,14 +96,14 @@ class Fitter:
 
 	# Wrapper function to display an error message if the pdf does not exist in the workspace
 	def LoadPdf(self, name): 
-		assert(self.workspace.pdf(name)), "ERROR: the workspace does not contin any pdf named '{}'!".format(name)
+		assert(self.workspace.pdf(name)), "ERROR: the workspace does not contain any pdf named '{}'!".format(name)
 		return self.workspace.pdf(name) 
 
 	def LoadDataset1D(self, name, variable, binned = None): 
 		return self.LoadDataset(name, ROOT.RooArgSet(variable), binned)
 
 	def LoadDataset(self, name, variables, binned = None): 
-		assert(self.workspace.data(name)), "ERROR: the workspace does not containg any dataset named '{}'!".format(name)
+		assert(self.workspace.data(name)), "ERROR: the workspace does not contain any dataset named '{}'!".format(name)
 		# TODO: check if the dataset depends on the variables given in the RooArgSet
 		dataset = self.workspace.data(name).reduce(variables)
 		if (binned == None): 
