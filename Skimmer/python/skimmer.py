@@ -40,7 +40,7 @@ import numpy as np
 #Leptonic W - lepton + MET has Pt > 150 GeV # did not apply this since we are missing MET eta
          
 class Skimmer(Module):
-    def __init__(self, channel='elmu', leptonSF={}, year='2018'):
+    def __init__(self, channel='elmu', leptonSF={}, year='2017'):
         self.chan = channel
         self.writeHistFile = True
         self.verbose = False
@@ -73,7 +73,7 @@ class Skimmer(Module):
         self.minMuMETPt = 50. #this was previously 0! What? And Why?
 
         ### Kinenatic Cuts Electrons ###
-        self.minElpt = 120. #and this as well? why do we require >55 g
+        self.minElpt = 120. 
         self.minElMETPt = 80.
      
         self.range1ElectronEta = [0,1.442]
@@ -300,8 +300,8 @@ class Skimmer(Module):
         ### Find high-pT lepton, veto additional leptons, check trigger ###
 
         # Make some loose lepton selections; including loose pT cuts for veto
-        electrons = [x for x in allelectrons if x.pt > 10. and x.cutBased >= 2 and ( abs(x.eta) < 1.44 or ( abs(x.eta) > 1.56 and abs(x.eta) < 2.5 ) )] 
-        muons     = [x for x in allmuons if x.pt > 10. and x.looseId and abs(x.eta) < self.maxMuEta and x.pfIsoId >= 2] 
+        electrons = [x for x in allelectrons if x.pt > 40. and x.cutBased >= 2 and ( abs(x.eta) < 1.44 or ( abs(x.eta) > 1.56 and abs(x.eta) < 2.5 ) )] 
+        muons     = [x for x in allmuons if x.pt > 40. and x.looseId and abs(x.eta) < self.maxMuEta and x.pfIsoId >= 2] 
 
         # Ordering the loosely selected categories according to Pt 
         muons.sort(key=lambda x:x.pt,reverse=True)
@@ -369,7 +369,7 @@ class Skimmer(Module):
         WcandLep = lepton + neutrino
         '''
 
-        if not WcandLep.Pt() >= self.minLepWPt: return False   
+        if not WcandLep.Pt() > self.minLepWPt: return False   
         
         # Find fat jet
         recoAK8 = [ x for x in FatJets if x.p4().Perp() >=self.minAK8JetPt and  abs(x.p4().Eta()) < self.maxAK8JetEta and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW and x.tau1 > 0. and x.tau2 > 0.]
@@ -381,25 +381,28 @@ class Skimmer(Module):
         	
 	
 	###Debug statements
-	#if self.nEventsProcessed<20000:	
-	#    print (recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass,recoAK8[0].msoftdrop)        
+	if self.nEventsProcessed<20000:	
+	    print (recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass,recoAK8[0].msoftdrop)        
 
-        # Check for b-jet in the event, accept those that pass the custom isolation requirement of dR(AK4, mu) >0.4 (implemented for now only in the single muon signal samples), and the DeepJet/DeepFlavB medium working point
+        # Check for b-jet in the event, accept those that pass the custom isolation requirement of dR(AK4, mu) >0.4 or pT_rel>25 (implemented here for el/mu/elmu channels), and the DeepJet/DeepFlavB medium working point
 	# Overall, require at least 2 AK4 jets, and at least one of which must be b-tagged 
-        recoAK4 = [ x for x in Jets if x.p4().Perp() > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta and jetAK8_4v.DeltaR(x.p4())>1.0]# and x.btagDeepFlavB > self.minBDisc]
-        if not len(recoAK4) >= 2: return False 
+        recoAK4 = [ x for x in Jets if x.p4().Perp() > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta]# and jetAK8_4v.DeltaR(x.p4())>1.0]# and x.btagDeepFlavB > self.minBDisc]
+        if not len(recoAK4) > 1: return False 
 
 	minJetMetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
 
-	#Custom isolation for single muon samples as per CMS-JME-18-002
+	#Custom isolation for single muon samples as per CMS-JME-18-002, but extending to prompt electrons as well since FS topology is the same
 	#TODO: ensure that this does not get triggered when running on EGamma/Single Electron datasets
-	if self.Vlep_type == 0:
-	    dRmin = lepton.DeltaR(recoAK4[0].p4())
-	    for x in recoAK4:
-		if lepton.DeltaR(x.p4())<dRmin: dRmin = lepton.DeltaR(x.p4())
-	    if dRmin < 0.4: 
-		print dRmin
-		return False
+        mindRLepAK4 = lepton.DeltaR(recoAK4[0].p4())
+        pT_rel = 0.
+        for x in recoAK4:
+            if lepton.DeltaR(x.p4()) < mindRLepAK4:
+                mindRLepAK4 = lepton.DeltaR(x.p4())
+                pT_rel = lepton.Perp(x.p4())
+        if dRmin > 0.4 or pT_rel > 25. :
+            print dRmin, pT_rel
+	
+	else: return False
 	
 	#To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them requiring that at least one of the AK4 jets remaining is b-tagged 
 	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc]
@@ -412,18 +415,20 @@ class Skimmer(Module):
 	    print recoAK4_HT
 	    return False
 	
-	# to prevent angular overlap in single-mu events between the muon and the AK8
-	if self.Vlep_type==0: 
-	    if not abs(jetAK8_4v.DeltaPhi(lepton)>2.): return False 
+	# to prevent angular overlap between leptons and the AK8
+        if not abs(jetAK8_4v.DeltaPhi(lepton)>2.): 
+            print jetAK8_4v.DeltaPhi(lepton)
+            return False 
+
 	# Keeping the overall cut on leptons unchanged from previous iteration of skimmer; custom isolation for single muon cases has already been addressed above -> the below addresses the single electron case and pathologies of the single mu channel case then effectively
 
         # No lepton overlap
-        dR_jetlep = jetAK8_4v.DeltaR(lepton )
-        if dR_jetlep < self.mindRLepJet : return False
+        #dR_jetlep = jetAK8_4v.DeltaR(lepton )
+        #if dR_jetlep < self.mindRLepJet : return False
 
         # Angular separation cuts
-        if not dR_jetlep > 1.5708: return False
-        if not abs(jetAK8_4v.DeltaPhi(MET)) > 1.5708: return False
+        #if not dR_jetlep > 1.5708: return False
+        #if not abs(jetAK8_4v.DeltaPhi(MET)) > 1.5708: return False
 
 	
       	# Obtain btag SFs for calculating b-tagging event weights
