@@ -151,6 +151,7 @@ class Fitter:
 
 		elif isinstance(variables, list): 
 			for variable in variables: 
+				assert(isinstance(variable, str)), "ERROR: The variable is not a list of 'str', please make sure to provide a list of 'str', or another supported type!"
 				variableset.add(self.LoadVariable(variable))
 
 		elif isinstance(variables, ROOT.RooRealVar): 
@@ -163,11 +164,39 @@ class Fitter:
 		else: 
 			print "ERROR: The parameter 'variable' is of unsupported type: {}. Please provide the argument 'variables' as 'str', 'list', 'RooRealVar' or 'RooArgSet'!".format(type(variables))
 			raise TypeError()
-			
-		print variableset
-		variableset.Print()
 
 		return variableset
+
+	def GetCurrentValue(self, name): 
+		variable = self.LoadVariable(name)
+		return variable.getVal()
+
+	def SetValue(self, name, value): 
+		variable = self.LoadVariable(name)
+		#TODO: check if value is valid
+		variable.setVal(value)
+
+	def LoadSnapshot(self, snapshotname): 
+		if (self.verbose): 
+			print "Loading snapshot: '{}'.".format(snapshotname)
+		# TODO: Check if the snapshot exists in the workspace 
+		#params = model.getParameters(dataset)
+		self.workspace.loadSnapshot(snapshotname)
+
+	def SaveSnapshot(self, model, dataset, snapshotname): 
+		#self.workspace.saveSnapshot(snapshotname, model.getParameters(dataset), True)
+		self.SaveSnapshotParams(model.getParameters(dataset), snapshotname)
+
+	def SaveSnapshotParams(self, params, snapshotname): 
+		if (self.verbose): 
+			print "Saving a snapshot of the following parameters:"
+			params.Print()
+		self.workspace.saveSnapshot(snapshotname, params, True)
+
+	def SnapShot(self, model, dataset): 
+		params = model.getParameters(dataset)
+		snap = params.snapshot()
+		return snap
 
 	def LoadVariable(self, name): 
 		assert(self.workspace.var(name)), "ERROR: The workspace does not contain any variable named '{}'!".format(name)

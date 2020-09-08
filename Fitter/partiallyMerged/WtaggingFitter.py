@@ -40,6 +40,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.directory["fitMC"] = "plots/{}/fitMC/".format(options.year)
 		self.directory["fitMClogs"] = "logs/{}/fitMC/".format(options.year)
 
+		self.saveasformats = [".pdf"]
+
 		# Creatring the output directories if they don't exist 
 		for directory in self.directory.values(): 
 			if not os.path.isdir(directory): 
@@ -59,7 +61,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 
 
-	def FitMC(self, options, fitoptions = ""): 
+	def FitMC(self, options, instancename = "FitMC", fitoptions = ""): 
 		# TODO: might remove options and set massvar as attribute 
 		print "Fitting MC... "
 
@@ -76,16 +78,16 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, self.directory["fitMC"]+"SignalHP.pdf") # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
+		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, "SignalHP", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
 
 
-		self.FitSampleStr("HP:VV:model", "HP:VV", massvar, self.directory["fitMC"]+"VVbackgroundHP.pdf")
+		self.FitSampleStr("HP:VV:model", "HP:VV", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
 
 
-		self.FitSampleStr("HP:st:model", "HP:st", massvar, self.directory["fitMC"]+"STbackgroundHP.pdf")
+		self.FitSampleStr("HP:st:model", "HP:st", massvar, "STbackgroundHP", True,  self.directory["fitMC"])
 
 		
-		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", massvar, self.directory["fitMC"]+"TTfakeWHP.pdf")
+		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
 
 
 		#fitstuff = {
@@ -103,7 +105,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		#canvas.Print("fittest.pdf")
 
-	def FitControlRegion(self, options): 
+	def FitControlRegion(self, options, instancename = "FitControl"): 
 		print "Fitting data and MC... "
 		#self.FitMC(options)
 
@@ -120,41 +122,39 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		modelMC = self.LoadPdf("HP:fullMC:model")
 
-		modelWJets = modelMC.pdfList().find("HP:WJets:model") 
+		self.AddConstraint("HP:tt:mean", self.GetCurrentValue("HP:tt:mean"), 10.)
 
-		print "Parameters:", modelMC.getParameters(fullMC).find("HP:WJets:offset") # works! 
+		self.LoadSnapshot("FitTT")
 
-		self.AddConstraintBase(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
 
-		self.FixAllParametersBase(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
+		value = self.GetCurrentValue("HP:tt:mean")
 
-		self.FixParameterBase(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
+		print value
 
-		STshape = self.GetComponent(self.LoadPdf("HP:fullMC:model"), "HP:st:shape")
+		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, "SignalHP", True, self.directory["fitMC"])
 
-		self.FixParameterBase(self.LoadPdf("HP:fullMC:model"), fullMC, "HP:st:sigma") # also works 
+		value = self.GetCurrentValue("HP:tt:mean")
 
-		variable = self.LoadVariable("SelectedJet_tau21")
+		print value
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21")
+		self.SetValue("HP:tt:mean", 89.)
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ["SelectedJet_tau21"])
+		value = self.GetCurrentValue("HP:tt:mean")
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", self.LoadVariable("HP:tt:fake:coefficient"))
+		print value
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ROOT.RooArgSet(self.LoadVariable("HP:tt:fake:coefficient"), self.LoadVariable("HP:tt:fake:width")))
+		self.LoadSnapshot("SignalHP")
 
-		self.AddConstraint("HP:WJets:width", 61., 10.)
+		value = self.GetCurrentValue("HP:tt:mean")
 
-		self.FixParameter("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21", "HP:tt:fake:offset")
-
+		print value
 
 
 
 
 		modelMC.Print()
 
-		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar, self.directory["fitMC"]+"FullMCFit.pdf")
+		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar, "FullMCFit", True, self.directory["fitMC"])
 
 		#data = self.workspace.data("HP:data")
 		modelData = self.LoadPdf("HP:data:model")
@@ -164,12 +164,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 
 
-	def FitSampleStr(self, modelname, samplename, variable, saveas="", fitoptions=None): 
+	def FitSampleStr(self, modelname, samplename, variable, instancename="", savesnapshot = False, directory="", fitoptions=None): 
 		sample = self.LoadDataset1D(samplename, variable)
 		model = self.LoadPdf(modelname)
-		return self.FitSample({model:sample}, variable, saveas, fitoptions)
+		return self.FitSample({model:sample}, variable, instancename, savesnapshot, directory, fitoptions)
 
-	def FitSample(self, samplelist, variable, saveas="", fitoptions=None): 
+	def FitSample(self, samplelist, variable, instancename="", savesnapshot=False, directory="", fitoptions=None): 
 		if (fitoptions==None): # TODO: fix! 
 			if hasattr(self, "fitoptions"): 
 				fitoptions = self.fitoptions
@@ -177,6 +177,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 				fitoptions = ROOT.RooLinkedList()
 
 		print fitoptions
+
+		params = ROOT.RooArgSet()
 
 		plot = variable.frame()
 
@@ -187,15 +189,22 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
 			model.plotOn(plot)
 
+			if (savesnapshot): 
+				params.add(model.getParameters(dataset))
+
 			if (self.verbose): 
 				result.Print()
 			
 
-		if not (saveas == ""):
+		if not (directory == ""):
 			canvas = ROOT.TCanvas("canvas", "Fit", 800, 600)
 			plot.Draw()
 
-			canvas.Print(saveas)
+			for savingformat in self.saveasformats: 
+				canvas.Print(directory+instancename+savingformat)
+
+		if (savesnapshot): 
+			self.SaveSnapshotParams(params, instancename)
 
 		return plot, fitresult
 
@@ -252,6 +261,75 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			canvas.Print(savename)
 
 		self.workspace.saveSnapshot(model.GetName()+"fitMC", model.getParameters(ROOT.RooArgSet(variable)), ROOT.kTRUE)
+
+	def TestFitSecond(self): 
+		print "Fitting data and MC... "
+		#self.FitMC(options)
+
+		massvar = self.LoadVariable(options.massvar)
+
+		fullMC = ROOT.RooDataSet(self.LoadDataset1D("HP:WJets", massvar), "HP:fullMC")
+		fullMC.append(self.LoadDataset1D("HP:st", massvar))
+		fullMC.append(self.LoadDataset1D("HP:VV", massvar))
+		fullMC.append(self.LoadDataset1D("HP:ttfakeW", massvar))
+		fullMC.append(self.LoadDataset1D("HP:ttrealW", massvar))
+
+		fullMC.Print()
+
+
+		modelMC = self.LoadPdf("HP:fullMC:model")
+
+		modelWJets = modelMC.pdfList().find("HP:WJets:model") 
+
+		print "Parameters:", modelMC.getParameters(fullMC).find("HP:WJets:offset") # works! 
+
+		self.AddConstraintBase(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
+
+		self.FixAllParametersBase(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
+
+		self.FixParameterBase(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
+
+		STshape = self.GetComponent(self.LoadPdf("HP:fullMC:model"), "HP:st:shape")
+
+		self.FixParameterBase(self.LoadPdf("HP:fullMC:model"), fullMC, "HP:st:sigma") # also works 
+
+		variable = self.LoadVariable("SelectedJet_tau21")
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21")
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ["SelectedJet_tau21"])
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", self.LoadVariable("HP:tt:fake:coefficient"))
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ROOT.RooArgSet(self.LoadVariable("HP:tt:fake:coefficient"), self.LoadVariable("HP:tt:fake:width")))
+
+		self.AddConstraint("HP:WJets:width", 61., 10.)
+
+		self.FixParameter("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21", "HP:tt:fake:offset")
+
+		# Some further test
+		self.AddConstraint("HP:tt:mean", 85., 10.)
+
+		value = self.GetCurrentValue("HP:tt:mean")
+
+		print value
+
+		self.SetValue("HP:tt:mean", 93.)
+
+		newvalue = self.GetCurrentValue("HP:tt:mean")
+
+		print newvalue
+
+
+
+
+
+		modelMC.Print()
+
+		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar, "FullMCFit", True, self.directory["fitMC"])
+
+		#data = self.workspace.data("HP:data")
+		modelData = self.LoadPdf("HP:data:model")
 
 
 
