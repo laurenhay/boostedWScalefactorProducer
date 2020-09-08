@@ -124,15 +124,31 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		print "Parameters:", modelMC.getParameters(fullMC).find("HP:WJets:offset") # works! 
 
-		self.AddConstraint(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
+		self.AddConstraintBase(modelMC.getParameters(fullMC).find("HP:WJets:offset"), 61., 10.)
 
-		self.FixAllParameters(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
+		self.FixAllParametersBase(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:WJets:shape"), fullMC)
 
-		self.FixParameter(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
+		self.FixParameterBase(self.LoadPdf("HP:fullMC:model").pdfList().find("HP:st:shape"), fullMC, "HP:st:mean")
 
 		STshape = self.GetComponent(self.LoadPdf("HP:fullMC:model"), "HP:st:shape")
 
-		self.FixParameter(self.LoadPdf("HP:fullMC:model"), fullMC, "HP:st:sigma") # also works 
+		self.FixParameterBase(self.LoadPdf("HP:fullMC:model"), fullMC, "HP:st:sigma") # also works 
+
+		variable = self.LoadVariable("SelectedJet_tau21")
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21")
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ["SelectedJet_tau21"])
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", self.LoadVariable("HP:tt:fake:coefficient"))
+
+		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ROOT.RooArgSet(self.LoadVariable("HP:tt:fake:coefficient"), self.LoadVariable("HP:tt:fake:width")))
+
+		self.AddConstraint("HP:WJets:width", 61., 10.)
+
+		self.FixParameter("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21", "HP:tt:fake:offset")
+
+
 
 
 

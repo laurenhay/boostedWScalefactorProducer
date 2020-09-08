@@ -97,7 +97,11 @@ class Fitter:
 		assert(comp), "ERROR: The model '{}' does not contain a component named '{}'!".format(model.GetName(), component)
 		return comp
 
-	def AddConstraint(self, variable, mean, sigma):
+	def AddConstraint(self, variablename, mean, sigma):
+		variable = self.LoadVariable(variablename)
+		return self.AddConstraintBase(variable, mean, sigma)
+
+	def AddConstraintBase(self, variable, mean, sigma):
 		mean = ROOT.RooRealVar(variable.GetName()+"_mean", variable.GetName()+"_mean", mean)
 		sigma = ROOT.RooRealVar(variable.GetName()+"_sigma", variable.GetName()+"_sigma", sigma)
 		constraintpdf = ROOT.RooGaussian("constraintpdf_"+variable.GetName(), "constraintpdf_"+variable.GetName(), variable, mean, sigma)
@@ -107,7 +111,13 @@ class Fitter:
 			print "Added Gaussian constraint to parameter '{}', with mean '{}': {}, and sigma '{}': {}. ".format(variable.GetName(), mean.GetName(), mean.getVal(), sigma.GetName(), sigma.getVal())
 		return constraintpdf
 
-	def FixAllParameters(self, model, dataset):
+	def FixAllParameters(self, modelname, datasetname, variables, binned = False):
+		variableset = self.ComposeRooArgSet(variables)
+		model = self.LoadPdf(modelname)
+		dataset = self.LoadDataset(datasetname, variableset, binned)
+		return self.FixAllParametersBase(model, dataset)
+
+	def FixAllParametersBase(self, model, dataset):
 		parameters = model.getParameters(dataset)
 		paramIter = parameters.createIterator()
 		paramIter.Reset()
@@ -118,13 +128,46 @@ class Fitter:
 		if (self.verbose): 
 			print "Fixed all parameters of model '{}'.".format(model.GetName())
 
-	def FixParameter(self, model, dataset, parametername):
+	def FixParameter(self, modelname, datasetname, variables, parametername, binned = False):
+		variableset = self.ComposeRooArgSet(variables)
+		model = self.LoadPdf(modelname)
+		dataset = self.LoadDataset(datasetname, variableset, binned)
+		return self.FixParameterBase(model, dataset, parametername)
+
+	def FixParameterBase(self, model, dataset, parametername):
 		parameters = model.getParameters(dataset)
 		param = parameters.find(parametername)
 		assert(param), "ERROR: The model '{}' does  not contain any parameter named '{}'. Check if the parameter name and dataset provided are correct!".format(model.GetName(), parametername)
 		param.setConstant(True)
 		if (self.verbose): 
 			print "Fixed parameter '{}' in model '{}'.".format(parametername, model.GetName())
+
+	# python style overload of methods
+	def ComposeRooArgSet(self, variables): 
+		variableset = ROOT.RooArgSet()
+
+		if isinstance(variables, str):
+			variableset = ROOT.RooArgSet(self.LoadVariable(variables))
+
+		elif isinstance(variables, list): 
+			for variable in variables: 
+				variableset.add(self.LoadVariable(variable))
+
+		elif isinstance(variables, ROOT.RooRealVar): 
+			assert(variables.InheritsFrom("RooRealVar")), "ERROR: The variable does not inherit from class 'RooRealVar', case resolution seems odd!"
+			variableset = ROOT.RooArgSet(variables)
+
+		elif isinstance(variables, ROOT.RooArgSet): 
+			assert(variables.InheritsFrom("RooArgSet")), "ERROR: The variable does not inherit from class 'RooArgSet', case resolution seems odd!"
+			variableset = variables 
+		else: 
+			print "ERROR: The parameter 'variable' is of unsupported type: {}. Please provide the argument 'variables' as 'str', 'list', 'RooRealVar' or 'RooArgSet'!".format(type(variables))
+			raise TypeError()
+			
+		print variableset
+		variableset.Print()
+
+		return variableset
 
 	def LoadVariable(self, name): 
 		assert(self.workspace.var(name)), "ERROR: The workspace does not contain any variable named '{}'!".format(name)
