@@ -57,6 +57,7 @@ class Fitter:
 
 		# --- Attributes used in this class's methods, shoud be overriden in daughter class
 		self.saveconstraints = False
+		self.savemodel = False
 
 
 	def Cleanup(self):

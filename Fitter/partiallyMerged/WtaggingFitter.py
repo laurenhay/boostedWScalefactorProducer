@@ -90,6 +90,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
 
 
+		self.FitSampleStr("HP:WJets:model", "HP:WJets", massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
+
+
 		#fitstuff = {
 		#	signalmodel:ttsample, 
 		#	VVmodel:VVsample, 
@@ -122,32 +125,17 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		modelMC = self.LoadPdf("HP:fullMC:model")
 
-		self.AddConstraint("HP:tt:mean", self.GetCurrentValue("HP:tt:mean"), 10.)
-
 		self.LoadSnapshot("FitTT")
 
+		self.LoadSnapshot("TTfakeWHP")
 
-		value = self.GetCurrentValue("HP:tt:mean")
+		self.LoadSnapshot("STBackgroundHP")
 
-		print value
+		self.LoadSnapshot("VVBackgroundHP")
 
-		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, "SignalHP", True, self.directory["fitMC"])
+		self.LoadSnapshot("WJetsbackgroundHP")
 
-		value = self.GetCurrentValue("HP:tt:mean")
 
-		print value
-
-		self.SetValue("HP:tt:mean", 89.)
-
-		value = self.GetCurrentValue("HP:tt:mean")
-
-		print value
-
-		self.LoadSnapshot("SignalHP")
-
-		value = self.GetCurrentValue("HP:tt:mean")
-
-		print value
 
 
 
@@ -155,6 +143,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		modelMC.Print()
 
 		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar, "FullMCFit", True, self.directory["fitMC"])
+
+		modelMC.Print()
 
 		#data = self.workspace.data("HP:data")
 		modelData = self.LoadPdf("HP:data:model")
@@ -320,6 +310,34 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		print newvalue
 
+		self.AddConstraint("HP:tt:mean", self.GetCurrentValue("HP:tt:mean"), 10.)
+
+		self.LoadSnapshot("FitTT")
+
+
+		value = self.GetCurrentValue("HP:tt:mean")
+
+		print value
+
+		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, "SignalHP", True, self.directory["fitMC"])
+
+		value = self.GetCurrentValue("HP:tt:mean")
+
+		print value
+
+		self.SetValue("HP:tt:mean", 89.)
+
+		value = self.GetCurrentValue("HP:tt:mean")
+
+		print value
+
+		self.LoadSnapshot("SignalHP")
+
+		value = self.GetCurrentValue("HP:tt:mean")
+
+		print value
+
+
 
 
 
@@ -353,7 +371,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		#getattr(self.workspace, "import")(signalModel)
 		if (importmodel): 
-			self.ImportToWorkspace(ttrealWmodel, True)
+			self.ImportToWorkspace(ttrealWmodel, self.savemodel)
 
 		#self.workspace.saveSnapshot("ttinitial", ttrealWmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE)
 		#params = signalModel.getParameters(fitvariable)
