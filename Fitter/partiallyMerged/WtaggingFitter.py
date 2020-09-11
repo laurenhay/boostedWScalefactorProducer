@@ -54,6 +54,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.savemodel = False
 
+		# --- Making the HP and LP ranges ---- 
+		tagger = self.LoadVariable(options.tagger)
+		tagger.setRange("HP", 0., options.cutHP)
+		tagger.setRange("LP", options.cutHP, options.cutLP)
+
 
 		self.MakeFitModel(self.savemodel)
 
@@ -76,19 +81,19 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", "HP", massvar, "TTsignal", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
+		self.FitSampleStr("HP:tt:real:model", "ttrealW", "HP", massvar, "TTsignal", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
 
 
-		self.FitSampleStr("HP:VV:model", "HP:VV", "HP", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:VV:model", "VV", "HP", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
 
 
-		self.FitSampleStr("HP:st:model", "HP:st", "HP",massvar, "STbackgroundHP", True,  self.directory["fitMC"])
+		self.FitSampleStr("HP:st:model", "st", "HP",massvar, "STbackgroundHP", True,  self.directory["fitMC"])
 
 		
-		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", "HP",massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
+		self.FitSampleStr("HP:tt:fake:model", "ttfakeW", "HP",massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
 
 
-		self.FitSampleStr("HP:WJets:model", "HP:WJets", "HP",massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:WJets:model", "WJets", "HP",massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
 
 
 		#fitstuff = {
@@ -112,11 +117,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		massvar = self.LoadVariable(self.fitvarname)
 
-		fullMC = ROOT.RooDataSet(self.LoadDataset1D("HP:WJets", massvar), "HP:fullMC")
-		fullMC.append(self.LoadDataset1D("HP:st", massvar))
-		fullMC.append(self.LoadDataset1D("HP:VV", massvar))
-		fullMC.append(self.LoadDataset1D("HP:ttfakeW", massvar))
-		fullMC.append(self.LoadDataset1D("HP:ttrealW", massvar))
+		fullMC = ROOT.RooDataSet(self.LoadDataset1D("WJets", massvar), "fullMC")
+		fullMC.append(self.LoadDataset1D("st", massvar))
+		fullMC.append(self.LoadDataset1D("VV", massvar))
+		fullMC.append(self.LoadDataset1D("ttfakeW", massvar))
+		fullMC.append(self.LoadDataset1D("ttrealW", massvar))
 
 		fullMC.Print()
 
@@ -146,6 +151,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		modelMC.Print()
 
 		#data = self.workspace.data("HP:data")
+		print "Done fitting! "
 		modelData = self.LoadPdf("HP:data:model")
 			
 
@@ -202,7 +208,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		variable = self.workspace.var(self.fitvarname)
 
-		dataset = self.LoadDataset1D("HP:ttrealW", variable)
+		dataset = self.LoadDataset1D("ttrealW", variable)
 		dataset.Print()
 
 
@@ -257,11 +263,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		massvar = self.LoadVariable(self.fitvarname)
 
-		fullMC = ROOT.RooDataSet(self.LoadDataset1D("HP:WJets", massvar), "HP:fullMC")
-		fullMC.append(self.LoadDataset1D("HP:st", massvar))
-		fullMC.append(self.LoadDataset1D("HP:VV", massvar))
-		fullMC.append(self.LoadDataset1D("HP:ttfakeW", massvar))
-		fullMC.append(self.LoadDataset1D("HP:ttrealW", massvar))
+		fullMC = ROOT.RooDataSet(self.LoadDataset1D("WJets", massvar), "fullMC")
+		fullMC.append(self.LoadDataset1D("st", massvar))
+		fullMC.append(self.LoadDataset1D("VV", massvar))
+		fullMC.append(self.LoadDataset1D("ttfakeW", massvar))
+		fullMC.append(self.LoadDataset1D("ttrealW", massvar))
 
 		fullMC.Print()
 
@@ -284,17 +290,17 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		variable = self.LoadVariable("SelectedJet_tau21")
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21")
+		self.FixAllParameters("HP:tt:fake:model", "ttfakeW", "SelectedJet_tau21")
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ["SelectedJet_tau21"])
+		self.FixAllParameters("HP:tt:fake:model", "ttfakeW", ["SelectedJet_tau21"])
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", self.LoadVariable("HP:tt:fake:coefficient"))
+		self.FixAllParameters("HP:tt:fake:model", "ttfakeW", self.LoadVariable("HP:tt:fake:coefficient"))
 
-		self.FixAllParameters("HP:tt:fake:model", "HP:ttfakeW", ROOT.RooArgSet(self.LoadVariable("HP:tt:fake:coefficient"), self.LoadVariable("HP:tt:fake:width")))
+		self.FixAllParameters("HP:tt:fake:model", "ttfakeW", ROOT.RooArgSet(self.LoadVariable("HP:tt:fake:coefficient"), self.LoadVariable("HP:tt:fake:width")))
 
 		self.AddConstraint("HP:WJets:width", 61., 10.)
 
-		self.FixParameter("HP:tt:fake:model", "HP:ttfakeW", "SelectedJet_tau21", "HP:tt:fake:offset")
+		self.FixParameter("HP:tt:fake:model", "ttfakeW", "SelectedJet_tau21", "HP:tt:fake:offset")
 
 		# Some further test
 		self.AddConstraint("HP:tt:mean", 85., 10.)
@@ -318,7 +324,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		print value
 
-		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, "SignalHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:tt:real:model", "ttrealW", massvar, "SignalHP", True, self.directory["fitMC"])
 
 		value = self.GetCurrentValue("HP:tt:mean")
 
@@ -502,41 +508,42 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		mass = ROOT.RooRealVar(options.massvar, options.massvar, options.minX, options.maxX) #workspace.var("mass") # TODO: Do we really want to set a range here (additional cut w.r.t. tree variable)?
 		tagger = ROOT.RooRealVar(options.tagger, options.tagger, 0., 1.)
-		tagger.setRange("HP", 0., options.cutHP)
-		tagger.setRange("LP", options.cutHP, options.cutLP)
 		weight = ROOT.RooRealVar("weight", "weight", 0., 10000000.)    # variables = ROOT.RooArgSet(x, y)
 		# For importing a TTree into RooDataSet the RooRealVar names must match the branch names, see: https://root.cern.ch/root/html608/rf102__dataimport_8C_source.html
 
 		cutPass = "({} <= {})".format(options.tagger, options.cutHP)
 		cutFail = "({0} > {1}) && ({0} <= {2})".format(options.tagger, options.cutHP, options.cutLP)
+		cut = ""
 
 		argset = ROOT.RooArgSet(mass, weight, tagger)  # TODO: Does the weight need to be included here? 
 
-		weightvarname = "weight"
+		weightvarname = "weight" # TODO: put this in the
 
 		dataset = Dataset(options.year) 
 
 		# TODO: investigate usage of RooRealVar.setRange() to set HP and LP ranges 
 		for sample in ["VV", "st", "WJets"]: # "tt", 
-			getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "HP:"+sample, argset, cutPass, weightvarname))
+			getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), sample, argset, cut, weightvarname))
 			workspace.writeToFile(filename)
-			getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "LP:"+sample, argset, cutFail, weightvarname))
-			workspace.writeToFile(filename)
+			#getattr(workspace, "import")(self.CreateDataset(dataset.getSample(sample), "LP:"+sample, argset, cutFail, weightvarname))
+			#workspace.writeToFile(filename)
 
 		# For tt we need an additional cut to separate it into gen matched merged W and unmerged
 		additionalCutMerged = "&&(genmatchedAK82017==1)"
 		additionalCutUnmerged = "&&(genmatchedAK82017==0)"
 		merged = ROOT.RooRealVar("genmatchedAK82017", "genmatchedAK82017", 0., 1.)
 		argset.add(merged)
-		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "HP:ttrealW", argset, cutPass+additionalCutMerged, weightvarname))
+		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "ttrealW", argset, additionalCutMerged, weightvarname))
 		workspace.writeToFile(filename)
-		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "HP:ttfakeW", argset, cutPass+additionalCutUnmerged, weightvarname))
-		workspace.writeToFile(filename)
-		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttrealW", argset, cutFail+additionalCutMerged, weightvarname))
-		workspace.writeToFile(filename)
-		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttfakeW", argset, cutFail+additionalCutUnmerged, weightvarname))
+		#getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "HP:ttfakeW", argset, cutPass+additionalCutUnmerged, weightvarname))
+		#workspace.writeToFile(filename)
+		#getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttrealW", argset, cutFail+additionalCutMerged, weightvarname))
+		#workspace.writeToFile(filename)
+		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "ttfakeW", argset, additionalCutUnmerged, weightvarname))
 
-		# The ranges were set 
+		# The ranges will be set at a later point
+		cutHP = ROOT.RooRealVar("cutHP", "cutHP", options.cutHP)
+		cutLP = ROOT.RooRealVar("cutLP", "cutLP", options.cutLP)
 
 
 		#sample = dataset.getSample("tt")
