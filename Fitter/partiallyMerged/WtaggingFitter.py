@@ -129,15 +129,21 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		modelMC = self.LoadPdf("HP:fullMC:model")
 
 
-		self.LoadSnapshot("TTsignal")
-
-		self.LoadSnapshot("TTfakeWHP")
-
 		self.LoadSnapshot("STbackgroundHP")
+
+		self.FixAllParameters("HP:st:model")
 
 		self.LoadSnapshot("VVbackgroundHP")
 
+		self.FixAllParameters("HP:VV:model")
+
 		self.LoadSnapshot("WJetsbackgroundHP")
+
+		self.FixAllParameters("HP:WJets:model")
+
+		self.LoadSnapshot("TTfakeWHP")
+
+		self.LoadSnapshot("TTsignal")
 
 
 
