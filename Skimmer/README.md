@@ -4,74 +4,21 @@
 ## Running locally
 First you need to produce your input files by skimming nanoAOD samples.
 
-For local skimming tests, the syntax is (remember to change infile!):
+For local skimming tests, go to the test folder, the syntax is (remember to change defaults as necessary infile!):
 ```
- python doSkim.py
+  python boostedWtaggingSF_skimNanoAOD.py --iFile 'root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv7/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/60000/EF3977F7-2F3E-7F44-9DE3-73895A82D5BD.root' --numEvents 200000 --year '2018' --local --channel 'mu' 
 ```
+The --local option is particularly useful as it downloads the above inp. file to a local /tmp directory and further tests can be run without accessing via xrootd, just give it the file path of the downloaded file (which is printed out when the script runs).
 
-## Running with qsub
-To submit batch jobs go to directory ```Skimmer/qsub```
+## Running with crab
+To submit batch jobs go to directory 
+```Skimmer/test```
+Remember to perform VOMS login: ```voms-proxy-init --voms cms --valid 48:00```
 
-Submit with:
+Submit to crab with:
 ```
-python submit_qsub_official.py [ TT | ST | VV | Wjets | QCD | data ] outfolder
+python multicrab_boostedWtaggingSF.py --dataset TT --v v01_test
 ```  
+Remember to check and update listed datasets in-file. Check if multiple datasets start with the above string, here e.g. 'TT', and run like this only if you want to skim all the listed datasets starting with the string else, comment out/use the full key corresponding to one dataset in the samples dict.
 
-The first time, run with option ```-c``` as second argument to create the filelists from DAS
-
-Also remember to perform VOMS login: ```voms-proxy-init --voms cms --valid 48:00```
-
-## Check, resubmit, and merge results
-
-Check that jobs were successful by typing:
-```
-python checkFiles.py Skimmed_20XX_XX_XX/NameOfTheSample/
-```
-in order to delete the incomplete files, remember to add the ```-d``` option. The script just provides information on the result of the batch production, and does not take any action.
-
-
-Once the jobs are finished (the command ```source checkJobs.sh``` indicated the number of jobs running), the output can be checked with the ```resubmit_jobs.py``` script:
-```
-python resubmit_jobs.py outfolder
-```
-If there is one or more failed jobs, the directory can be cleaned and the failed jobs resubmitted by adding the option ```-r``` to the previous command.
-
-Once the production is successfully completed and no corrupted files are present, the samples can be merged with the command:
-```
-source haddall.sh outfolder destinationfolder
-```
-
-The weight from the cross section and luminosity is added by running a final script:
-```
-python addWeight.py -i destinationfolder
-```
-
-
-
-## Running with crab [obsolete]
-To submit with crab go to directory Skimmer/crab and source crab3 if you have not already done so
-```
-source /cvmfs/cms.cern.ch/crab3/crab.sh
-```
-Submit with:
-```
-python submit_all.py -c Pset_nanoSkim.py -d DirectoryName -f listOfDatasets.txt
-```  
-
-To make JMAR Skims (Loose skim with >=1 AK8 Jet with Pt > 200 GeV and >=1 Lepton ):(Skim these to create the files we need)
-```
-cd crab/JMARskim
-ln -s $CMSSW_BASE/src/PhysicsTools/NanoAODTools/scripts/haddnano.py .
-python  submit_all_uif.py  -c  PSet.py -d June5_nanoskim-JetsAndLepton  -f test94X_DY_madgraph.txt
- 
-```
-
-
-## Running outside of CMSSW (only require python2.7 and ROOT) [obsolete]
-```
-cd PhysicsTools/NanoAODTools/
-(JUST ONCE:)
-bash standalone/env_standalone.sh build
-(EVERY TIME:)
-source standalone/env_standalone.sh
-```
+Resubmissions for crab are done the usual way, by crab resubmit crab_projects/crab_boostedWtaggingSF_X (X=sample dict key, crab_projects folder is created automatically in your test directory once a crab job is run).
