@@ -59,7 +59,7 @@ def submitJobs( job, inputFiles, unitJobs ):
     config.section_("JobType")
     config.JobType.pluginName = 'Analysis'
     config.JobType.psetName = 'PSet.py'
-    #config.JobType.maxMemoryMB = 5000
+    config.JobType.maxMemoryMB = 5000
     config.JobType.allowUndistributedCMSSW = True
 
     config.section_("Data")
@@ -158,6 +158,9 @@ if __name__ == '__main__':
     dictSamples['SingleMuon2017UL_D'] = ['/SingleMuon/Run2017D-UL2017_02Dec2019-v1/NANOAOD', 1 ]
     dictSamples['SingleMuon2017UL_E'] = ['/SingleMuon/Run2017E-UL2017_02Dec2019-v1/NANOAOD', 1 ]
     dictSamples['SingleMuon2017UL_F'] = ['/SingleMuon/Run2017F-UL2017_02Dec2019-v1/NANOAOD', 1 ]
+    
+    dictSamples['TTToSemiLeptonic-powheg-pythia8_2018'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
+
     
     dictSamples['TTToSemiLeptonic-powheg-pythia8_2017UL'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
 

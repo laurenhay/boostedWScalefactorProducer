@@ -1,5 +1,6 @@
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
+#from ROOT import TMath
 from collections import OrderedDict
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection,Object
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
@@ -46,38 +47,37 @@ class Skimmer(Module):
         self.verbose = False
         self.year = year
         self.leptonSFhelper = leptonSF
-        print(self.leptonSFhelper)
+        #print(self.leptonSFhelper)
 
         ### Cuts for selections (mostly aligned with CMS-JME-18-002)
         #self.minLeadAK8JetPtW = 200.
 	self.minLepWPt = 250. #to select boosted topologies in semi-leptonic ttbar
         self.minSDMassW = 50.   
         self.maxSDMassW = 130. #changing from previous
-        #self.METCut = 40. #what's used in the selections of https://github.com/kaustuvdatta/jetObservables/blob/106X/Skimmer/ for muons
-	self.mindRLepJet = 1.0  #removal of any AK8 jet within dR<=1. of a lepton
+	#self.mindRLepJet = 1.0  #removal of any AK8 jet within dR<=1. of a lepton
 
         ### Kinematics Cuts AK4Jets ###
         self.minAK4JetPt = 30.
         self.maxAK4JetEta = 2.4
         self.minBDisc = 0.3093  ### L: 0.0614, M: 0.3093, T: 07221, for DeepJet (ie, DeepFlavB)
-	self.mindRAK4Mu = 0.4 
+	#self.mindRAK4Mu = 0.4 
 
         ### Kinematics Cuts AK8Jets ###
-        self.minAK8JetPt = 200  ### this is the basic minimum, not the final
+        self.minAK8JetPt = 200  
         self.maxAK8JetEta = 2.4
         
         ### Kinenatic Cuts Muons ###
         self.minMupt = 55. 
         self.maxMuEta = 2.5
         self.maxRelIso = 0.15
-        self.minMuMETPt = 50. #this was previously 0! What? And Why?
+        self.minMuMETPt = 50. #this was previously 0 for 2018 re-reco! Why?
 
         ### Kinenatic Cuts Electrons ###
         self.minElpt = 120. 
         self.minElMETPt = 80.
      
-        self.range1ElectronEta = [0,1.442]
-        self.range2ElectronEta = [1.56,2.5]
+        #self.range1ElectronEta = [0,1.442]
+        #self.range2ElectronEta = [1.56,2.5]
 
         self.totalEventWeight = 1
 	self.nEventsProcessed=0
@@ -98,20 +98,6 @@ class Skimmer(Module):
         #self.yearSpecificConfig = SpecificYearConfig(self.year, self.verbose)
    	self.nEventsProcessed=0
 	print ('Beginning job, current nEventsProcessed=%d'%self.nEventsProcessed)
-	#self.addObject( ROOT.TH1F('PUweight',   ';PUweight',   40, 0, 2) )
-        #self.addObject( ROOT.TH1F('Lepweight',   ';LepWeight',   40, 0, 2) )
-        '''### Book histograms
-        self.addObject( ROOT.TH1F('nPVs',   ';number of PVs',   100, 0, 100) )
-        self.addObject( ROOT.TH1F('nleps',   ';number of leptons',   20, 0, 20) )
-        self.addP4Hists( 'muons', '' )
-        self.addP4Hists( 'eles', '' )
-        self.addObject( ROOT.TH1F('nAK8jets',   ';number of AK8 jets',   20, 0, 20) )
-        self.addP4Hists( 'AK8jets', isel )
-        self.addObject( ROOT.TH1F('nAK4jets',   ';number of AK4 jets',   20, 0, 20) )
-        self.addP4Hists( 'AK4jets', '' )
-        self.addObject( ROOT.TH1F('METPt',   ';MET (GeV)',   200, 0, 2000) )
-        self.addObject( ROOT.TH1F('HT',   ';HT (GeV)',   200, 0, 2000) )
-	'''
        
         
     def endJob(self):
@@ -131,11 +117,8 @@ class Skimmer(Module):
     def beginFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):         
         print "Beginning on inputFile, writing new branches"
         self.out = wrappedOutputTree
-        # self.addObject( ROOT.TH1F('nGenEv',   'nGenEv',   3, 0, 3) )
-        #self.puWeightTool = PileupWeightTool(yearMC=2018, yearData=2018) 
-        self.out.branch("eventWeight", "F")
-        #self.out.branch('eventCategory', "I") #1 = pass, matched reco AK8; 2 = pass, unmatched reco AK8; 0 = failed to pass reco selection
 
+        self.out.branch("eventWeight", "F")
         self.out.branch("SelectedJet_softDrop_mass",  "F")
         self.out.branch("SelectedJet_tau42",  "F")
         self.out.branch("SelectedJet_tau41",  "F")
@@ -146,32 +129,22 @@ class Skimmer(Module):
         self.out.branch("SelectedJet_pt",   "F")
         self.out.branch("SelectedJet_eta",  "F")
         self.out.branch("SelectedJet_mass", "F")
-
         self.out.branch("SelectedLepton_pt",  "F")
         self.out.branch("SelectedLepton_iso",  "F")
-
         self.out.branch("Wlep_type",  "I")
         self.out.branch("Wlep_pt",  "F")
         self.out.branch("Wlep_mass",  "F")
-
-        self.out.branch("dr_LepJet",  "F")
-        self.out.branch("dphi_LepJet",  "F")
+        self.out.branch("dr_LepAK8",  "F")
+        self.out.branch("dphi_LepAK8",  "F")
         self.out.branch("dphi_LepMet",  "F")
-        self.out.branch("dphi_MetJet",  "F")
-        self.out.branch("dphi_WJet"  ,  "F")
-
-        #self.out.branch("maxAK4CSV",  "F")
-        #self.out.branch("subMaxAK4CSV",  "F")
-        self.out.branch("minJetMetDPhi",  "F")
-        #self.out.branch("HT_HEM1516",  "F")
-
-        self.out.branch("genmatchedAK8",  "I")
-        #self.out.branch("genmatchedAK8Quarks",  "I")
-        #self.out.branch("genmatchedAK8Subjet",  "I")
-        #self.out.branch("genmatchedAK82017",  "I")
-        #self.out.branch("AK8Subjet0isMoreMassive",  "I")
-
-        #self.out.branch("passedMETfilters",  "I")
+        self.out.branch("dphi_MetAK8",  "F")
+        self.out.branch("dphi_WAK8"  ,  "F")
+        self.out.branch("minAK4MetDPhi",  "F")
+        self.out.branch("mindR_Lep_ClosestAK4",  "F")
+        self.out.branch("pT_rel_Lep_AK4",  "F")
+        self.out.branch("passingAK4_HT",  "F")
+	self.out.branch("nSelectedAK4", "I")        
+	self.out.branch("genmatchedAK8",  "I")
         self.out.branch("lheweight",  "F")
         self.out.branch("puweight",  "F")
         self.out.branch("topweight",  "F")
@@ -243,28 +216,25 @@ class Skimmer(Module):
         """process event, return True (go to next module) or False (fail, go to next event)"""
         
         self.isMC = event.run == 1        
-        #if self.nEventsProcessed%500==0: print ("Analyzing events...", self.nEventsProcessed)
+        #if self.nEventsProcessed%500==0: #print ("Analyzing events...", self.nEventsProcessed)
         self.nEventsProcessed+=1
         #if (self.nEventsProcessed > 20000): return False
-        #if self.verbose: print ('Event : ', event.event)
-
-
+        
         passRecoSel = self.boostedWSelection( event )
-        #recoJet = OrderedDict()
-
+        
         #### Debugging block (TODO: remove)
         '''
         if passRecoSel==True:
             #self.out.fillBranch( 'eventCategory', 1 )
 	    #if (self.nEventsProcessed < 20000): 
                 #print ("Event %d passed the selection!"%self.nEventsProcessed)
-		#print ("So far %f events have passed selection")%(self.nEventsPassed/(1.*self.nEventsProcessed))
+		if not self.nEventsProcessed == 0: print ("So far %f events have passed selection")%(self.nEventsPassed/(1.*self.nEventsProcessed))
             #WEIGHT =  self.totalEventWeight
             return True
         else: 
 	    #self.out.fillBranch('eventCategory', 0)
-	    #if (self.nEventsProcessed < 20000 and self.nEventsProcessed%5==0): 
-            #	print ("Event %d failed the selection!"%self.nEventsProcessed)
+	    #if (self.nEventsProcessed < 20000 and self.nEventsProcessed%100==0): 
+            #print ("Event %d failed the selection!"%self.nEventsProcessed)
 	    return False
         '''
         return passRecoSel
@@ -294,14 +264,14 @@ class Skimmer(Module):
 
    
 	if not (event.nMuon > 0 or event.nElectron > 0): return False 
-        if not event.nFatJet > 0: return False                                  #?
+        if not event.nFatJet > 0: return False                               
 
         
         ### Find high-pT lepton, veto additional leptons, check trigger ###
 
         # Make some loose lepton selections; including loose pT cuts for veto
         electrons = [x for x in allelectrons if x.pt > 40. and x.cutBased >= 2 and ( abs(x.eta) < 1.44 or ( abs(x.eta) > 1.56 and abs(x.eta) < 2.5 ) )] 
-        muons     = [x for x in allmuons if x.pt > 40. and x.looseId and abs(x.eta) < self.maxMuEta and x.pfIsoId >= 2] 
+        muons     = [x for x in allmuons if x.pt > 40. and x.looseId and abs(x.eta) < self.maxMuEta]# and x.pfIsoId >= 2] 
 
         # Ordering the loosely selected categories according to Pt 
         muons.sort(key=lambda x:x.pt,reverse=True)
@@ -310,16 +280,16 @@ class Skimmer(Module):
         # Check if the muon or electron with highest pT passes the tight selection (additional cuts to the loose selection)
         electronTight = len(electrons) > 0 and electrons[0].pt > self.minElpt and electrons[0].cutBased >= 4  
 
-        muonTight = len(muons) > 0 and muons[0].pt > self.minMupt and abs(muons[0].eta) < self.maxMuEta and muons[0].highPtId >= 2 and muons[0].isPFcand and muons[0].pfIsoId >= 6
+        muonTight = len(muons) > 0 and muons[0].pt > self.minMupt and abs(muons[0].eta) < self.maxMuEta and muons[0].highPtId >= 2 and muons[0].isPFcand# and muons[0].pfIsoId >= 6
 
 
         possibleChannels = ["mu", "el", "elmu"]
 
         if self.chan not in possibleChannels : 
-          print "Channel not defined! Skipping"
-          print "Please select a channel in the following: "
-          print possibleChannels
-          return False
+            print "Channel not defined! Skipping"
+            print "Please select a channel in the following: "
+            print possibleChannels
+            return False
 
         
         # We require exactly one tight muon and no (loose) electron, or exactly one tight electron and no (loose) muon 
@@ -362,7 +332,7 @@ class Skimmer(Module):
         WcandLep = lepton + MET
         
 	'''
-	##WHY was this being done explicitly?
+	## TODO: Check why this was being done explicitly?
         pz = recoverNeutrinoPz(lepton, MET)
         neutrino  = ROOT.TLorentzVector()
         neutrino.SetPxPyPzE(MET.Px(), MET.Py(), pz, math.sqrt(MET.Px()**2 + MET.Py()**2 + pz**2))
@@ -370,71 +340,62 @@ class Skimmer(Module):
         '''
 
         if not WcandLep.Pt() > self.minLepWPt: return False   
-        
+	
         # Find fat jet
         recoAK8 = [ x for x in FatJets if x.p4().Perp() >=self.minAK8JetPt and  abs(x.p4().Eta()) < self.maxAK8JetEta and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW and x.tau1 > 0. and x.tau2 > 0.]
-        if not len(recoAK8) >0: return False
+        if not len(recoAK8) > 0: return False
         recoAK8.sort(key=lambda x:x.pt,reverse=True)
 	
 	jetAK8_4v = ROOT.TLorentzVector()
 	jetAK8_4v.SetPtEtaPhiM(recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass)
-        	
-	
-	###Debug statements
-	if self.nEventsProcessed<20000:	
-	    print (recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass,recoAK8[0].msoftdrop)        
-
-        # Check for b-jet in the event, accept those that pass the custom isolation requirement of dR(AK4, mu) >0.4 or pT_rel>25 (implemented here for el/mu/elmu channels), and the DeepJet/DeepFlavB medium working point
-	# Overall, require at least 2 AK4 jets, and at least one of which must be b-tagged 
-        recoAK4 = [ x for x in Jets if x.p4().Perp() > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta]# and jetAK8_4v.DeltaR(x.p4())>1.0]# and x.btagDeepFlavB > self.minBDisc]
+        
+	# Require at least 2 AK4 jets in event and at least one b-tagged one that passes the DeepJet/DeepFlavB medium working point; before b-tagging and removing non-b-tagged jets, check if the HT of all AK4's passing the minimal pT/eta selection is greater than 250 GeV
+        # Check if the custom isolation requirement ofthe nearest AK4 to the lepton:  dR(lep, jet) > 0.4 or pT_rel (lep, AK4)>25 (implemented here for el/mu/elmu channels) [all selections as per CMS-JME-18-002]
+        recoAK4 = [ x for x in Jets if x.p4().Perp() > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta]# and jetAK8_4v.DeltaR(x.p4())>1.0]
         if not len(recoAK4) > 1: return False 
+        
+	# Require scalar sum of pT of all AK4 jets in the event(i.e., H_T) to be greater than 250 GeV 
+	recoAK4_HT = 0. 
+	for x in recoAK4: recoAK4_HT+=x.p4().Perp()
+	if not recoAK4_HT > 250.: return False
 
-	minJetMetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
-
-	#Custom isolation for single muon samples as per CMS-JME-18-002, but extending to prompt electrons as well since FS topology is the same
-	#TODO: ensure that this does not get triggered when running on EGamma/Single Electron datasets
-        mindRLepAK4 = lepton.DeltaR(recoAK4[0].p4())
-        pT_rel = 0.
-        for x in recoAK4:
-            if lepton.DeltaR(x.p4()) < mindRLepAK4:
-                mindRLepAK4 = lepton.DeltaR(x.p4())
-                pT_rel = lepton.Perp(x.p4())
-        if dRmin > 0.4 or pT_rel > 25. :
-            print dRmin, pT_rel
-	
-	else: return False
+	minAK4MetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
 	
 	#To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them requiring that at least one of the AK4 jets remaining is b-tagged 
 	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc]
-	if not len(recoAK4) >= 1: return False
+	if not len(recoAK4) > 0: return False
 	
-	# Require scalar sum of pT (i.e., H_T) to be greater than 250 GeV as per CMS-JME-18-002
-	recoAK4_HT = 0. 
-	for x in recoAK4: recoAK4_HT+=x.p4().Perp()
-	if not recoAK4_HT > 250.: 
-	    print recoAK4_HT
-	    return False
+	#Custom isolation for single muon samples as per CMS-JME-18-002, but extending to prompt electrons as well since FS topology is the same
+	mindRLepAK4 = lepton.DeltaR(recoAK4[0].p4())
+        pT_rel = 0.
+        for x in recoAK4:
+	    jetAK4_4v = ROOT.TLorentzVector()
+	    jetAK4_4v.SetPtEtaPhiM(x.pt,x.eta,x.phi,x.mass)
+        
+            if lepton.DeltaR(jetAK4_4v) < mindRLepAK4:
+                mindRLepAK4 = lepton.DeltaR(jetAK4_4v)
+                pT_rel = (lepton).Perp(jetAK4_4v.Vect())
+		
+	#2D custom isolation cut: dr_min(lep,AK4) > 0.4 OR pT_rel(lep,jet)>25. for AK4 closest to lepton 	
+	if not (mindRLepAK4 > 0.4 or pT_rel > 25.): 
+	    return False        
 	
 	# to prevent angular overlap between leptons and the AK8
         if not abs(jetAK8_4v.DeltaPhi(lepton)>2.): 
-            print jetAK8_4v.DeltaPhi(lepton)
             return False 
-
-	# Keeping the overall cut on leptons unchanged from previous iteration of skimmer; custom isolation for single muon cases has already been addressed above -> the below addresses the single electron case and pathologies of the single mu channel case then effectively
 
         # No lepton overlap
         #dR_jetlep = jetAK8_4v.DeltaR(lepton )
         #if dR_jetlep < self.mindRLepJet : return False
 
         # Angular separation cuts
-        #if not dR_jetlep > 1.5708: return False
         #if not abs(jetAK8_4v.DeltaPhi(MET)) > 1.5708: return False
 
-	
       	# Obtain btag SFs for calculating b-tagging event weights
 	# Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
-	if self.isMC: bTagSFs =  [x.btagSF_deepjet_shape for x in recoAK4] 
-        
+
+	if len(recoAK4)>2: return False # b-tag weight calculator can handle at most two b-jets, for now (more shouldn't be required to be handled in this decay mode anyway...)
+	if self.isMC: bTagSFs =  [x.btagSF_deepjet_shape for x in recoAK4]         
 
 	#### Weight calculation from genweights, lepton wt., b-tagging event wt., PU wt.
         if self.isMC: 
@@ -444,8 +405,10 @@ class Skimmer(Module):
         else: leptonweight = np.array([1., 1., 1.])
 
         if self.isMC:
-            btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs) #obtain b-tagging event weight from per jet SFs
-            weight =  np.prod(leptonweight) * btagweight * puweight *  genweight #combining all weights
+	    #obtain b-tagging event weight from per jet SFs
+            btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs) 
+	    #combining all weights
+            weight =  np.prod(leptonweight) * btagweight * puweight *  genweight 
             
         else:
             weight = 1.
@@ -456,7 +419,7 @@ class Skimmer(Module):
                 if event.LHEWeight_originalXWGTUP < 0.: lheweight = -1.
             except:
                 pass
-
+	
         # Gen
         self.isW = 0
         if self.isMC:
@@ -525,21 +488,27 @@ class Skimmer(Module):
           
      
         #Fill output branches
-	self.out.fillBranch("eventWeight", self.totalEventWeight)
+
+	self.out.fillBranch("mindR_Lep_ClosestAK4",  mindRLepAK4)
+        self.out.fillBranch("pT_rel_Lep_AK4",  pT_rel)
+        self.out.fillBranch("passingAK4_HT",  recoAK4_HT)
         self.out.fillBranch("genmatchedAK8",  self.isW)
+	'''
+	self.out.fillBranch("eventWeight", self.totalEventWeight)
         self.out.fillBranch("puweight", puweight )
         self.out.fillBranch("btagweight", btagweight )
         self.out.fillBranch("leptonweight", np.prod(leptonweight) )
         self.out.fillBranch("topweight", topweight )
         self.out.fillBranch("lheweight", lheweight )
-
+	'''
+	self.out.fillBranch("nSelectedAK4", len(recoAK4))        
         #self.out.fillBranch("passedMETfilters", passedMETFilters)
-        self.out.fillBranch("dr_LepJet"  , abs(dR_jetlep))
-        self.out.fillBranch("dphi_LepJet", abs(jetAK8_4v.DeltaPhi(lepton)))
+        self.out.fillBranch("dr_LepAK8"  , lepton.DeltaR(jetAK8_4v))
+        self.out.fillBranch("dphi_LepAK8", abs(jetAK8_4v.DeltaPhi(lepton)))
         self.out.fillBranch("dphi_LepMet", abs(lepton.DeltaPhi(MET)))
-        self.out.fillBranch("dphi_MetJet", abs(jetAK8_4v.DeltaPhi(MET)))
-        self.out.fillBranch("dphi_WJet"  , abs(jetAK8_4v.DeltaPhi(WcandLep)))
-        self.out.fillBranch("minJetMetDPhi", minJetMetDPhi )
+        self.out.fillBranch("dphi_MetAK8", abs(jetAK8_4v.DeltaPhi(MET)))
+        self.out.fillBranch("dphi_WAK8"  , abs(jetAK8_4v.DeltaPhi(WcandLep)))
+        self.out.fillBranch("minAK4MetDPhi", minAK4MetDPhi )
         self.out.fillBranch("Wlep_type",self.Vlep_type)
         self.out.fillBranch("Wlep_pt", WcandLep.Pt() )
         self.out.fillBranch("Wlep_mass", WcandLep.M() )
@@ -589,14 +558,14 @@ class Skimmer(Module):
 
         listMatched = []
         for q in allQuarksFromWtop:
-            #print event.event, q.pdgId, genParticles[q.genPartIdxMother].pdgId, q.p4().Pt()
+            ##print event.event, q.pdgId, genParticles[q.genPartIdxMother].pdgId, q.p4().Pt()
             if recoJet.p4().DeltaR( q.p4() )<0.3: listMatched.append( True )
             else: listMatched.append( False )
 
         if (len(listMatched)==4) and all(listMatched[:2]) and not all(listMatched[2:]): boosted = 2  ## only boostedW
         elif (len(listMatched)==4) and all(listMatched[:2]) and any(listMatched[2:]): boosted = 4      ## boosted Top
         else: boosted = 0
-        #print listMatched, boosted
+        ##print listMatched, boosted
 
         return boosted
     
@@ -618,7 +587,7 @@ class Skimmer(Module):
     def printCollection(self,coll):
         for ic,c in enumerate(coll):
             s = self.printP4( c )
-            print ' %3d : %s' % ( ic, s )
+            #print ' %3d : %s' % ( ic, s )
             
 
 ###################### Different gen functions

@@ -85,7 +85,7 @@ parser.add_argument(
     action="store",
     help="Event selection: decay channel for semileptonic ttbar",
     choices=["mu", "el", "elmu"],
-    default="elmu",
+    default="mu",
     required=False
 )
 
@@ -112,9 +112,9 @@ if not isMC: METFilters = METFilters + ' && (Flag_eeBadScFilter==1)'
 
 if args.channel.startswith(('mu')): Triggers = '(HLT_Mu50==1)' 
 if args.channel.startswith(('el')): 
-    if args.year=='2017': Triggers  = '( ( (HLT_Ele32WPTight==1) && ((L1_SingleLooseIsoEG26er2p5==1) || (L1_SingleLooseIsoEG26er1p5==1) || (L1_SingleLooseIsoEG28er2p5==1) || (L1_SingleLooseIsoEG28er2p1==1) || (L1_SingleLooseIsoEG28er1p5==1) || (L1_SingleLooseIsoEG30er2p5==1) || (L1_SingleLooseIsoEG30er1p5)==1 || (L1_SingleEG26er2p5==1) || (L1_SingleEG38er2p5==1) || (L1_SingleEG40er2p5==1) || (L1_SingleEG42er2p5==1) || (L1_SingleEG45er2p5==1) || (L1_SingleEG60==1) || (L1_SingleEG34er2p5==1) || (L1_SingleEG36er2p5==1) || (L1_SingleIsoEG24er2p1==1) || (L1_SingleIsoEG26er2p1==1) || (L1_SingleIsoEG28er2p1==1) || (L1_SingleIsoEG30er2p1==1) || (L1_SingleIsoEG32er2p1==1) || (L1_SingleIsoEG26er2p5==1) || (L1_SingleIsoEG28er2p5==1) || (L1_SingleIsoEG30er2p5==1) || (L1_SingleIsoEG32er2p5==1) || (L1_SingleIsoEG34er2p5==1) )'
-    else: Triggers  = '((HLT_Ele32_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
-if args.channel=='elmu': Triggers  = Triggers+' || (HLT_Mu50==1))' 
+    if args.year=='2017': Triggers  = '((HLT_Ele32_WPTight_Gsf==1) && ((L1_SingleLooseIsoEG30er1p5==1) || (L1_SingleEG45er2p5==1) || (L1_SingleEG36er2p5==1) || (L1_SingleIsoEG32er2p1==1) || (L1_SingleIsoEG34er2p5==1)) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1))'
+    else: Triggers  = '(HLT_Ele32_WPTight_Gsf==1) && (HLT_Ele115_CaloIdVT_GsfTrkIdT==1)'
+if args.channel=='elmu': Triggers  = Triggers+' || (HLT_Mu50==1)' 
 
 cuts = PV + " && " + METFilters + " && " + Triggers
 
@@ -169,12 +169,15 @@ modulesToRun = []
 if isMC:
     if args.year=='2018':
 	modulesToRun.append( puWeight_2018() )
+	print "Running with btag SF calc."
 	modulesToRun.append( btagSF2018() )
     if args.year=='2017':
 	modulesToRun.append( puWeight_2017() )
-	modulesToRun.append( btagSF2017() )
+	#print "Running with btag SF calc."	
+	#modulesToRun.append( btagSF2017() )
     if args.year=='2016':
 	modulesToRun.append( puWeight_2016() )
+	print "Running with btag SF calc."
 	modulesToRun.append( btagSF2016() )
     
 modulesToRun.append( fatJetCorrector() )
@@ -192,7 +195,7 @@ p1=PostProcessor(
         #jsonInput   = runsAndLumis(),
         maxEntries   = args.numEvents,
         prefetch     = args.local,
-        longTermCache= args.local,
+        longTermCache = args.local,
         fwkJobReport = True,
         haddFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_nanoskim.root" if args.local else "boostedWtaggingSF_nanoskim.root",
         #histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
