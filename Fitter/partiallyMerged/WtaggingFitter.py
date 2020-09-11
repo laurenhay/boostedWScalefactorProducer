@@ -52,7 +52,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.constraintlist = []
 
-		self.savemodel = True
+		self.savemodel = False
 
 
 		self.MakeFitModel(self.savemodel)
@@ -76,19 +76,19 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", massvar, "TTsignal", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
+		self.FitSampleStr("HP:tt:real:model", "HP:ttrealW", "HP", massvar, "TTsignal", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
 
 
-		self.FitSampleStr("HP:VV:model", "HP:VV", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:VV:model", "HP:VV", "HP", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
 
 
-		self.FitSampleStr("HP:st:model", "HP:st", massvar, "STbackgroundHP", True,  self.directory["fitMC"])
+		self.FitSampleStr("HP:st:model", "HP:st", "HP",massvar, "STbackgroundHP", True,  self.directory["fitMC"])
 
 		
-		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
+		self.FitSampleStr("HP:tt:fake:model", "HP:ttfakeW", "HP",massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
 
 
-		self.FitSampleStr("HP:WJets:model", "HP:WJets", massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:WJets:model", "HP:WJets", "HP",massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
 
 
 		#fitstuff = {
@@ -123,8 +123,6 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		modelMC = self.LoadPdf("HP:fullMC:model")
 
-		self.workspace.Print()
-
 
 		self.LoadSnapshot("TTsignal")
 
@@ -143,7 +141,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		modelMC.Print()
 
-		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, massvar, "FullMCFit", True, self.directory["fitMC"])
+		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, "HP", massvar, "FullMCFit", True, self.directory["fitMC"])
 
 		modelMC.Print()
 
@@ -155,12 +153,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 
 
-	def FitSampleStr(self, modelname, samplename, variable, instancename="", savesnapshot = False, directory="", fitoptions=None): 
+	def FitSampleStr(self, modelname, samplename, fitrange, variable, instancename="", savesnapshot = False, directory="", fitoptions=None): 
 		sample = self.LoadDataset1D(samplename, variable)
 		model = self.LoadPdf(modelname)
-		return self.FitSample({model:sample}, variable, instancename, savesnapshot, directory, fitoptions)
+		return self.FitSample({model:sample}, fitrange, variable, instancename, savesnapshot, directory, fitoptions)
 
-	def FitSample(self, samplelist, variable, instancename="", savesnapshot=False, directory="", fitoptions=None): 
+	def FitSample(self, samplelist, fitrange, variable, instancename="", savesnapshot=False, directory="", fitoptions=None): 
 		if (fitoptions==None): # TODO: fix! 
 			if hasattr(self, "fitoptions"): 
 				fitoptions = self.fitoptions
@@ -175,7 +173,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		fitresult = []
 		for model, dataset in samplelist.items():
-			result = model.fitTo(dataset, ROOT.RooFit.Save(1), ROOT.RooFit.SumW2Error(ROOT.kTRUE), ROOT.RooFit.Extended(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2")) 
+			result = model.fitTo(dataset, ROOT.RooFit.Range(fitrange), ROOT.RooFit.Save(1), ROOT.RooFit.SumW2Error(ROOT.kTRUE), ROOT.RooFit.Extended(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2")) 
 			fitresult.append(result)
 			dataset.plotOn(plot, ROOT.RooFit.DataError(ROOT.RooAbsData.SumW2))
 			model.plotOn(plot)
@@ -358,6 +356,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		fitvariable = self.workspace.var(self.fitvarname)
 		#self.workspace.factory("DoubleCrystalBall::HP:tt:SignalModel({}, signalMean1[80., 100.], signalMean1[-10., 10.], signalSigma[0., 50.], signalSigma[0., 50.], sign1[0.01, 5.], sign1[0.01, 10.]".format(self.fitvarname)) # TODO: check how we can use the factory syntax with custom Pdfs. 
 
+		# --- HP model ----
+
 		# Signal model in the HP category 
 		ttrealWmean   = ROOT.RooRealVar("HP:tt:mean", "HP:tt:mean", 89., 80., 95.) 
 		ttrealWsigma  = ROOT.RooRealVar("HP:tt:sigma", "HP:tt:sigma", 8., 2.5, 50.)
@@ -442,7 +442,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		mcTTnumber = ROOT.RooRealVar("HP:MC:number", "HP:MC:number", 500., 0., 1e20)
 
-		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(WJetsshape, VVshape, STshape, ttfakeWshape, ttrealWshape), ROOT.RooArgList(WJetsnumber, VVnumber, STnumber, ttfakeWnumber, mcTTnumber))
+		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(WJetsshape, VVshape, STshape, ttfakeWshape, ttrealWshape), ROOT.RooArgList(WJetsnumber, VVnumber, STnumber, ttfakeWnumber, mcTTnumber)) # TODO: check if want to add models instead of shapes
+
 		print fullMCmodel
 
 		self.ImportToWorkspace(fullMCmodel, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
@@ -469,6 +470,10 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		if (saveworkspace): 
 			self.SaveWorkspace()
 
+		# --- LP model ----
+
+
+
 
 
 
@@ -490,10 +495,13 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 				print "Aborting!"
 				sys.exit()
 
+		assert((options.cutHP > 0.) and (options.cutHP < 1.)), "ERROR: Invalid HP cut. Please choose a HP cut in ]0, 1[."
+		assert((options.cutLP > 0.) and (options.cutLP < 1.)), "ERROR: Invalid LP cut. Please specify a LP cut in ]0, 1[."
+		assert(options.cutHP < options.cutLP), "ERROR: Inverted cuts! Pleas make sure (HP cut) < (LP cut)."
 		workspace = ROOT.RooWorkspace(self.workspacename, self.workspacename)
 
 		mass = ROOT.RooRealVar(options.massvar, options.massvar, options.minX, options.maxX) #workspace.var("mass") # TODO: Do we really want to set a range here (additional cut w.r.t. tree variable)?
-		tagger = ROOT.RooRealVar(options.tagger, options.tagger, 0., options.cutLP)
+		tagger = ROOT.RooRealVar(options.tagger, options.tagger, 0., 1.)
 		tagger.setRange("HP", 0., options.cutHP)
 		tagger.setRange("LP", options.cutHP, options.cutLP)
 		weight = ROOT.RooRealVar("weight", "weight", 0., 10000000.)    # variables = ROOT.RooArgSet(x, y)
@@ -527,6 +535,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttrealW", argset, cutFail+additionalCutMerged, weightvarname))
 		workspace.writeToFile(filename)
 		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "LP:ttfakeW", argset, cutFail+additionalCutUnmerged, weightvarname))
+
+		# The ranges were set 
 
 
 		#sample = dataset.getSample("tt")
