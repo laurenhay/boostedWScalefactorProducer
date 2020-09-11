@@ -542,8 +542,10 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "ttfakeW", argset, additionalCutUnmerged, weightvarname))
 
 		# The ranges will be set at a later point
-		cutHP = ROOT.RooRealVar("cutHP", "cutHP", options.cutHP)
+		cutHP = ROOT.RooRealVar("cutHP", "cutHP", options.cutHP) # TODO: do we really want to store the cuts here? should probably be stored as snapshots of ranges 
 		cutLP = ROOT.RooRealVar("cutLP", "cutLP", options.cutLP)
+		getattr(workspace, "import")(cutHP)
+		getattr(workspace, "import")(cutLP)
 
 
 		#sample = dataset.getSample("tt")
