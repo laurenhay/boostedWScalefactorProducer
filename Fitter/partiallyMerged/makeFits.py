@@ -1036,11 +1036,11 @@ if __name__ == '__main__':
 
     fitter = WTaggingFitter(options)
 
-    fitter.FitMC(options)
+    fitter.FitMC()
 
-    fitter.FitControlRegion(options)
+    fitter.FitControlRegion()
 
-    fitter.TestFit()
+    #fitter.TestFit()
 
 
 #    if options.fitTT:
