@@ -119,11 +119,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		massvar = self.LoadVariable(self.fitvarname)
 
-		fullMC = ROOT.RooDataSet(self.LoadDataset1D("WJets", massvar), "fullMC")
-		fullMC.append(self.LoadDataset1D("st", massvar))
-		fullMC.append(self.LoadDataset1D("VV", massvar))
-		fullMC.append(self.LoadDataset1D("ttfakeW", massvar))
-		fullMC.append(self.LoadDataset1D("ttrealW", massvar))
+		fullMC = ROOT.RooDataSet(self.LoadDataset1D("WJets", massvar, "fitRange_HP"), "fullMC")
+		fullMC.append(self.LoadDataset1D("st", massvar, "fitRange_HP"))
+		fullMC.append(self.LoadDataset1D("VV", massvar, "fitRange_HP"))
+		fullMC.append(self.LoadDataset1D("ttfakeW", massvar, "fitRange_HP"))
+		fullMC.append(self.LoadDataset1D("ttrealW", massvar, "fitRange_HP"))
 
 		fullMC.Print()
 
@@ -154,7 +154,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		modelMC.Print()
 
-		#MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, "fitRange_HP", massvar, "FullMCFit", True, self.directory["fitMC"])
+		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, "fitRange_HP", massvar, "FullMCFit", True, self.directory["fitMC"])
 
 
 
@@ -403,7 +403,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		ttfakeWwidth  = ROOT.RooRealVar("HP:tt:fake:width" ,"HP:tt:fake:width", 40, 25, 300) # 40, 25, 100
 		ttfakeWcoefficient  = ROOT.RooRealVar("HP:tt:fake:coefficient" ,"HP:tt:fake:coefficient", -0.03, -1., 0.) # -0.04, -1, 0.
 		ttfakeWshape     = ROOT.RooErfExpPdf("HP:tt:fake:shape", "HP:tt:fake:shape" ,fitvariable, ttfakeWcoefficient, ttfakeWoffset, ttfakeWwidth)
-		ttfakeWnumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 0., 1e15)
+		ttfakeWnumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 1., 1e15)
 		ttfakeWmodel = ROOT.RooExtendPdf("HP:tt:fake:model", "HP:tt:fake:model", ttfakeWshape, ttfakeWnumber)
 		
 		self.ImportToWorkspace(ttfakeWmodel)
@@ -418,7 +418,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		VVExp = ROOT.RooExponential("HP:VV:Exponential", "HP:VV:exponential", fitvariable, VValpha)
 		VVGauss = ROOT.RooGaussian("HP:VV:Gaussian", "HP:VV:gaussian", fitvariable ,VVmean, VVsigma)
 		VVshape = ROOT.RooAddPdf("HP:VV:shape","HP:VV:shape", ROOT.RooArgList(VVExp, VVGauss), ROOT.RooArgList(VVfactor))
-		VVnumber = ROOT.RooRealVar("HP:VV:number", "HP:VV:number", 0., 1e15)
+		VVnumber = ROOT.RooRealVar("HP:VV:number", "HP:VV:number", 1., 1e15)
 		VVmodel = ROOT.RooExtendPdf("HP:VV:model", "HP:VV:model", VVshape, VVnumber)
 		
 		self.ImportToWorkspace(VVmodel)
@@ -433,17 +433,17 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		STGauss = ROOT.RooGaussian ("HP:st:Gaussian" ,"HP:st:Gaussian" , fitvariable, STmean, STsigma)
 		STfactor = ROOT.RooRealVar("HP:st:factor", "HP:st:factor", 0.3, 0.0, 0.99)
 		STshape = ROOT.RooAddPdf("HP:st:shape", "HP:st:shape", STErfExp, STGauss, STfactor)
-		STnumber = ROOT.RooRealVar("HP:st:number", "HP:st:number", 0., 1e15)
+		STnumber = ROOT.RooRealVar("HP:st:number", "HP:st:number", 1., 1e15)
 		STmodel = ROOT.RooExtendPdf("HP:st:model", "HP:st:model", STshape, STnumber)
 
 		self.ImportToWorkspace(STmodel)
 
 		# Backgound W+Jets model
-		WJetscoeff  = ROOT.RooRealVar("HP:WJets:coefficient", "HP:WJets:coefficient", -0.026, -0.05, 0.05)
-		WJetsoffset = ROOT.RooRealVar("HP:WJets:offset", "HP:WJets:offset" ,41. ,0., 100)
+		WJetscoeff  = ROOT.RooRealVar("HP:WJets:coefficient", "HP:WJets:coefficient", -0.026, -0.05, 0.01)
+		WJetsoffset = ROOT.RooRealVar("HP:WJets:offset", "HP:WJets:offset" ,80. ,0., 100)
 		WJetswidth  = ROOT.RooRealVar("HP:WJets:width", "HP:WJets:width", 30., 1., 100.)
 		WJetsshape  = ROOT.RooErfExpPdf("HP:WJets:shape", "HP:WJets:shape", fitvariable, WJetscoeff, WJetsoffset, WJetswidth)
-		WJetsnumber = ROOT.RooRealVar("HP:WJets:number", "HP:WJets:number", 0., 1e15)
+		WJetsnumber = ROOT.RooRealVar("HP:WJets:number", "HP:WJets:number", 1., 1e15)
 		WJetsmodel = ROOT.RooExtendPdf("HP:WJets:model", "HP:WJets:model", WJetsshape, WJetsnumber)
 		
 		self.ImportToWorkspace(WJetsmodel, saveworkspace)
@@ -453,12 +453,12 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			#self.workspace.saveSnapshot("buildmodel", VVmodel.getParameters(ROOT.RooArgSet(fitvariable)), ROOT.kTRUE) # works too - recommended! 
 
 		# Full background model (MC)
-		fullbackgroundMCnumber = ROOT.RooRealVar("HP:background:MC:number", "HP:background:MC:number", 0., 1e15)
+		fullbackgroundMCnumber = ROOT.RooRealVar("HP:background:MC:number", "HP:background:MC:number", 1., 1e15)
 		fullbackgroundMCmodel = ROOT.RooExtendPdf("HP:background:MC:model", "HP:background:MC:model", ttfakeWshape, fullbackgroundMCnumber)
 		#self.ImportToWorkspace(fullbackgroundMCmodel)
 
 		# Full signal model (MC)
-		fullsignalMCnumber = ROOT.RooRealVar("HP:signal:MC:number", "HP:signal:MC:number", 0., 1e15)
+		fullsignalMCnumber = ROOT.RooRealVar("HP:signal:MC:number", "HP:signal:MC:number", 1., 1e15)
 		fullsignalMCmodel = ROOT.RooExtendPdf("HP:signal:MC:model", "HP:signal:MC:model", ttrealWshape, fullsignalMCnumber)
 
 		mcTTnumber = ROOT.RooRealVar("HP:MC:number", "HP:MC:number", 500., 0., 1e20)
@@ -475,13 +475,13 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		self.ImportToWorkspace(simultaneousmodel, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
 		# Full background model in for data
-		fullbackgrounddatanumber = ROOT.RooRealVar("HP:background:data:number", "HP:background:data:number", 0., 1e15)
+		fullbackgrounddatanumber = ROOT.RooRealVar("HP:background:data:number", "HP:background:data:number", 1., 1e15)
 		fullbackgrounddatamodel = ROOT.RooExtendPdf("HP:background:data:model", "HP:background:data:model", ttrealWshape, fullbackgrounddatanumber)
 		#if (saveworkspace): 
 			#self.ImportToWorkspace(fullbackgrounddatamodel)
 
 		# Full signal model for data
-		fullsignaldatanumber = ROOT.RooRealVar("HP:signal:data:number", "HP:signal:data:number", 0., 1e15)
+		fullsignaldatanumber = ROOT.RooRealVar("HP:signal:data:number", "HP:signal:data:number", 1., 1e15)
 		fullsignaldatamodel = ROOT.RooExtendPdf("HP:signal:data:model", "HP:signal:data:model", ttrealWshape, fullsignaldatanumber)
 
 		fulldatamodel = ROOT.RooAddPdf("HP:data:model", "HP:data:model", ROOT.RooArgList(fullsignaldatamodel, fullbackgrounddatamodel))
