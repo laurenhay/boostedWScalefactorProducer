@@ -119,7 +119,7 @@ class Fitter:
 		return self.FixAllParametersBase(model, dataset)
 
 	def FixAllParametersBase(self, model, dataset):
-		parameters = model.getParameters(dataset)
+		parameters = model.getParameters(dataset) # TODO: Make also accept string as model 
 		paramIter = parameters.createIterator()
 		paramIter.Reset()
 		param=paramIter.Next()
@@ -208,13 +208,19 @@ class Fitter:
 		assert(self.workspace.pdf(name)), "ERROR: The workspace does not contain any pdf named '{}'!".format(name)
 		return self.workspace.pdf(name) 
 
-	def LoadDataset1D(self, name, variable, binned = None): 
-		return self.LoadDataset(name, ROOT.RooArgSet(variable), binned)
+	def LoadDataset1D(self, name, variable, cutrange = None, binned = None): 
+		if (cutrange != None): 
+			assert(isinstance(cutrange, str)), "ERROR: The arguemet 'cutrange' provided: {} is of wrong type. Should be a 'str'!".format(cutrange) # TODO: make it possible to also provide char cuts 
+			cutrange = ROOT.RooFit.CutRange(cutrange) # Also use cut for string expression 
+		return self.LoadDataset(name, ROOT.RooArgSet(variable), cutrange, binned)
 
-	def LoadDataset(self, name, variables, binned = None): 
+	def LoadDataset(self, name, variables, cut = None, binned = None): 
 		assert(self.workspace.data(name)), "ERROR: The workspace does not contain any dataset named '{}'!".format(name)
 		# TODO: check if the dataset depends on the variables given in the RooArgSet
-		dataset = self.workspace.data(name).reduce(variables)
+		dataset = self.workspace.data(name)
+		if (cut != None): 
+			dataset = dataset.reduce(cut)
+		dataset = dataset.reduce(variables)
 		if (binned == None): 
 			binned = self.binned
 		assert(binned in [0, 1]), "ERROR: The parameter 'binned' provided: {}, is invalid, should be a boolean.".format(binned)

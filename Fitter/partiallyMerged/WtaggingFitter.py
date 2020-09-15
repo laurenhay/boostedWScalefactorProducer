@@ -30,6 +30,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.fitvarname = options.massvar
 
+		self.taggername = options.tagger
+
 		# Defining the samples
 		self.background = ["tt", "VV", "SingleTop", ] # TODO: define a class "sample" with a chain and cut on it 
 
@@ -56,8 +58,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		# --- Making the HP and LP ranges ---- 
 		tagger = self.LoadVariable(options.tagger)
-		tagger.setRange("HP", 0., options.cutHP)
-		tagger.setRange("LP", options.cutHP, options.cutLP)
+		tagger.setRange("fitRange_HP", 0., options.cutHP)
+		tagger.setRange("fitrange_LP", options.cutHP, options.cutLP)
 
 
 		self.MakeFitModel(self.savemodel)
@@ -81,19 +83,19 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		#roofitoptions.Add(ROOT.RooFit.Minimizer("Minuit2")) # Use the Minuit2 minimizer (possible options: OldMinuit, Minuit (default), Minuit2, GSLMultiMin, GSLSimAn)
 		##roofitoptions.Add(ROOT.RooFit.Verbose(ROOT.kFALSE)) # Disable verbosity 
 
-		self.FitSampleStr("HP:tt:real:model", "ttrealW", "HP", massvar, "TTsignal", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
+		self.FitSampleStr("HP:tt:real:model", "ttrealW" , "fitRange_HP", massvar, "TTsignal", True, self.directory["fitMC"]) #self.FitSample({self.LoadPdf("HP:tt:real:model"):self.workspace.data("ttrealW").reduce(ROOT.RooFit.SelectVars(ROOT.RooArgSet(massvar, self.LoadVariable(self.taggername))), ROOT.RooFit.CutRange("fitRange_HP")).reduce(ROOT.RooFit.SelectVars(ROOT.RooArgSet(massvar)))}, "fitRange_HP", massvar, "TTsignal", True, self.directory["fitMC"]) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot) # TODO: give "fitMC" and name as arguments and create everything within FitSample (plot, stream, snapshoot)
 
 
-		self.FitSampleStr("HP:VV:model", "VV", "HP", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:VV:model", "VV", "fitRange_HP", massvar, "VVbackgroundHP", True, self.directory["fitMC"])
 
 
-		self.FitSampleStr("HP:st:model", "st", "HP",massvar, "STbackgroundHP", True,  self.directory["fitMC"])
+		self.FitSampleStr("HP:st:model", "st", "fitRange_HP", massvar, "STbackgroundHP", True,  self.directory["fitMC"])
 
 		
-		self.FitSampleStr("HP:tt:fake:model", "ttfakeW", "HP",massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
+		self.FitSampleStr("HP:tt:fake:model", "ttfakeW", "fitRange_HP",massvar, "TTfakeWHP", True, self.directory["fitMC"]) # maybe rename to FitSample1D
 
 
-		self.FitSampleStr("HP:WJets:model", "WJets", "HP",massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
+		self.FitSampleStr("HP:WJets:model", "WJets", "fitRange_HP",massvar, "WJetsbackgroundHP", True, self.directory["fitMC"])
 
 
 		#fitstuff = {
@@ -131,15 +133,15 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.LoadSnapshot("STbackgroundHP")
 
-		self.FixAllParameters("HP:st:model")
+		self.FixAllParametersBase(self.LoadPdf("HP:st:model"), fullMC) # TODO: fix to only take massvar 
 
 		self.LoadSnapshot("VVbackgroundHP")
 
-		self.FixAllParameters("HP:VV:model")
+		self.FixAllParametersBase(self.LoadPdf("HP:VV:model"), fullMC)
 
 		self.LoadSnapshot("WJetsbackgroundHP")
 
-		self.FixAllParameters("HP:WJets:model")
+		self.FixAllParametersBase(self.LoadPdf("HP:WJets:model"), fullMC)
 
 		self.LoadSnapshot("TTfakeWHP")
 
@@ -152,7 +154,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		modelMC.Print()
 
-		MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, "HP", massvar, "FullMCFit", True, self.directory["fitMC"])
+		#MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, "fitRange_HP", massvar, "FullMCFit", True, self.directory["fitMC"])
+
+
 
 		modelMC.Print()
 
@@ -166,7 +170,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 
 	def FitSampleStr(self, modelname, samplename, fitrange, variable, instancename="", savesnapshot = False, directory="", fitoptions=None): 
-		sample = self.LoadDataset1D(samplename, variable)
+		sample = self.LoadDataset1D(samplename, variable, fitrange)
 		model = self.LoadPdf(modelname)
 		return self.FitSample({model:sample}, fitrange, variable, instancename, savesnapshot, directory, fitoptions)
 
@@ -368,6 +372,11 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		fitvariable = self.workspace.var(self.fitvarname)
 		#self.workspace.factory("DoubleCrystalBall::HP:tt:SignalModel({}, signalMean1[80., 100.], signalMean1[-10., 10.], signalSigma[0., 50.], signalSigma[0., 50.], sign1[0.01, 5.], sign1[0.01, 10.]".format(self.fitvarname)) # TODO: check how we can use the factory syntax with custom Pdfs. 
 
+		# --- Defining the categories ---- 
+		regions = ROOT.RooCategory("regions", "regions")
+		regions.defineType("HP")
+		regions.defineType("LP")
+
 		# --- HP model ----
 
 		# Signal model in the HP category 
@@ -454,11 +463,16 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		mcTTnumber = ROOT.RooRealVar("HP:MC:number", "HP:MC:number", 500., 0., 1e20)
 
-		fullMCmodel = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(WJetsshape, VVshape, STshape, ttfakeWshape, ttrealWshape), ROOT.RooArgList(WJetsnumber, VVnumber, STnumber, ttfakeWnumber, mcTTnumber)) # TODO: check if want to add models instead of shapes
+		fullMCmodelHP = ROOT.RooAddPdf("HP:fullMC:model", "HP:fullMC:model", ROOT.RooArgList(WJetsshape, VVshape, STshape, ttfakeWshape, ttrealWshape), ROOT.RooArgList(WJetsnumber, VVnumber, STnumber, ttfakeWnumber, mcTTnumber)) # TODO: check if want to add models instead of shapes
 
-		print fullMCmodel
+		self.ImportToWorkspace(fullMCmodelHP, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
-		self.ImportToWorkspace(fullMCmodel, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
+		simultaneousmodel = ROOT.RooSimultaneous("simultaneousMCmodel", "simultaneousMCmodel", regions)
+		simultaneousmodel.addPdf(self.LoadPdf("HP:fullMC:model"), "HP")
+
+		print fullMCmodelHP
+
+		self.ImportToWorkspace(simultaneousmodel, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
 		# Full background model in for data
 		fullbackgrounddatanumber = ROOT.RooRealVar("HP:background:data:number", "HP:background:data:number", 0., 1e15)
@@ -474,15 +488,17 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.ImportToWorkspace(fulldatamodel, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
-		#self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)), fulldatamodel.getParameters(ROOT.RooArgSet(fitvariable))), ROOT.kTRUE) # works too - recommended! 
+		#self.workspace.saveSnapshot("buildmodel", ROOT.RooArgSet(fullMCmodelHP.getParameters(ROOT.RooArgSet(fitvariable)), fulldatamodel.getParameters(ROOT.RooArgSet(fitvariable))), ROOT.kTRUE) # works too - recommended! 
 
-		self.workspace.defineSet("parameters", fullMCmodel.getParameters(ROOT.RooArgSet(fitvariable)))
+		self.workspace.defineSet("parameters", fullMCmodelHP.getParameters(ROOT.RooArgSet(fitvariable)))
 		self.workspace.defineSet("observables", ROOT.RooArgSet(fitvariable))
 
 		if (saveworkspace): 
 			self.SaveWorkspace()
 
 		# --- LP model ----
+		ttfakeWnumberLP = ROOT.RooRealVar("LP:tt:fake:number", "LP:tt:fake:number", 0., 1e15)
+
 
 
 
@@ -535,8 +551,8 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			#workspace.writeToFile(filename)
 
 		# For tt we need an additional cut to separate it into gen matched merged W and unmerged
-		additionalCutMerged = "&&(genmatchedAK82017==1)"
-		additionalCutUnmerged = "&&(genmatchedAK82017==0)"
+		additionalCutMerged = "(genmatchedAK82017==1)" #"&&(genmatchedAK82017==1)"
+		additionalCutUnmerged = "(genmatchedAK82017==0)" #"&&(genmatchedAK82017==0)"
 		merged = ROOT.RooRealVar("genmatchedAK82017", "genmatchedAK82017", 0., 1.)
 		argset.add(merged)
 		getattr(workspace, "import")(self.CreateDataset(dataset.getSample("tt"), "ttrealW", argset, additionalCutMerged, weightvarname))
