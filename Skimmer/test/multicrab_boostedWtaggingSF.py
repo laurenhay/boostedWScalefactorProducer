@@ -67,7 +67,8 @@ def submitJobs( job, inputFiles, unitJobs ):
     #config.Data.publishDBS = 'phys03'
     config.Data.inputDBS = 'global'
     #config.Data.ignoreLocality = True
-   
+    config.Data.allowNonValidInputDataset = True
+
     config.section_("Site")
     config.Site.storageSite = options.storageSite
     #config.Site.whitelist = ['T1_US_FNAL','T2_CH_CSCS','T3_US_FNALLPC']
