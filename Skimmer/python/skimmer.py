@@ -60,7 +60,7 @@ class Skimmer(Module):
         self.minAK4JetPt = 30.
         self.maxAK4JetEta = 2.4
         self.minBDisc = 0.3093  ### L: 0.0614, M: 0.3093, T: 07221, for DeepJet (ie, DeepFlavB)
-	#self.mindRAK4Mu = 0.4 
+
 
         ### Kinematics Cuts AK8Jets ###
         self.minAK8JetPt = 200  
@@ -94,6 +94,10 @@ class Skimmer(Module):
     def beginJob(self, histFile, histDirName):
             
         Module.beginJob(self, histFile, histDirName)
+        # For debugging the pT_rel and dR selections
+        self.addObject(ROOT.TH2F('pT_rel_dR_lepAK4', ';p_{T}^{rel}; #Delta R(lep, AK4)', 1000, 0, 500, 1000, 0., 6.28) )
+        self.addObject(ROOT.TH2F('mindRlepAK4_etas', ';min #Delta R lep_{#eta}; min #Delta R AK4_{#eta}', 100, -3., 3., 100, -3., 3.) )
+        
         
         #self.yearSpecificConfig = SpecificYearConfig(self.year, self.verbose)
    	self.nEventsProcessed=0
@@ -130,7 +134,10 @@ class Skimmer(Module):
         self.out.branch("SelectedJet_eta",  "F")
         self.out.branch("SelectedJet_mass", "F")
         self.out.branch("SelectedLepton_pt",  "F")
+        self.out.branch("SelectedLepton_eta",  "F")
         self.out.branch("SelectedLepton_iso",  "F")
+        self.out.branch("mindRAK4_eta", "F")
+        self.out.branch("mindRAK4_pT", "F")
         self.out.branch("Wlep_type",  "I")
         self.out.branch("Wlep_pt",  "F")
         self.out.branch("Wlep_mass",  "F")
@@ -150,6 +157,7 @@ class Skimmer(Module):
         self.out.branch("topweight",  "F")
         self.out.branch("btagweight",  "F")
         self.out.branch("leptonweight",  "F")
+        
 
         pass
 
@@ -383,7 +391,7 @@ class Skimmer(Module):
 	# to prevent angular overlap between leptons and the AK8
         if not abs(jetAK8_4v.DeltaPhi(lepton)>2.): 
             return False 
-
+        
         # No lepton overlap
         #dR_jetlep = jetAK8_4v.DeltaR(lepton )
         #if dR_jetlep < self.mindRLepJet : return False
@@ -485,22 +493,24 @@ class Skimmer(Module):
                 	if dR < 0.6: # changed from 0.8 for tighter matching criterion (as per CMS-JME-18-002)
                   	    nDau +=1                 
                   	    self.isW = 1
-          
-     
+        
         #Fill output branches
-
+	if mindRLepAK4>(3.14/2.):
+	    getattr(self, 'mindRlepAK4_etas').Fill(lepton.Eta(), jetAK4_4v.Eta() )
+	getattr(self, 'pT_rel_dR_lepAK4').Fill(pT_rel, mindRLepAK4)
+	self.out.fillBranch("mindRAK4_eta", jetAK4_4v.Eta())
+        self.out.fillBranch("mindRAK4_pT", jetAK4_4v.Pt())
+     
 	self.out.fillBranch("mindR_Lep_ClosestAK4",  mindRLepAK4)
         self.out.fillBranch("pT_rel_Lep_AK4",  pT_rel)
         self.out.fillBranch("passingAK4_HT",  recoAK4_HT)
         self.out.fillBranch("genmatchedAK8",  self.isW)
-	'''
 	self.out.fillBranch("eventWeight", self.totalEventWeight)
         self.out.fillBranch("puweight", puweight )
         self.out.fillBranch("btagweight", btagweight )
         self.out.fillBranch("leptonweight", np.prod(leptonweight) )
         self.out.fillBranch("topweight", topweight )
         self.out.fillBranch("lheweight", lheweight )
-	'''
 	self.out.fillBranch("nSelectedAK4", len(recoAK4))        
         #self.out.fillBranch("passedMETfilters", passedMETFilters)
         self.out.fillBranch("dr_LepAK8"  , lepton.DeltaR(jetAK8_4v))
@@ -518,6 +528,7 @@ class Skimmer(Module):
         self.out.fillBranch("SelectedJet_eta",  recoAK8[0].eta)
         self.out.fillBranch("SelectedJet_mass",  recoAK8[0].mass)
         self.out.fillBranch("SelectedLepton_pt", lepton.Pt())
+        self.out.fillBranch("SelectedLepton_eta", lepton.Eta())
         self.out.fillBranch("SelectedLepton_iso",  iso)
         if recoAK8[0].tau1 > 0.0: 
           tau21 = recoAK8[0].tau2/recoAK8[0].tau1
