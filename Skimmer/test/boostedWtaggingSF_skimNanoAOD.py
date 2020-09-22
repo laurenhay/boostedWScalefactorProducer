@@ -21,7 +21,6 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 impor
 from boostedWScalefactorProducer.Skimmer.skimmer import Skimmer
 
 
-
 print '---------------------------------------------------'
 print 'Input files:'
 print inputFiles()
@@ -198,8 +197,8 @@ p1=PostProcessor(
         longTermCache = args.local,
         fwkJobReport = True,
         haddFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_nanoskim.root" if args.local else "boostedWtaggingSF_nanoskim.root",
-        #histFileName = "boostedWtagging_"+args.year+"_histograms.root" if args.local else 'boostedWtagging_histograms.root',
-        #histDirName  = 'boostedWtagging',
+        histFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_histograms.root" if args.local else 'boostedWtagging_histograms.root',
+        histDirName  = 'boostedWtaggingSF_'+ args.year,
         )
 p1.run()
 print "DONE"
