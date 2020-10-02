@@ -151,6 +151,16 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		self.LoadSnapshot("TTsignal")
 
+		self.FixParameterBase("LP:tt:fake:number", modelMC, fullMC)
+
+		self.FixParameterBase("LP:MC:number", modelMC, fullMC)
+
+		#self.FixParameterBase("HP:st:number", modelMC, fullMC)
+
+		#self.FixParameterBase("HP:VV:number", modelMC, fullMC)
+
+		#self.FixParameterBase("HP:WJets:number", modelMC, fullMC)
+
 
 		fullMC = ROOT.RooDataSet(self.LoadDataset("WJets", ROOT.RooArgSet(massvar, self.LoadVariable(self.taggername))), "fullMC")
 		fullMC.append(self.LoadDataset("st", ROOT.RooArgSet(massvar, self.LoadVariable(self.taggername))))
@@ -178,11 +188,10 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		fullMCCombined = ROOT.RooDataSet("combinedMC", "combined MC dataset", ROOT.RooArgSet(massvar), ROOT.RooFit.Index(self.workspace.cat("regions")), ROOT.RooFit.Import("HP", fullMCHP), ROOT.RooFit.Import("LP", fullMCLP))
 
 
-
 		modelMC.Print()
 
 		#MCfitresult, MCplot = self.FitSample({modelMC:fullMC}, "fitRange_HP", massvar, "FullMCFit", True, self.directory["fitMC"])
-		combinedfitresult = self.CombinedFit(modelMC, fullMCCombined, "fitRange", massvar, "CombinedFit", True)
+		combinedfitresult = self.CombinedFit(modelMC, fullMCCombined, "fitRange", massvar, "CombinedFit", True, self.directory["fitMC"])
 
 
 
@@ -247,14 +256,29 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		variable.Print()
 		self.workspace.Print()
 		regions = self.workspace.cat("regions")
-		plotHP = variable.frame(ROOT.RooFit.Title("HP"))
-		resultHP = model.fitTo(sample, ROOT.RooFit.ProjWData(ROOT.RooArgSet(regions), sample), ROOT.RooFit.Range(fitrange), ROOT.RooFit.SplitRange(), ROOT.RooFit.Save(1), ROOT.RooFit.SumW2Error(ROOT.kTRUE), ROOT.RooFit.Extended(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2"))
-		sample.plotOn(plotHP, ROOT.RooFit.Cut("regions==regions::HP"))
+		
+		fitresult = model.fitTo(sample, ROOT.RooFit.ProjWData(ROOT.RooArgSet(regions), sample), ROOT.RooFit.Range(fitrange), ROOT.RooFit.SplitRange(), ROOT.RooFit.Save(1), ROOT.RooFit.SumW2Error(ROOT.kTRUE), ROOT.RooFit.Extended(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2"))
 
-		plotLP = variable.frame(Title("LP"))
+		# HP plot
+		canvasHP = ROOT.TCanvas("canvasHP", "HP fit on MC", 800, 600)
+		plotHP = variable.frame(ROOT.RooFit.Title("HP"))
+		sample.plotOn(plotHP, ROOT.RooFit.Cut("regions==regions::HP"))
+		model.plotOn(plotHP, ROOT.RooFit.Slice(regions, "HP")) # ROOT.RooFit.ProjWData(regions, sample), 
+		plotHP.Draw()
+		canvasHP.Draw()
+
+		# LP plot
+		canvasLP = ROOT.TCanvas("canvasLP", "LP fit on MC", 800, 600)
+		plotLP = variable.frame(ROOT.RooFit.Title("LP"))
 		sample.plotOn(plotLP, ROOT.RooFit.Cut("regions==regions::LP"))
 		
-		model.plotOn(plotLP, ROOT.RooFit.Slice(region, "LP"), ROOT.RooFit.ProjWData(region, sample))
+		model.plotOn(plotLP, ROOT.RooFit.Slice(regions, "LP")) # model.plotOn(plotLP, ROOT.RooFit.Slice(regions, "LP"), ROOT.RooFit.ProjWData(regions, sample))
+		plotLP.Draw()
+		canvasLP.Draw()
+
+		for savingformat in self.saveasformats: 
+			canvasHP.Print(directory+instancename+"HP"+savingformat)
+			canvasLP.Print(directory+instancename+"LP"+savingformat)
 
 
 	def TestFit(self): 
@@ -431,7 +455,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		ttrealWsign1   = ROOT.RooRealVar("HP:tt:sign1", "HP:tt:sign1", 0.2, 0.01, 5.)
 		ttrealWsign2   = ROOT.RooRealVar("HP:tt:sign2", "HP:tt:sign2", 0.2, 0.01, 10.) 
 		ttrealWshape = ROOT.RooDoubleCrystalBall("HP:tt:real:shape","HP:tt:real:shape", fitvariable, ttrealWmean, ttrealWsigma, ttrealWalpha1, ttrealWsign1, ttrealWalpha2, ttrealWsign2)
-		ttrealWnumber = ROOT.RooRealVar("HP:tt:real:number", "HP:tt:real:number", 500., 0., 1e20)
+		ttrealWnumber = ROOT.RooRealVar("HP:tt:real:number", "HP:tt:real:number",1e11, 500., 1e20)
 		ttrealWmodel = ROOT.RooExtendPdf("HP:tt:real:model", "HP:tt:real:model", ttrealWshape, ttrealWnumber)
 
 		#getattr(self.workspace, "import")(signalModel)
@@ -445,9 +469,9 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		# Background unmerged tt model
 		ttfakeWoffset = ROOT.RooRealVar("HP:tt:fake:offset" ,"HP:tt:fake:offset", 80, 10, 200) # 90, 10, 200
 		ttfakeWwidth  = ROOT.RooRealVar("HP:tt:fake:width" ,"HP:tt:fake:width", 40, 25, 300) # 40, 25, 100
-		ttfakeWcoefficient  = ROOT.RooRealVar("HP:tt:fake:coefficient" ,"HP:tt:fake:coefficient", -0.03, -1., 0.) # -0.04, -1, 0.
+		ttfakeWcoefficient  = ROOT.RooRealVar("HP:tt:fake:coefficient" ,"HP:tt:fake:coefficient", -0.03, -1., 0.1) # -0.04, -1, 0.
 		ttfakeWshape     = ROOT.RooErfExpPdf("HP:tt:fake:shape", "HP:tt:fake:shape" ,fitvariable, ttfakeWcoefficient, ttfakeWoffset, ttfakeWwidth)
-		ttfakeWnumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 1., 1e15)
+		ttfakeWnumber = ROOT.RooRealVar("HP:tt:fake:number", "HP:tt:fake:number", 1e11, 500., 1e20)
 		ttfakeWmodel = ROOT.RooExtendPdf("HP:tt:fake:model", "HP:tt:fake:model", ttfakeWshape, ttfakeWnumber)
 		
 		self.ImportToWorkspace(ttfakeWmodel)
@@ -462,7 +486,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		VVExp = ROOT.RooExponential("HP:VV:Exponential", "HP:VV:exponential", fitvariable, VValpha)
 		VVGauss = ROOT.RooGaussian("HP:VV:Gaussian", "HP:VV:gaussian", fitvariable ,VVmean, VVsigma)
 		VVshape = ROOT.RooAddPdf("HP:VV:shape","HP:VV:shape", ROOT.RooArgList(VVExp, VVGauss), ROOT.RooArgList(VVfactor))
-		VVnumber = ROOT.RooRealVar("HP:VV:number", "HP:VV:number", 1., 1e15)
+		VVnumber = ROOT.RooRealVar("HP:VV:number", "HP:VV:number", 1e10, 500., 1e15)
 		VVmodel = ROOT.RooExtendPdf("HP:VV:model", "HP:VV:model", VVshape, VVnumber)
 		
 		self.ImportToWorkspace(VVmodel)
@@ -477,7 +501,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		STGauss = ROOT.RooGaussian ("HP:st:Gaussian" ,"HP:st:Gaussian" , fitvariable, STmean, STsigma)
 		STfactor = ROOT.RooRealVar("HP:st:factor", "HP:st:factor", 0.3, 0.0, 0.99)
 		STshape = ROOT.RooAddPdf("HP:st:shape", "HP:st:shape", STErfExp, STGauss, STfactor)
-		STnumber = ROOT.RooRealVar("HP:st:number", "HP:st:number", 1., 1e15)
+		STnumber = ROOT.RooRealVar("HP:st:number", "HP:st:number", 1e11, 500., 1e15)
 		STmodel = ROOT.RooExtendPdf("HP:st:model", "HP:st:model", STshape, STnumber)
 
 		self.ImportToWorkspace(STmodel)
@@ -487,7 +511,7 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 		WJetsoffset = ROOT.RooRealVar("HP:WJets:offset", "HP:WJets:offset" ,80. ,0., 100)
 		WJetswidth  = ROOT.RooRealVar("HP:WJets:width", "HP:WJets:width", 30., 1., 100.)
 		WJetsshape  = ROOT.RooErfExpPdf("HP:WJets:shape", "HP:WJets:shape", fitvariable, WJetscoeff, WJetsoffset, WJetswidth)
-		WJetsnumber = ROOT.RooRealVar("HP:WJets:number", "HP:WJets:number", 1., 1e15)
+		WJetsnumber = ROOT.RooRealVar("HP:WJets:number", "HP:WJets:number", 1e11, 500., 1e20)
 		WJetsmodel = ROOT.RooExtendPdf("HP:WJets:model", "HP:WJets:model", WJetsshape, WJetsnumber)
 		
 		self.ImportToWorkspace(WJetsmodel, saveworkspace)
@@ -537,35 +561,35 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 			self.SaveWorkspace()
 
 		# --- LP model ----
-		ttfakeWnumberLP = ROOT.RooRealVar("LP:tt:fake:number", "LP:tt:fake:number", 0., 1e15)
+		ttfakeWnumberLP = ROOT.RooRealVar("LP:tt:fake:number", "LP:tt:fake:number", 1e5, 500., 1e20)
 
 		ttrealWshapeLP = ROOT.RooDoubleCrystalBall("LP:tt:real:shape","LP:tt:real:shape", fitvariable, ttrealWmean, ttrealWsigma, ttrealWalpha1, ttrealWsign1, ttrealWalpha2, ttrealWsign2)
-		ttrealWnumberLP = ROOT.RooRealVar("LP:tt:real:number", "LP:tt:real:number", 500., 0., 1e20)
+		ttrealWnumberLP = ROOT.RooRealVar("LP:tt:real:number", "LP:tt:real:number", 1e5, 500., 1e20)
 		ttrealWmodelLP = ROOT.RooExtendPdf("LP:tt:real:model", "LP:tt:real:model", ttrealWshapeLP, ttrealWnumberLP)
 
 		self.ImportToWorkspace(ttrealWmodelLP, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
-		ttfakeWnumberLP = ROOT.RooRealVar("LP:tt:fake:number", "LP:tt:fake:number", 1., 1e15)
+		ttfakeWnumberLP = ROOT.RooRealVar("LP:tt:fake:number", "LP:tt:fake:number", 1e5, 500., 1e20)
 		ttfakeWmodelLP = ROOT.RooExtendPdf("LP:tt:fake:model", "LP:tt:fake:model", ttfakeWshape, ttfakeWnumberLP)
 
 		self.ImportToWorkspace(ttfakeWmodelLP, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
-		VVnumberLP = ROOT.RooRealVar("LP:VV:number", "LP:VV:number", 1., 1e15)
+		VVnumberLP = ROOT.RooRealVar("LP:VV:number", "LP:VV:number", 1e5, 500., 1e20)
 		VVmodelLP = ROOT.RooExtendPdf("LP:VV:model", "LP:VV:model", VVshape, VVnumberLP)
 
 		self.ImportToWorkspace(VVmodelLP, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
-		STnumberLP = ROOT.RooRealVar("LP:st:number", "LP:st:number", 1., 1e15)
+		STnumberLP = ROOT.RooRealVar("LP:st:number", "LP:st:number", 1e5, 500., 1e20)
 		STmodelLP = ROOT.RooExtendPdf("LP:st:model", "LP:st:model", STshape, STnumberLP)
 
 		self.ImportToWorkspace(STmodelLP, saveworkspace, ROOT.RooFit.RecycleConflictNodes()) # TODO: Maybe set this the deefault behaviour 
 
-		WJetsnumberLP = ROOT.RooRealVar("LP:WJets:number", "LP:WJets:number", 1., 1e15)
+		WJetsnumberLP = ROOT.RooRealVar("LP:WJets:number", "LP:WJets:number", 1e5, 500., 1e20)
 		WJetsmodelLP = ROOT.RooExtendPdf("LP:WJets:model", "LP:WJets:model", WJetsshape, WJetsnumberLP)
 
 		self.ImportToWorkspace(WJetsmodelLP, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 
-		mcTTnumberLP = ROOT.RooRealVar("LP:MC:number", "LP:MC:number", 500., 0., 1e20)
+		mcTTnumberLP = ROOT.RooRealVar("LP:MC:number", "LP:MC:number", 1e5, 500., 1e20)
 
 		fullMCmodelLP = ROOT.RooAddPdf("LP:fullMC:model", "LP:fullMC:model", ROOT.RooArgList(WJetsshape, VVshape, STshape, ttfakeWshape, ttrealWshape), ROOT.RooArgList(WJetsnumberLP, VVnumberLP, STnumberLP, ttfakeWnumberLP, mcTTnumberLP)) # TODO: check if want to add models instead of shapes
 
@@ -573,12 +597,14 @@ class WTaggingFitter(Fitter):  # class WTaggingFitter(Fitter)
 
 		# --- Combined model ---- 
 
+		minimalHPModel = ROOT.RooAddPdf("HP:minimalMC:model", "HP:minimalMC:model", ROOT.RooArgList(ttfakeWshape, ttrealWshape), ROOT.RooArgList(ttfakeWnumber, mcTTnumber)) # TODO: check if want to add models instead of shapes
+		minimalLPModel = ROOT.RooAddPdf("LP:minimalMC:model", "LP:minimalMC:model", ROOT.RooArgList(ttfakeWshape, ttrealWshape), ROOT.RooArgList(ttfakeWnumberLP, mcTTnumberLP)) # TODO: check if want to add models instead of shapes
 		simultaneousmodel = ROOT.RooSimultaneous("simultaneousMCmodel", "simultaneousMCmodel", regions)
-		simultaneousmodel.addPdf(self.LoadPdf("HP:fullMC:model"), "HP")
-		simultaneousmodel.addPdf(fullMCmodelLP, "LP")
+		simultaneousmodel.addPdf(minimalHPModel, "HP") # self.LoadPdf("HP:fullMC:model"), "HP"
+		simultaneousmodel.addPdf(minimalLPModel, "LP")
 
-		regions.addToRange("fitRange_HP", "HP")
-		regions.addToRange("fitRange_LP", "LP")
+		#regions.addToRange("fitRange_HP", "HP")
+		#regions.addToRange("fitRange_LP", "LP")
 
 		self.ImportToWorkspace(simultaneousmodel, saveworkspace, ROOT.RooFit.RecycleConflictNodes())
 		

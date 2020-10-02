@@ -135,7 +135,7 @@ class Fitter:
 		dataset = self.LoadDataset(datasetname, variableset, binned)
 		return self.FixParameterBase(model, dataset, parametername)
 
-	def FixParameterBase(self, model, dataset, parametername):
+	def FixParameterBase(self, parametername, model, dataset):
 		parameters = model.getParameters(dataset)
 		param = parameters.find(parametername)
 		assert(param), "ERROR: The model '{}' does  not contain any parameter named '{}'. Check if the parameter name and dataset provided are correct!".format(model.GetName(), parametername)
