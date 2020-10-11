@@ -100,7 +100,7 @@ def submitJobs( job, inputFiles, unitJobs ):
     #config.Data.outputPrimaryDataset = job
 
     # since the input will have no metadata information, output can not be put in DBS
-    config.JobType.outputFiles = [ 'boostedWtaggingSF_nanoskim.root']
+    config.JobType.outputFiles = [ 'boostedWtaggingSF_nanoskim.root', 'boostedWtaggingSF_histograms.root']
     config.Data.outLFNDirBase = '/store/user/'+os.environ['USER']+'/boostedWtaggingSF/'
 
     if len(requestname) > 100: requestname = (requestname[:95-len(requestname)])
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     #dictSamples['TTTo2L2Nu-powheg-pythia8_2017UL'] = [ '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
     #dictSamples['TT-powheg-herwig7_2017UL'] = [ '/TT_TuneCH3_13TeV-powheg-herwig7/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
 
-    #dictSamples['TTJets-amcatnloFXFX-pythia8_2017UL'] = [ '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
+    dictSamples['TTJets-amcatnloFXFX-pythia8_2017UL'] = [ '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
 
     '''
     

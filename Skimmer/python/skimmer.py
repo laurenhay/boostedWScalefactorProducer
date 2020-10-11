@@ -95,8 +95,10 @@ class Skimmer(Module):
             
         Module.beginJob(self, histFile, histDirName)
         # For debugging the pT_rel and dR selections
-        self.addObject(ROOT.TH2F('pT_rel_dR_lepAK4', ';p_{T}^{rel}; #Delta R(lep, AK4)', 1000, 0, 500, 1000, 0., 6.28) )
-        self.addObject(ROOT.TH2F('mindRlepAK4_etas', ';min #Delta R lep_{#eta}; min #Delta R AK4_{#eta}', 100, -3., 3., 100, -3., 3.) )
+        self.addObject(ROOT.TH2F('pT_rel_dR_lepAK4_OG_TLV', ';p_{T}^{rel}; #Delta R(lep, AK4)', 1000, 0, 500, 1000, 0., 6.28) )
+        self.addObject(ROOT.TH2F('pT_rel_dR_lepAK4_nanostyle', ';p_{T}^{rel}; #Delta R(lep, AK4)', 1000, 0, 500, 1000, 0., 6.28) )
+        self.addObject(ROOT.TH2F('pT_rel_dR_lepAK4nano', ';p_{T}^{rel}; #Delta R(lep, AK4)', 1000, 0, 500, 1000, 0., 6.28) )
+        #self.addObject(ROOT.TH2F('mindRlepAK4_etas', ';min #Delta R lep_{#eta}; min #Delta R AK4_{#eta}', 100, -3., 3., 100, -3., 3.) )
         
         
         #self.yearSpecificConfig = SpecificYearConfig(self.year, self.verbose)
@@ -147,8 +149,16 @@ class Skimmer(Module):
         self.out.branch("dphi_MetAK8",  "F")
         self.out.branch("dphi_WAK8"  ,  "F")
         self.out.branch("minAK4MetDPhi",  "F")
+        
+        
+        self.out.branch("mindR_Lep_ClosestAK4nano",  "F")
+        self.out.branch("pT_rel_Lep_AK4nano",  "F")
+        
         self.out.branch("mindR_Lep_ClosestAK4",  "F")
-        self.out.branch("pT_rel_Lep_AK4",  "F")
+        self.out.branch("pT_rel_Lep_AK4_nanostyle",  "F")
+        self.out.branch("pT_rel_Lep_AK4_OG_TLV",  "F")
+        
+        
         self.out.branch("passingAK4_HT",  "F")
 	self.out.branch("nSelectedAK4", "I")        
 	self.out.branch("genmatchedAK8",  "I")
@@ -311,7 +321,7 @@ class Skimmer(Module):
        	    triggerEl = 0 
             #if not triggerMu: return False
             self.Vlep_type = 0
-            lepton = muons[0].p4()
+            lepton = muons[0]#.p4()
             iso = muons[0].pfRelIso03_all
             
         elif ("el" in self.chan and electronTight and (len(electrons) == 1) and (len(muons) == 0)) :  
@@ -320,7 +330,7 @@ class Skimmer(Module):
 	    triggerMu = 0
             #if not triggerEl: return False
             self.Vlep_type = 1
-            lepton = electrons[0].p4()
+            lepton = electrons[0]#.p4()
             iso = electrons[0].pfRelIso03_all
 	    # TODO: Add this to the SpecificYearConfig (class and config file)
 
@@ -337,7 +347,7 @@ class Skimmer(Module):
         MET.SetPtEtaPhiE(met.pt, 0., met.phi, met.sumEt)
         
         # Apply leptonic W cut
-        WcandLep = lepton + MET
+        WcandLep = lepton.p4() + MET
         
 	'''
 	## TODO: Check why this was being done explicitly?
@@ -368,40 +378,59 @@ class Skimmer(Module):
 	if not recoAK4_HT > 250.: return False
 
 	minAK4MetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
-	
-	#To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them requiring that at least one of the AK4 jets remaining is b-tagged 
+	        
+
+        #To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them requiring that at least one of the AK4 jets remaining is b-tagged 
 	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc]
 	if not len(recoAK4) > 0: return False
 	
-	#Custom isolation for single muon samples as per CMS-JME-18-002, but extending to prompt electrons as well since FS topology is the same
-	mindRLepAK4 = lepton.DeltaR(recoAK4[0].p4())
+	
+        #Custom isolation for single muon samples as per CMS-JME-18-002, but extending to prompt electrons as well since FS topology is the same
+	#lep4D = convMathLV(lepton)
+	
+	mindRLepAK4nano = min([lepton.p4().DeltaR(x.p4()) for x in recoAK4])
+       	pT_relnano = lepton.jetPtRelv2 
+       	
+       	#Custom isolation for single muon samples as per CMS-JME-18-002, but extending to prompt electrons as well since FS topology is the same
+	mindRLepAK4 = lepton.p4().DeltaR(recoAK4[0].p4())
         pT_rel = 0.
-        for x in recoAK4:
-	    jetAK4_4v = ROOT.TLorentzVector()
-	    jetAK4_4v.SetPtEtaPhiM(x.pt,x.eta,x.phi,x.mass)
         
-            if lepton.DeltaR(jetAK4_4v) < mindRLepAK4:
-                mindRLepAK4 = lepton.DeltaR(jetAK4_4v)
-                pT_rel = (lepton).Perp(jetAK4_4v.Vect())
+        mindRLepAK4_TLV = lepton.p4().DeltaR(recoAK4[0].p4())
+        pT_rel_TLV = 0.
+       
+
+        for x in recoAK4:
+            jetAK4_4v = ROOT.TLorentzVector()
+            jetAK4_4v.SetPtEtaPhiM(x.pt,x.eta,x.phi,x.mass)
+            #jetAK4_4v = convMathLV(x)
+        
+            if lepton.p4().DeltaR(x.p4()) < mindRLepAK4:
+                mindRLepAK4 = lepton.p4().DeltaR(x.p4())
+                #pT_rel = lep4D.Vect().Cross((jetAK4_4v - lep4D).Vect().Unit()).R() 
+                pT_rel = lepton.p4().Vect().Cross((x.p4() - lepton.p4()).Vect().Unit()).Mag() #DOES NOT WORK
+                pT_rel_TLV = (lepton.p4()).Perp(jetAK4_4v.Vect())
 		
-	#2D custom isolation cut: dr_min(lep,AK4) > 0.4 OR pT_rel(lep,jet)>25. for AK4 closest to lepton 	
-	if not (mindRLepAK4 > 0.4 or pT_rel > 25.): 
-	    return False        
+	#################################################################
+        	#also include calc by hand to compare pt_rels# 
+	#################################################################
+        #2D custom isolation cut: dr_min(lep,AK4) > 0.4 OR pT_rel(lep,jet)>25. for AK4 closest to lepton 	
+	
+	
+	#if not (mindRLepAK4 > 0.4 or pT_rel > 25.): 
+	#    return False        
 	
 	# to prevent angular overlap between leptons and the AK8
-        if not abs(jetAK8_4v.DeltaPhi(lepton)>2.): 
+        if not abs(jetAK8_4v.DeltaPhi(lepton.p4())>2.): 
             return False 
         
-        # No lepton overlap
-        #dR_jetlep = jetAK8_4v.DeltaR(lepton )
-        #if dR_jetlep < self.mindRLepJet : return False
-
-        # Angular separation cuts
-        #if not abs(jetAK8_4v.DeltaPhi(MET)) > 1.5708: return False
-
+	#print (mindRLepAK4nano, pT_relnano)
+	#print (mindRLepAK4, pT_rel)
+        #print (mindRLepAK4, pT_rel_TLV, "\n")
+	
+	
+		
       	# Obtain btag SFs for calculating b-tagging event weights
 	# Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
-
 	if len(recoAK4)>2: return False # b-tag weight calculator can handle at most two b-jets, for now (more shouldn't be required to be handled in this decay mode anyway...)
 	if self.isMC: bTagSFs =  [x.btagSF_deepjet_shape for x in recoAK4]         
 
@@ -495,14 +524,20 @@ class Skimmer(Module):
                   	    self.isW = 1
         
         #Fill output branches
-	if mindRLepAK4>(3.14/2.):
-	    getattr(self, 'mindRlepAK4_etas').Fill(lepton.Eta(), jetAK4_4v.Eta() )
-	getattr(self, 'pT_rel_dR_lepAK4').Fill(pT_rel, mindRLepAK4)
-	self.out.fillBranch("mindRAK4_eta", jetAK4_4v.Eta())
-        self.out.fillBranch("mindRAK4_pT", jetAK4_4v.Pt())
+	#getattr(self, 'mindRlepAK4_etas').Fill(lepton.p4().Eta(), jetAK4_4v.Eta() )
+	getattr(self, 'pT_rel_dR_lepAK4_nanostyle').Fill(pT_rel, mindRLepAK4)
+	getattr(self, 'pT_rel_dR_lepAK4_OG_TLV').Fill(pT_rel_TLV, mindRLepAK4)
+	getattr(self, 'pT_rel_dR_lepAK4nano').Fill(pT_relnano, mindRLepAK4nano)
+	#self.out.fillBranch("mindRAK4_eta", jetAK4_4v.Eta())
+        #self.out.fillBranch("mindRAK4_pT", jetAK4_4v.Pt())
      
-	self.out.fillBranch("mindR_Lep_ClosestAK4",  mindRLepAK4)
-        self.out.fillBranch("pT_rel_Lep_AK4",  pT_rel)
+	self.out.fillBranch("mindR_Lep_ClosestAK4nano",  mindRLepAK4nano)
+        self.out.fillBranch("pT_rel_Lep_AK4nano",  pT_relnano)
+        
+        self.out.fillBranch("mindR_Lep_ClosestAK4",  mindRLepAK4)
+        self.out.fillBranch("pT_rel_Lep_AK4_nanostyle",  pT_rel)
+        self.out.fillBranch("pT_rel_Lep_AK4_OG_TLV",  pT_rel_TLV)
+        
         self.out.fillBranch("passingAK4_HT",  recoAK4_HT)
         self.out.fillBranch("genmatchedAK8",  self.isW)
 	self.out.fillBranch("eventWeight", self.totalEventWeight)
@@ -513,9 +548,9 @@ class Skimmer(Module):
         self.out.fillBranch("lheweight", lheweight )
 	self.out.fillBranch("nSelectedAK4", len(recoAK4))        
         #self.out.fillBranch("passedMETfilters", passedMETFilters)
-        self.out.fillBranch("dr_LepAK8"  , lepton.DeltaR(jetAK8_4v))
-        self.out.fillBranch("dphi_LepAK8", abs(jetAK8_4v.DeltaPhi(lepton)))
-        self.out.fillBranch("dphi_LepMet", abs(lepton.DeltaPhi(MET)))
+        self.out.fillBranch("dr_LepAK8"  , lepton.p4().DeltaR(jetAK8_4v))
+        self.out.fillBranch("dphi_LepAK8", abs(jetAK8_4v.DeltaPhi(lepton.p4())))
+        self.out.fillBranch("dphi_LepMet", abs(lepton.p4().DeltaPhi(MET)))
         self.out.fillBranch("dphi_MetAK8", abs(jetAK8_4v.DeltaPhi(MET)))
         self.out.fillBranch("dphi_WAK8"  , abs(jetAK8_4v.DeltaPhi(WcandLep)))
         self.out.fillBranch("minAK4MetDPhi", minAK4MetDPhi )
@@ -527,8 +562,8 @@ class Skimmer(Module):
         self.out.fillBranch("SelectedJet_pt",   recoAK8[0].pt)
         self.out.fillBranch("SelectedJet_eta",  recoAK8[0].eta)
         self.out.fillBranch("SelectedJet_mass",  recoAK8[0].mass)
-        self.out.fillBranch("SelectedLepton_pt", lepton.Pt())
-        self.out.fillBranch("SelectedLepton_eta", lepton.Eta())
+        self.out.fillBranch("SelectedLepton_pt", lepton.pt)
+        self.out.fillBranch("SelectedLepton_eta", lepton.eta)
         self.out.fillBranch("SelectedLepton_iso",  iso)
         if recoAK8[0].tau1 > 0.0: 
           tau21 = recoAK8[0].tau2/recoAK8[0].tau1
@@ -602,6 +637,15 @@ class Skimmer(Module):
             
 
 ###################### Different gen functions
+
+def convMathLV(particleTLV):
+    particle4D = ROOT.Math.LorentzVector()
+    particle4D.SetPt(particleTLV.pt)
+    particle4D.SetEta(particleTLV.eta)
+    particle4D.SetPhi(particleTLV.phi)
+    particle4D.SetM(particleTLV.mass)
+    return particle4D
+
 def getDaughters(GenParticle,gp):
     ret = []
     tmpListGenParticles = list(GenParticle)

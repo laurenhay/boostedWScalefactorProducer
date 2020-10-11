@@ -197,7 +197,7 @@ p1=PostProcessor(
         longTermCache = args.local,
         fwkJobReport = True,
         haddFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_nanoskim.root" if args.local else "boostedWtaggingSF_nanoskim.root",
-        histFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_histograms.root" if args.local else 'boostedWtagging_histograms.root',
+        histFileName = "boostedWtaggingSF_"+ args.year + "_" + args.channel + "_histograms.root" if args.local else 'boostedWtaggingSF_histograms.root',
         histDirName  = 'boostedWtaggingSF_'+ args.year,
         )
 p1.run()
