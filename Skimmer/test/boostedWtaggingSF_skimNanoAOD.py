@@ -136,8 +136,8 @@ LeptonSF = {
     '2017' : {
         'muon' : {
             'Trigger' : [ "EfficienciesAndSF_RunBtoF_Nov17Nov2017.root", "Mu50_PtEtaBins/pt_abseta_ratio" ],
-            'ID' : [ "RunBCDEF_UL2017_SF_ID.root", "NUM_TightID_DEN_genTracks_pt_abseta", True ],     ### TODO: Change to tracker muons??? ### (True: X:pt Y:eta)
-            'ISO' : [ "RunBCDEF_UL2017_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta", True ],
+            'ID' : [ "Efficiencies_muon_generalTracks_Z_Run2017_UL_ID.root", "NUM_TightID_DEN_TrackerMuons_abseta_pt", False ],  
+            'ISO' : [ "Efficiencies_muon_generalTracks_Z_Run2017_UL_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_abseta_pt", False ],
         },
         'electron' : {
             'Trigger' : [ "SingleEG_JetHT_Trigger_Scale_Factors_ttHbb_Data_MC_v5.0.histo.root", "SFs_ele_pt_ele_sceta_ele28_ht150_OR_ele35_2017BCDEF" ],
