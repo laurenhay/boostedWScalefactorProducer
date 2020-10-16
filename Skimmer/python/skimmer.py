@@ -16,30 +16,9 @@ import array
 import numpy as np
 
 
-# This is a loose selection to select events for T Tbar semileptonic events where 
-# Type 1 and Type 2 events are included in the selection:
+# Event selection for boosted-W tagging scale factor calculations in a semileptonic ttbar selection; the script skims from NanoAODv7
+# Olde selections: https://www.evernote.com/shard/s282/sh/7e5d6baa-d100-4025-8bf8-a61bf1adfbc1/f7e86fde2c2a165e
 
-# In SF code the final cuts need to be made to choose either type 1 or type 2 selection:
-# e.g. for type 1 the W leptonic Pt cut should be tightened to 200 GeV and dPhi cuts applied
-# e.g. for type 2 the AK8 Pt cut should be tightened to 400 GeV and dPhi cuts applied
-
-# Type 1 - martially merged Hadronic Top Quark (W is AK8, b is AK4) 
-#(AK8 Pt > 200 GeV)
-
-# Type 2 - fully merged Top (Top is AK8, W is most massive SD subjet, b is less massive subjet, require 1 subjet b-tag) 
-#(AK8 Pt > 400 GeV): 
-
-
-# selection aligned with previous SF measurement standard selection
-# https://www.evernote.com/shard/s282/sh/7e5d6baa-d100-4025-8bf8-a61bf1adfbc1/f7e86fde2c2a165e
-
-
-# 1 AK8 Pt > 200 GeV, |eta| < 2.5 , dR(Ak8, lep) > 1.0
-# 1 AK4 Pt > 30 GeV, |eta| < 2.5
-# 1 lepton , mu pt > 53 GeV or el pt > 120 GeV
-# MET Pt > 40(mu) or 80(el) GeV
-#Leptonic W - lepton + MET has Pt > 150 GeV # did not apply this since we are missing MET eta
-         
 class Skimmer(Module):
     def __init__(self, channel='elmu', leptonSF={}, year='2017'):
         self.chan = channel
@@ -51,8 +30,8 @@ class Skimmer(Module):
 
         ### Cuts for selections (aligned with CMS-JME-18-002 and boosted W selections for ParticleNet SF calculations)
      	self.minLepWPt = 150. #to select boosted topologies in semi-leptonic ttbar
-        self.minSDMassW = 55.   
-        self.maxSDMassW = 120.
+        self.minSDMassW = 60.   
+        self.maxSDMassW = 115.
 
         ### Kinematics Cuts AK4Jets ###
         self.minAK4JetPt = 25.
