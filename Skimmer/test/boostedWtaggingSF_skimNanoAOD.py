@@ -92,10 +92,12 @@ parser.add_argument(
 
 args = parser.parse_args(sys.argv[1:])
 #haddname = "boostedWtagging_%s_nanoskim.root"%args.year
-if args.sample.startswith(('/EGamma', '/Single', 'EGamma', 'Single' )) or ('EGamma' in args.iFile or 'Single' in args.iFile ):
+if args.sample.startswith(('/EGamma', '/Single', 'EGamma', 'Single', 'UL16_Single', '/UL16_Single', 'UL17_Single', '/UL17_Single', 'UL18_Single', '/UL18_Single' )) or ('EGamma' in args.iFile or 'SingleMuon' in args.iFile ):
     isMC = False
     print "sample is data"
-else: isMC = True
+else: 
+    isMC = True
+    print "sample is MC"
 
 ### General selections:
 PV = "(PV_npvsGood>0)"
