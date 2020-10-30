@@ -58,9 +58,14 @@ def computeGenWeights( inputFiles, outputName ):
     for fi in inputFiles:
         ff = uproot.open(fi)
         bl = ff.get("Runs")
-        genEventSumw += bl.array("genEventSumw").sum()
-        genEventSumw2 += bl.array("genEventSumw2").sum()
-        genEventCount += bl.array("genEventCount").sum()
+        try:
+            genEventSumw += bl.array("genEventSumw").sum()
+            genEventSumw2 += bl.array("genEventSumw2").sum()
+            genEventCount += bl.array("genEventCount").sum()
+        except:
+            genEventSumw += bl.array("genEventSumw_").sum()
+            genEventSumw2 += bl.array("genEventSumw2_").sum()
+            genEventCount += bl.array("genEventCount_").sum()
         bl = ff.get("Events")
         genWeight += bl.array("genWeight").sum()
 
@@ -90,28 +95,28 @@ if __name__ == '__main__':
     dictSamples['UL17_TTJets-amcatnloFXFX-pythia8'] = '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_TTJets-amcatnloFXFX-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
     dictSamples['UL17_TTTo2L2Nu-powheg-pythia8'] = '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_TTTo2L2Nu-powheg-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     
-    dictSamples['UL17_QCD_Pt-170to300-pythia8'] = '/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-170to300-pythia8_newSel_SF-b8e5dbc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-300to470-pythia8'] = '/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-300to470-pythia8_newSel_SF-b8e5dbc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-470to600-pythia8'] = '/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-470to600-pythia8_newSel_SF-b8e5dbc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-600to800-pythia8'] = '/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-600to800-pythia8_newSel_SF-b8e5dbc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-800to1000-pythia8'] = '/QCD_Pt_800to1000_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-800to1000-pythia8_newSel_SF-b8e56dc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-1000to1400-pythia8'] = '/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-1000to1400-pythia8_newSel_SF-b8db6dc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-1400to1800-pythia8'] = '/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-1400to1800-pythia8_newSel_SF-b8db6dc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-1800to2400-pythia8'] = '/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-1800to2400-pythia8_newSel_SF-b8db6dc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-2400to3200-pythia8'] = '/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-2400to3200-pythia8_newSel_SF-b8db6dc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-3200toInf-pythia8'] = '/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-3200toInf-pythia8_newSel_SF-b8e56dc58e02fa065eca4e059912ff/USER'
-    dictSamples['UL17_QCD_Pt-15to7000_Flat_herwig7'] = '/QCD_Pt-15to7000_TuneCH3_Flat_13TeV_herwig7/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-15to7000_Flat_herwig7_newSelF-300f5d580f69b452436b7b3806acb636/USER'
-    dictSamples['UL17_QCD_Pt-15to7000_Flat2018_pythia8'] = '/QCD_Pt-15to7000_TuneCP5_Flat2018_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-15to7000_Flat2018_pythianewSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['test_UL17_QCD_Pt-170to300-pythia8'] = '/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-170to300-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-300to470-pythia8'] = '/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-300to470-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-470to600-pythia8'] = '/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-470to600-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-600to800-pythia8'] = '/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-600to800-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-800to1000-pythia8'] = '/QCD_Pt_800to1000_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-800to1000-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-1000to1400-pythia8'] = '/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-1000to1400-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-1400to1800-pythia8'] = '/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-1400to1800-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-1800to2400-pythia8'] = '/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-1800to2400-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-2400to3200-pythia8'] = '/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-2400to3200-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-3200toInf-pythia8'] =  '/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-3200toInf-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-15to7000_Flat_herwig7'] = '/QCD_Pt-15to7000_TuneCH3_Flat_13TeV_herwig7/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-15to7000_Flat_herwig7_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_QCD_Pt-15to7000_Flat2018_pythia8'] = '/QCD_Pt-15to7000_TuneCP5_Flat2018_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-15to7000_Flat2018_pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     
-    dictSamples['UL17_WJetsToLNu-madgraphMLM-pythia8'] = '/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_WJetsToLNu-madgraphMLM-pythia8_neel_SF-300f5d580f69b452436b7b3806acb636/USER'
-    dictSamples['UL17_W1JetsToLNu-madgraphMLM-pythia8'] = '/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W1JetsToLNu-madgraphMLM-pythia8_wSel_SF-300f5d580f69b452436b7b3806acb636/USER'
-    dictSamples['UL17_W2JetsToLNu-madgraphMLM-pythia8'] = '/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W2JetsToLNu-madgraphMLM-pythia8_wSel_SF-300f5d580f69b452436b7b3806acb636/USER'
-    dictSamples['UL17_W3JetsToLNu-madgraphMLM-pythia8'] = '/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W3JetsToLNu-madgraphMLM-pythia8_wSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_WJetsToLNu-madgraphMLM-pythia8'] = '/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_WJetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_W1JetsToLNu-madgraphMLM-pythia8'] = '/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W1JetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_W2JetsToLNu-madgraphMLM-pythia8'] = '/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W2JetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_W3JetsToLNu-madgraphMLM-pythia8'] = '/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W3JetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     dictSamples['UL17_W4JetsToLNu-madgraphMLM-pythia8'] = '/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W4JetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     
-    dictSamples['UL17_ST_s-channel-madgraph-pythia8'] = '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_s-channel-madgrh-pythia8_newSel_SF-b007c9995322e232a5f950905968126e/USER'
-    #dictSamples['UL17_ST_t-channel-powheg-pythia8_antitop'] = ['/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
-    dictSamples['UL17_ST_t-channel-powheg-pythia8_top'] = '/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_t-channel-wheg-pythia8_top_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_ST_s-channel-madgraph-pythia8'] = '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_s-channel-madgraph-pythia8_newSel_SF-b007c9995322e232a5f950905968126e/USER'
+    dictSamples['UL17_ST_t-channel-powheg-pythia8_antitop'] = '/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_t-channel-powheg-pythia8_antitop_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
+    dictSamples['UL17_ST_t-channel-powheg-pythia8_top'] = '/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_t-channel-powheg-pythia8_top_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     #dictSamples['UL17_ST_tW_antitop-powheg-pythia8'] = ['/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
     #dictSamples['UL17_ST_tW_top-powheg-pythia8'] = ['/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
     
