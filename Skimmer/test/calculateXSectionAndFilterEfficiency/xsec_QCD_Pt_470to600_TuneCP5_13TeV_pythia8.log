@@ -1,0 +1,913 @@
+Warning in <TInterpreter::ReadRootmapFile>: class  PyJetParametersWrapper found in libPhysicsToolsNanoAODJMAR.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  PyJetResolutionScaleFactorWrapper found in libPhysicsToolsNanoAODJMAR.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  PyJetResolutionWrapper found in libPhysicsToolsNanoAODJMAR.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  ReduceMantissaToNbitsRounding found in libPhysicsToolsNanoAODJMAR.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  WeightCalculatorFromHistogram found in libPhysicsToolsNanoAODJMAR.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  PyJetParametersWrapper found in libPhysicsToolsNanoAOD.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  PyJetResolutionScaleFactorWrapper found in libPhysicsToolsNanoAOD.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  PyJetResolutionWrapper found in libPhysicsToolsNanoAOD.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  ReduceMantissaToNbitsRounding found in libPhysicsToolsNanoAOD.so  is already in libPhysicsToolsNanoAODTools.so 
+Warning in <TInterpreter::ReadRootmapFile>: class  WeightCalculatorFromHistogram found in libPhysicsToolsNanoAOD.so  is already in libPhysicsToolsNanoAODTools.so 
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C3062ABD-BEE9-5947-AD09-72417B134BB3.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C3062ABD-BEE9-5947-AD09-72417B134BB3.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D271EE05-0AEA-B345-A532-E4825625FBE3.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D271EE05-0AEA-B345-A532-E4825625FBE3.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/65B91873-12FE-4645-96DC-5A3613C44280.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/65B91873-12FE-4645-96DC-5A3613C44280.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/769783C8-4457-524B-A6EB-17D095D8FF64.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/769783C8-4457-524B-A6EB-17D095D8FF64.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/1766937A-1398-B641-A09B-27EF95EFE3B1.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/1766937A-1398-B641-A09B-27EF95EFE3B1.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/12471059-118F-D541-84D7-EB31D52FAFC6.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/12471059-118F-D541-84D7-EB31D52FAFC6.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/B6800A23-4908-7E4C-BA13-FC66684A2530.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/B6800A23-4908-7E4C-BA13-FC66684A2530.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/FB2C3831-6959-7D49-8AAB-3B78A04B1C3A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/FB2C3831-6959-7D49-8AAB-3B78A04B1C3A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E747ECE8-82EB-D643-BC5E-D402F8C6DBB8.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E747ECE8-82EB-D643-BC5E-D402F8C6DBB8.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/0DFFF098-A4C7-484C-A59C-45510B284DC4.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/0DFFF098-A4C7-484C-A59C-45510B284DC4.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/38E230D9-8732-BB45-AA00-6481F496A315.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/38E230D9-8732-BB45-AA00-6481F496A315.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/24DE38FD-12C7-2640-9807-EC193782D68F.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/24DE38FD-12C7-2640-9807-EC193782D68F.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BA6D29A1-DDE1-FF4D-8AD5-242846DC3C5B.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BA6D29A1-DDE1-FF4D-8AD5-242846DC3C5B.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/70C0C047-5339-424C-98A8-61E70A8647F4.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/70C0C047-5339-424C-98A8-61E70A8647F4.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/7E3A4F52-13EF-B14E-8950-9B02E674B377.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/7E3A4F52-13EF-B14E-8950-9B02E674B377.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/3D3CCB00-7108-0A4C-81CA-5F9F3599E683.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/3D3CCB00-7108-0A4C-81CA-5F9F3599E683.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BF827753-BF60-CB4F-B436-0B7ECB7DCF15.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BF827753-BF60-CB4F-B436-0B7ECB7DCF15.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F8ED4F9C-4D0C-7949-ABCE-78D2187FDB7B.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F8ED4F9C-4D0C-7949-ABCE-78D2187FDB7B.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CACDC12A-7464-6D43-B882-B5F27E7E584B.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CACDC12A-7464-6D43-B882-B5F27E7E584B.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/971D564C-F412-0E42-A96E-352E799D3F04.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/971D564C-F412-0E42-A96E-352E799D3F04.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/A05D10FF-FDEA-D54F-92E7-345D2ED2E870.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/A05D10FF-FDEA-D54F-92E7-345D2ED2E870.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/3D1C0C4A-DB69-5444-ADA2-D11C2AF38150.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/3D1C0C4A-DB69-5444-ADA2-D11C2AF38150.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BFF43938-F81B-E248-87D0-C65CEAF26B58.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BFF43938-F81B-E248-87D0-C65CEAF26B58.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/9F45E491-7F1F-7841-8C25-FB9CE391B55F.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/9F45E491-7F1F-7841-8C25-FB9CE391B55F.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CADCE33B-8136-0043-98C0-1ED3DCF7B145.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CADCE33B-8136-0043-98C0-1ED3DCF7B145.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/894A77D4-98C5-6141-8654-2A1C42FDE86D.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/894A77D4-98C5-6141-8654-2A1C42FDE86D.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/AC3AC10A-7364-204A-9414-E6030273BEAF.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/AC3AC10A-7364-204A-9414-E6030273BEAF.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F21886ED-B8A5-5A4A-93AD-BE788E68E98B.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F21886ED-B8A5-5A4A-93AD-BE788E68E98B.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BD4D3736-A275-CF4A-8908-21A4356E15F0.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BD4D3736-A275-CF4A-8908-21A4356E15F0.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/12957E9E-DF9E-124F-B445-8114E4E3591D.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/12957E9E-DF9E-124F-B445-8114E4E3591D.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E3B681D6-1767-6F4F-BC8C-8F289BB587DE.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E3B681D6-1767-6F4F-BC8C-8F289BB587DE.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/98B91A95-FA2A-CD4F-869A-539371923443.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/98B91A95-FA2A-CD4F-869A-539371923443.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CD9CD526-74AF-DF4F-9229-1FA4B66016FB.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CD9CD526-74AF-DF4F-9229-1FA4B66016FB.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/57D7DDE2-233F-DF45-A04C-5FCB5B32667E.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/57D7DDE2-233F-DF45-A04C-5FCB5B32667E.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/A7FFA816-E687-294F-8A16-420A7CE4B04B.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/A7FFA816-E687-294F-8A16-420A7CE4B04B.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E858E2A3-E149-714B-B93F-0641448E7292.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E858E2A3-E149-714B-B93F-0641448E7292.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/26B2BB68-DB1D-2E42-B92D-938307FF39B9.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/26B2BB68-DB1D-2E42-B92D-938307FF39B9.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D6B45152-43B6-0D4B-B1BA-2E711184AF27.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D6B45152-43B6-0D4B-B1BA-2E711184AF27.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/B7595731-0278-EA42-A503-DB144C6AB793.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/B7595731-0278-EA42-A503-DB144C6AB793.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C40368A9-C660-374A-A60D-1956C0E1016C.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C40368A9-C660-374A-A60D-1956C0E1016C.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5CDD367E-92BD-E341-8179-860F8032AB02.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5CDD367E-92BD-E341-8179-860F8032AB02.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:56 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/FFFFC9F5-F9B1-5C49-8D36-31F04C013CF3.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/FFFFC9F5-F9B1-5C49-8D36-31F04C013CF3.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2EDDBB97-B366-B340-BAFE-142F7858ECAF.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2EDDBB97-B366-B340-BAFE-142F7858ECAF.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C5A23446-854E-D844-A003-DBA90B37C095.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C5A23446-854E-D844-A003-DBA90B37C095.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D0A3E3F5-CD3E-684F-86BA-E2159C329691.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D0A3E3F5-CD3E-684F-86BA-E2159C329691.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/B8B709BC-E3C9-1A40-B6D0-A2EF509788B5.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/B8B709BC-E3C9-1A40-B6D0-A2EF509788B5.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/83ADF3B8-3787-C341-8364-BA531C1BCDB0.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/83ADF3B8-3787-C341-8364-BA531C1BCDB0.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/377E9220-B3D9-DE4B-A139-910BAB353BF3.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/377E9220-B3D9-DE4B-A139-910BAB353BF3.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5E7BBEE5-AA3A-2141-9F33-D09509097C98.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5E7BBEE5-AA3A-2141-9F33-D09509097C98.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D285524E-40F3-014B-BCF9-9C8C4E3227C8.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D285524E-40F3-014B-BCF9-9C8C4E3227C8.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/DBFD7457-FB16-A14D-9C99-DCB5DBBF2CF2.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/DBFD7457-FB16-A14D-9C99-DCB5DBBF2CF2.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/482B501B-71FD-DF42-8F21-C01A4A3C731D.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/482B501B-71FD-DF42-8F21-C01A4A3C731D.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/ED74BA43-34B6-B040-897D-8FC1529A4C71.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/ED74BA43-34B6-B040-897D-8FC1529A4C71.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/1C97DADB-C1FC-4141-8401-6ED252E15FA8.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/1C97DADB-C1FC-4141-8401-6ED252E15FA8.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/7433097E-0631-B54B-9D3B-5E73D81CAADE.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/7433097E-0631-B54B-9D3B-5E73D81CAADE.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F8413809-E039-7642-ADF7-720209D1A7E6.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F8413809-E039-7642-ADF7-720209D1A7E6.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CB3F0FAD-0A5B-C544-8B21-E5D5A4273BF3.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/CB3F0FAD-0A5B-C544-8B21-E5D5A4273BF3.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/57875D4E-7763-3845-965B-3D10B8D89B5A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/57875D4E-7763-3845-965B-3D10B8D89B5A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D3246B63-C30B-9E42-8379-F887F089DCE6.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D3246B63-C30B-9E42-8379-F887F089DCE6.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5B00AAD0-6442-A642-9BA4-C0BF98DC5460.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5B00AAD0-6442-A642-9BA4-C0BF98DC5460.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/64A830D3-337E-F844-9FAC-9E763439FD1A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/64A830D3-337E-F844-9FAC-9E763439FD1A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/62C1A472-350A-E04E-8B8C-A501056D918A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/62C1A472-350A-E04E-8B8C-A501056D918A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/96124F2E-7819-4045-95F3-A726748781EE.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/96124F2E-7819-4045-95F3-A726748781EE.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/39F59EB6-020E-5F42-B644-A3709E922682.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/39F59EB6-020E-5F42-B644-A3709E922682.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2B9ED61D-7854-3E4F-BDF8-C507C8A882C6.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2B9ED61D-7854-3E4F-BDF8-C507C8A882C6.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2FCED9B5-62EE-AE4D-82C7-C935733296DD.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2FCED9B5-62EE-AE4D-82C7-C935733296DD.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E4162DFB-62EE-3A4E-87D4-1658269F32B3.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/E4162DFB-62EE-3A4E-87D4-1658269F32B3.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/A919B963-9C7B-8A4A-9F0E-1DEE0D1D8AAC.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/A919B963-9C7B-8A4A-9F0E-1DEE0D1D8AAC.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/10469403-239E-BE4F-8F06-503BC661B198.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/10469403-239E-BE4F-8F06-503BC661B198.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/898FBAC4-0AC3-D94D-ADF1-66296F5E4450.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/898FBAC4-0AC3-D94D-ADF1-66296F5E4450.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/FC57D017-C4F4-504B-AB32-B9ABB5CBAC9D.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/FC57D017-C4F4-504B-AB32-B9ABB5CBAC9D.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/99262E1C-7C91-534F-A964-11FB6A4E6797.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/99262E1C-7C91-534F-A964-11FB6A4E6797.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2057A402-AEA6-4C4C-A11E-AC96606AC05A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2057A402-AEA6-4C4C-A11E-AC96606AC05A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/10FA0D10-FB7A-6B40-A0C7-47538AAC2461.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/10FA0D10-FB7A-6B40-A0C7-47538AAC2461.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/788D751D-497C-E74F-A2B1-0ED902A33050.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/788D751D-497C-E74F-A2B1-0ED902A33050.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/4F569D7B-CFC7-B043-9A84-9F4ECCF43C4A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/4F569D7B-CFC7-B043-9A84-9F4ECCF43C4A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/7EB6748F-84A0-3F4E-9140-D50B872E7770.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/7EB6748F-84A0-3F4E-9140-D50B872E7770.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/0C26173C-D519-E346-B749-1E9C4CBC0B7E.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/0C26173C-D519-E346-B749-1E9C4CBC0B7E.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F61509C9-8E88-D240-A601-45DFBDA2FC71.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F61509C9-8E88-D240-A601-45DFBDA2FC71.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5B4C0FD7-6131-9742-BD7D-10FEF2C78DE5.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5B4C0FD7-6131-9742-BD7D-10FEF2C78DE5.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/425E9B99-7DC9-EA4B-A113-B371A7074F1E.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/425E9B99-7DC9-EA4B-A113-B371A7074F1E.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/66ADAAAB-55D7-884F-9590-6395E3ADF194.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/66ADAAAB-55D7-884F-9590-6395E3ADF194.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C3FB6B64-0F33-6A48-BE73-6BEBB7FD94C5.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C3FB6B64-0F33-6A48-BE73-6BEBB7FD94C5.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/20D534E1-40F8-5641-9687-75A867EE5646.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/20D534E1-40F8-5641-9687-75A867EE5646.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BC7D8F92-2D52-9D4E-B39E-59E5BF6F7ABC.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/BC7D8F92-2D52-9D4E-B39E-59E5BF6F7ABC.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5837F277-29DC-B140-B5D8-5F1476933753.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5837F277-29DC-B140-B5D8-5F1476933753.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D2B20CCF-71C3-084A-9DA8-CC993B0C043A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/D2B20CCF-71C3-084A-9DA8-CC993B0C043A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/70ECB25E-E39D-0542-8C66-2AC971E46B57.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/70ECB25E-E39D-0542-8C66-2AC971E46B57.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2F5F8930-2B4B-A045-AA97-CE3EED15537A.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/2F5F8930-2B4B-A045-AA97-CE3EED15537A.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F493E3F0-8A35-E84F-B562-EF5BA0474C51.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F493E3F0-8A35-E84F-B562-EF5BA0474C51.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/AAE7C53E-E6DE-074C-A34E-261AD01EABDF.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/AAE7C53E-E6DE-074C-A34E-261AD01EABDF.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/4DFF0F68-7BC6-7C4B-BD9C-9D5F6AF6CC72.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/4DFF0F68-7BC6-7C4B-BD9C-9D5F6AF6CC72.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5F7C1974-5D04-DC4C-AB00-41ACBF178B21.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/5F7C1974-5D04-DC4C-AB00-41ACBF178B21.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/9D5DF27F-78FF-B54A-862A-451EFF5E6EBB.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/9D5DF27F-78FF-B54A-862A-451EFF5E6EBB.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/8A0E3EDE-0BB0-9E43-B7DC-01315A7179D4.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/8A0E3EDE-0BB0-9E43-B7DC-01315A7179D4.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/46DA2CA8-7A9C-F747-B823-B646165EAA45.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/46DA2CA8-7A9C-F747-B823-B646165EAA45.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/83DC3ECF-CB40-A34E-AAC7-0223A572EF16.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/83DC3ECF-CB40-A34E-AAC7-0223A572EF16.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/ECB31EF1-E274-5144-BF2B-8F9742BBF280.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/ECB31EF1-E274-5144-BF2B-8F9742BBF280.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F14570B9-2D43-634F-BDD3-3DE233FD7D97.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/F14570B9-2D43-634F-BDD3-3DE233FD7D97.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+Failed open file in the dCache.
+%MSG-w StorageFactory::stagein():  PoolSource:source@sourceConstruction  03-Nov-2020 11:53:57 CET pre-events
+Failed to stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/27C57A6F-22BC-1747-90B7-0414DB17A1F6.root' because:
+An exception of category 'FileStageInError' occurred while
+   [0] Calling DCacheStorageMaker::stagein()
+Exception Message:
+Cannot stage in file 'dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/27C57A6F-22BC-1747-90B7-0414DB17A1F6.root', error was: "No such file or directory" (dc_errno=30)
+
+%MSG
+03-Nov-2020 11:53:57 CET  Initiating request to open file dcap://t3se01.psi.ch/pnfs/psi.ch/cms/trivcat/store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C3062ABD-BEE9-5947-AD09-72417B134BB3.root
+Failed open file in the dCache.
+03-Nov-2020 11:53:57 CET  Fallback request to file root://xrootd-cms.infn.it//store/mc/RunIISummer19UL17NanoAOD/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/70000/C3062ABD-BEE9-5947-AD09-72417B134BB3.root

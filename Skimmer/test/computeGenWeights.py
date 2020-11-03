@@ -95,7 +95,7 @@ if __name__ == '__main__':
     dictSamples['UL17_TTJets-amcatnloFXFX-pythia8'] = '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_TTJets-amcatnloFXFX-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
     dictSamples['UL17_TTTo2L2Nu-powheg-pythia8'] = '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_TTTo2L2Nu-powheg-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     
-    dictSamples['test_UL17_QCD_Pt-170to300-pythia8'] = '/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-170to300-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
+    dictSamples['UL17_QCD_Pt-170to300-pythia8'] = '/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-170to300-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
     dictSamples['UL17_QCD_Pt-300to470-pythia8'] = '/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-300to470-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
     dictSamples['UL17_QCD_Pt-470to600-pythia8'] = '/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-470to600-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
     dictSamples['UL17_QCD_Pt-600to800-pythia8'] = '/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/kadatta-boostedWtaggingSF_Skims_UL17_QCD_Pt-600to800-pythia8_newSel_SF-b8e5db6dc58e02fa065eca4e059912ff/USER'
