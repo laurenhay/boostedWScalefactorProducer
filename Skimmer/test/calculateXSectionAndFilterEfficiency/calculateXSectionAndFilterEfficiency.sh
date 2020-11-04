@@ -55,5 +55,3 @@ do
     echo ""
     
 done < "$FILE"
-
-
