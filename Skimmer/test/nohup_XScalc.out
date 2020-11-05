@@ -418,6 +418,29 @@ After filter: final equivalent lumi for 1M events (1/fb) = 1.196e+02 +- 1.265e-0
 
 =============================================
 
+Name read from file - /ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17MiniAOD-106X_mc2017_realistic_v6-v1/MINIAODSIM
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Overall cross-section summary 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Process		xsec_before [pb]		passed	nposw	nnegw	tried	nposw	nnegw 	xsec_match [pb]			accepted [%]	 event_eff [%]
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Total		7.174e+01 +/- 1.193e-01		1999900	1994430	5470	1999900	1994430	5470	7.174e+01 +/- 1.193e-01		100.0 +/- 0.0	100.0 +/- 0.0
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Before matching: total cross section = 7.174e+01 +- 1.193e-01 pb
+After matching: total cross section = 7.174e+01 +- 1.193e-01 pb
+Matching efficiency = 1.0 +/- 0.0   [TO BE USED IN MCM]
+Filter efficiency (taking into account weights)= (7.17464e+07) / (7.17464e+07) = 1.000e+00 +- 0.000e+00
+Filter efficiency (event-level)= (1e+06) / (1e+06) = 1.000e+00 +- 0.000e+00    [TO BE USED IN MCM]
+
+After filter: final cross section = 7.174e+01 +- 1.193e-01 pb
+After filter: final fraction of events with negative weights = 2.735e-03 +- 1.024e-08
+After filter: final equivalent lumi for 1M events (1/fb) = 1.379e+01 +- 2.660e-02
+
+=============================================
 
 Name read from file - /ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17MiniAOD-106X_mc2017_realistic_v6-v1/MINIAODSIM
 

@@ -114,7 +114,7 @@ if __name__ == '__main__':
     dictSamples['UL17_W3JetsToLNu-madgraphMLM-pythia8'] = '/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W3JetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     dictSamples['UL17_W4JetsToLNu-madgraphMLM-pythia8'] = '/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_W4JetsToLNu-madgraphMLM-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     
-    dictSamples['UL17_ST_s-channel-madgraph-pythia8'] = '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-madgraph-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_s-channel-madgraph-pythia8_newSel_SF-b007c9995322e232a5f950905968126e/USER'
+    dictSamples['UL17_ST_s-channel-madgraph-pythia8'] = '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_s-channel-amcatnlo-pythia8_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     dictSamples['UL17_ST_t-channel-powheg-pythia8_antitop'] = '/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_t-channel-powheg-pythia8_antitop_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     dictSamples['UL17_ST_t-channel-powheg-pythia8_top'] = '/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/kadatta-boostedWtaggingSF_Skims_UL17_ST_t-channel-powheg-pythia8_top_newSel_SF-300f5d580f69b452436b7b3806acb636/USER'
     #dictSamples['UL17_ST_tW_antitop-powheg-pythia8'] = ['/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL17NanoAOD-106X_mc2017_realistic_v6-v1/NANOAODSIM', 1 ]
