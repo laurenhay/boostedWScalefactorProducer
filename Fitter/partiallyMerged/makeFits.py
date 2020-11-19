@@ -1,4 +1,6 @@
-from optparse import OptionParser
+#!/usr/bin/env python
+
+import argparse
 import ROOT
 import sys
 import os
@@ -6,69 +8,80 @@ import time
 import math
 import csv
 from WTopScalefactorProducer.Fitter.tdrstyle import *
-import WTopScalefactorProducer.Fitter.CMS_lumi as CMS_lumi
+from WTopScalefactorProducer.Fitter.CMS_lumi import *
 from WTopScalefactorProducer.Skimmer.getGenEv import getGenEv
-setTDRStyle()
+
+from WtaggingFitter import WTaggingFitter
 
 from ROOT import *
 
-parser = OptionParser()
+parser = argparse.ArgumentParser(description='Fitter')
+
+# --- Global parameters for ROOT style and RooFit 
+
+setTDRStyle()
+gStyle.SetOptTitle(0)
+#RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
+#RooMsgService.instance().setSilentMode(True)
 
 # --- Tagging options
-parser.add_option('--tagger', action="store",type="string",dest="tagger",default="SelectedJet_tau21", help="Name of tagger variable (tau32/tau21/ddt)")
-parser.add_option('--massvar', action="store",type="string",dest="massvar",default="SelectedJet_softDrop_mass", help="Name of mass variable to fit")
-parser.add_option('--xtitle', action="store",type="string",dest="xtitle",default="Corrected PUPPI softdrop mass (GeV)", help="x axis title of mass variable to fit")
-parser.add_option('--HP', action="store", type="float",dest="tau2tau1cutHP",default=0.35)
-parser.add_option('--LP', action="store", type="float",dest="tau2tau1cutLP",default=0.75)
-parser.add_option('--minX', action="store", type="float",dest="minX",default=50. , help="Lower mass cut")
-parser.add_option('--maxX', action="store", type="float",dest="maxX",default=130., help="Upper mass cut")
-parser.add_option('--ptmin', action="store", type="float",dest="pTmin",default=200., help="Lower pT cut")
-parser.add_option('--ptmax', action="store", type="float",dest="pTmax",default=10000., help="Upper pT cut")
-parser.add_option('--workspace', action="store",type="string",dest="workspace",default="workspace", help="Name of workspace")
-parser.add_option('--peak', action="store",type="string",dest="peak",default="W", help='Which peak to fit? W / t / Wt')
+parser.add_argument('--tagger', action="store",type=str,dest="tagger",default="SelectedJet_tau21", help="Name of tagger variable (tau32/tau21/ddt)")
+parser.add_argument('--massvar', action="store",type=str,dest="massvar",default="SelectedJet_softDrop_mass", help="Name of mass variable to fit")
+parser.add_argument('--xtitle', action="store",type=str,dest="xtitle",default="Corrected PUPPI softdrop mass (GeV)", help="x axis title of mass variable to fit")
+parser.add_argument('--HP', action="store", type=float,dest="cutHP",default=0.35)
+parser.add_argument('--LP', action="store", type=float,dest="cutLP",default=0.75)
+parser.add_argument('--minX', action="store", type=float,dest="minX",default=50. , help="Lower mass cut")
+parser.add_argument('--maxX', action="store", type=float,dest="maxX",default=130., help="Upper mass cut")
+parser.add_argument('--ptmin', action="store", type=float,dest="pTmin",default=200., help="Lower pT cut")
+parser.add_argument('--ptmax', action="store", type=float,dest="pTmax",default=10000., help="Upper pT cut")
+parser.add_argument('--workspace', action="store",type=str,dest="workspace",default="workspace", help="Name of workspace")
+parser.add_argument('--peak', action="store",type=str,dest="peak",default="W", help='Which peak to fit? W / t / Wt')
 
 # --- Personal infile settings
-parser.add_option('--sample', action="store",type="string",dest="sample",default="powheg", help='Which tt sample is used')
-parser.add_option('--treename', action="store",type="string",dest="intree",default="Events", help='name of in tree')
+parser.add_argument('--sample', action="store",type=str,dest="sample",default="powheg", help='Which tt sample is used')
+parser.add_argument('--treename', action="store",type=str,dest="intree",default="Events", help='name of in tree')
 
 # --- Fitting options
-parser.add_option('--topPt', action='store_true', dest='topPt', default=False, help='Use top pt reweighting')
-parser.add_option('--topGen', action='store_true', dest='topGen', default=False, help='Use alternate top sample with different generator algorithm (aMC@NLO)')
-parser.add_option('--topShower', action='store_true', dest='topShower', default=False, help='Use alternate top sample with different shower algorithm (HERWIG7)')
-parser.add_option('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
-parser.add_option('--fitMC', action='store_true', dest='fitMC', default=False, help='Only do MC fits')
-parser.add_option('--doBinned',dest="doBinnedFit", default=False, action="store_true", help="Do binned instead of unbinned fit")
+parser.add_argument('--topPt', action='store_true', dest='topPt', default=False, help='Use top pt reweighting')
+parser.add_argument('--topGen', action='store_true', dest='topGen', default=False, help='Use alternate top sample with different generator algorithm (aMC@NLO)')
+parser.add_argument('--topShower', action='store_true', dest='topShower', default=False, help='Use alternate top sample with different shower algorithm (HERWIG7)')
+parser.add_argument('--fitTT', action='store_true', dest='fitTT', default=False, help='Only do ttbar fits')
+parser.add_argument('--fitMC', action='store_true', dest='fitMC', default=False, help='Only do MC fits')
+parser.add_argument('--doBinned',dest="doBinnedFit", default=False, action="store_true", help="Do binned instead of unbinned fit")
 
 # --- Running options
-parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
-parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em", help="Electron,muon or ele+mu channel. For now, em for all") #FIXME
-parser.add_option('--doWS'  ,dest="doWS", default=False, action="store_true", help="Recreate workspace. If NOT set to True (or workspace does not exist), will use workspace as given in options.workspace (workspace.root by default)")
+parser.add_argument('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
+parser.add_argument('-c', '--channel',action="store",type=str,dest="channel",default="em", help="Electron,muon or ele+mu channel. For now, em for all") #FIXME
+parser.add_argument('--doWS'  ,dest="doWS", default=False, action="store_true", help="Recreate workspace. If NOT set to True (or workspace does not exist), will use workspace as given in options.workspace (workspace.root by default)")
+parser.add_argument('-y', '--year', dest="year", type=int, help="The year for which you want to create the workspace. ")
+parser.add_argument('--weightvar', dest="weightvar", type=str, default="weight", help="The name of the event weight variable in the tree.")
+parser.add_argument('-v', '--verbose', dest="verbose", action='store_true', default=False, help="Print out more messages.")
 
-(options, args) = parser.parse_args()
 
+options = parser.parse_args()
 
+if options.noX: gROOT.SetBatch(True)
+
+#### <refactor> should be deleted (using expermiment specific layer for that)
 lumi = 59970.
-#CMS_lumi.lumi_13TeV = "60.0 fb^{-1}"
-#CMS_lumi.writeExtraText = 1
-#CMS_lumi.extraText = "Preliminary"
-#CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
-factor = 1.0; 
-CMS_lumi.writeExtraText = True; 
-CMS_lumi.lumiTextSize     = 0.45*factor; 
-CMS_lumi.lumiTextOffset   = 0.2*factor;
-CMS_lumi.cmsTextSize      = 0.75*factor;
-CMS_lumi.lumi_13TeV = "59.7 fb^{-1}";
+CMS_lumi.lumi_13TeV = "60.0 fb^{-1}"
+CMS_lumi.writeExtraText = 1
 CMS_lumi.extraText = "Preliminary"
+CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 iPos = 11
 if( iPos==0 ): CMS_lumi.relPosX = 0.12
 iPeriod = 4
-labelsize = 0.03
+#### <\refactor>
 
-gStyle.SetOptTitle(0)
-RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
-RooMsgService.instance().setSilentMode(True)
 
-if options.noX: gROOT.SetBatch(True)
+
+# --- Functions definitions
+
+#### <refactor> kinda useless as the only thing it does is call another function
+def getSF():
+    print "Getting W-tagging SF for cut " ,options.tau2tau1cutHP
+    boostedW_fitter_sim = WTaggingFitter(options)
+#### <\refactor>
 
 def getLegend():
   legend = TLegend(0.6010112,0.7183362,0.8202143,0.919833)
@@ -99,7 +112,7 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     wpForPlotting ="%.2f"%options.tau2tau1cutHP
     wpForPlotting = wpForPlotting.replace(".","v")
     postfix=""
-    title = "blup PUPPI softdrop jet mass (GeV) boo"
+    title = "PUPPI softdrop jet mass (GeV)"
     
     
     frame = variable.frame()
@@ -119,14 +132,12 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     c1.cd()
     frame.GetYaxis().SetNdivisions(203);
     frame.GetXaxis().SetNdivisions(202);
-    labelsize = 0.02
-    frame.GetYaxis().SetTitleSize(0.001)
-    frame.GetXaxis().SetTitleSize(0.001)
-    frame.GetYaxis().SetTitleOffset(1.7) #1.35
+    frame.GetYaxis().SetTitleSize(0.05)
+    frame.GetYaxis().SetTitleOffset(1.35)
     frame.SetName("mjjFit")
     frame.GetYaxis().SetTitle("A.U")
     frame.GetXaxis().SetTitle(title)
-    frame.Draw("a")
+    frame.Draw()
     # frame.SetMinimum(0.)
     # frame.SetMaximum(2900.)
     legend = getLegend()
@@ -144,13 +155,11 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     if frame.findObject("Double CB"):
       legend.AddEntry(frame.findObject("Double CB"),frame.findObject("Double CB").GetName(),"l")  
     legend.Draw("same")
-    #CMS_lumi(c1, iPeriod, iPos)
-    CMS_lumi.CMS_lumi(c1, 4, 11); 
+    CMS_lumi(c1, iPeriod, iPos)
     addInfo = getPavetext()
     addInfo.AddText("#chi^{2}/nDOF = %.3f"%chi2)
     addInfo.Draw()
     c1.Update()
-    c1.Modified()
     dirname = "plots/"+options.workspace.replace('workspace_', '')
     c1.SaveAs(dirname+"/"+pdfModel.GetName()+".png")
     c1.SaveAs(dirname+"/"+pdfModel.GetName()+".pdf")
@@ -158,9 +167,7 @@ def drawFrameGetChi2(variable,fitResult,dataset,pdfModel,isData):
     c1.SaveAs(dirname+"/"+pdfModel.GetName()+".C")
     return chi2
     
-def getSF():
-    print "Getting W-tagging SF for cut " ,options.tau2tau1cutHP
-    boostedW_fitter_sim = doWtagFits()
+
 
 def doFitsToMatchedTT():
     
@@ -425,193 +432,7 @@ def GetWtagScalefactors(workspace,fitter):
     writer.writerows([[options.pTmin,options.pTmax, rrv_eff_data_em.getVal()/rrv_eff_MC_em.getVal(),  eff_sf_error, rrv_eff_MC_em.getVal(),rrv_eff_MC_em.getError(),rrv_eff_data_em.getVal(),rrv_eff_data_em.getError()]])
     csvf.close()
      
-class doWtagFits:
-    def __init__(self):
-        if options.doWS: 
-            self.workspace4fit_  = RooWorkspace("workspace4fit_",options.workspace)
-        else:
-            f = TFile(options.workspace.replace(".root","")+".root")
-            self.workspace4fit_  = f.Get("workspace4fit_")
-            self.workspace4fit_.SetTitle(options.workspace) #FIXME
-        self.boostedW_fitter_em = initialiseFits("em", options.sample, options.minX, options.maxX, self.workspace4fit_ )    # Define all shapes to be used for Mj, define regions (SB,signal) and input files. 
-        self.boostedW_fitter_em.get_datasets_fit_minor_bkg()                                            # Loop over intrees to create datasets om Mj and fit the single MCs.
-       
-#        print "Printing workspace:"; self.workspace4fit_ .Print(); print ""
-        workspace4fit_ = self.workspace4fit_
-        self.boostedW_fitter_em.get_sim_fit_components()     
-        
-        print "Define categories:"
 
-        #Defining categories
-        sample_type = RooCategory("sample_type","sample_type")
-        sample_type.defineType("em_pass")
-        sample_type.defineType("em_fail")
-        getattr(workspace4fit_,'import')(sample_type)
-
-        #Importing fit variables
-        rrv_mass_j = workspace4fit_.var("rrv_mass_j")
-        rrv_weight = RooRealVar("rrv_weight","rrv_weight",0. ,10000000.)
-        
-        #-------------IMPORT DATA-------------
-        print "Importing datasets"
-        rdataset_data_em_mj      = workspace4fit_.data("rdataset_data_em_mj")
-        rdataset_data_em_mj_fail = workspace4fit_.data("rdataset_data_failtau2tau1cut_em_mj")
-
-        #For binned fit (shorter computing time, more presise when no SumW2Error is used!)
-        if options.doBinnedFit:
-          #Converting to RooDataHist
-          rdatahist_data_em_mj      = RooDataHist(rdataset_data_em_mj.binnedClone())
-          rdatahist_data_em_mj_fail = RooDataHist(rdataset_data_em_mj_fail.binnedClone())
-
-          #Converting back to RooDataSet
-          rdataset_data_em_mj_2 = rdataset_data_em_mj.emptyClone()
-          for i in range(0,rdatahist_data_em_mj.numEntries()):
-            rdataset_data_em_mj_2.add(rdatahist_data_em_mj.get(i),rdatahist_data_em_mj.weight())
-
-          rdataset_data_em_mj_fail_2 = rdataset_data_em_mj_fail.emptyClone()
-          for i in range(0,rdatahist_data_em_mj_fail.numEntries()):
-            rdataset_data_em_mj_fail_2.add(rdatahist_data_em_mj_fail.get(i),rdatahist_data_em_mj_fail.weight())
-
-          #Combined dataset
-          combData_data = RooDataSet("combData_data","combData_data",RooArgSet(rrv_mass_j,rrv_weight),RooFit.WeightVar(rrv_weight),RooFit.Index(sample_type),RooFit.Import("em_pass",rdataset_data_em_mj_2),RooFit.Import("em_fail",rdataset_data_em_mj_fail_2) )
-
-        #For unbinned fit
-        else:
-          combData_data = RooDataSet("combData_data","combData_data",RooArgSet(rrv_mass_j,rrv_weight),RooFit.WeightVar(rrv_weight),RooFit.Index(sample_type),RooFit.Import("em_pass",rdataset_data_em_mj),RooFit.Import("em_fail",rdataset_data_em_mj_fail) )
-
-        #Combined dataset for plotting
-        combData_data_plot = RooDataSet("combData_data_plot","combData_data_plot",RooArgSet(rrv_mass_j,rrv_weight),RooFit.WeightVar(rrv_weight),RooFit.Index(sample_type),RooFit.Import("em_pass",rdataset_data_em_mj),RooFit.Import("em_fail",rdataset_data_em_mj_fail) )
-        
-        
-        #-------------IMPORT MC-------------
-        #Importing MC datasets
-        rdataset_TotalMC_em_mj      = self.workspace4fit_.data("rdataset_TotalMC_em_mj")
-        rdataset_TotalMC_em_mj_fail = self.workspace4fit_.data("rdataset_TotalMC_failtau2tau1cut_em_mj")
-
-        if options.doBinnedFit:
-          #Converting to RooDataHist
-          rdatahist_TotalMC_em_mj      = RooDataHist(rdataset_TotalMC_em_mj.binnedClone())
-          rdatahist_TotalMC_em_mj_fail = RooDataHist(rdataset_TotalMC_em_mj_fail.binnedClone())
-
-          #Converting back to RooDataSet
-          rdataset_TotalMC_em_mj_2 = rdataset_TotalMC_em_mj.emptyClone()
-          for i in range(0,rdatahist_TotalMC_em_mj.numEntries()):
-            rdataset_TotalMC_em_mj_2.add(rdatahist_TotalMC_em_mj.get(i),rdatahist_TotalMC_em_mj.weight())
-
-          rdataset_TotalMC_em_mj_fail_2 = rdataset_TotalMC_em_mj_fail.emptyClone()
-          for i in range(0,rdatahist_TotalMC_em_mj_fail.numEntries()):
-            rdataset_TotalMC_em_mj_fail_2.add(rdatahist_TotalMC_em_mj_fail.get(i),rdatahist_TotalMC_em_mj_fail.weight())
-
-          #Combined MC dataset
-          combData_TotalMC = RooDataSet("combData_TotalMC","combData_TotalMC",RooArgSet(rrv_mass_j,rrv_weight),RooFit.WeightVar(rrv_weight),RooFit.Index(sample_type),RooFit.Import("em_pass",rdataset_TotalMC_em_mj_2),RooFit.Import("em_fail",rdataset_TotalMC_em_mj_fail_2) )
-         
-        else:
-         combData_TotalMC = RooDataSet("combData_TotalMC","combData_TotalMC",RooArgSet(rrv_mass_j,rrv_weight),RooFit.WeightVar(rrv_weight),RooFit.Index(sample_type),RooFit.Import("em_pass",rdataset_TotalMC_em_mj),RooFit.Import("em_fail",rdataset_TotalMC_em_mj_fail) )
-
-        #Combined MC dataset for plotting
-        combData_TotalMC_plot = RooDataSet("combData_TotalMC_plot","combData_TotalMC_plot",RooArgSet(rrv_mass_j,rrv_weight),RooFit.WeightVar(rrv_weight),RooFit.Index(sample_type),RooFit.Import("em_pass",rdataset_TotalMC_em_mj),RooFit.Import("em_fail",rdataset_TotalMC_em_mj_fail) )
-        
-        #-------------Define and perform fit to data-------------
-        print "Import pdf from single fits and define the simultaneous total pdf"
-        model_data_em      = self.workspace4fit_.pdf("model_data_em")
-        model_data_fail_em = self.workspace4fit_.pdf("model_data_failtau2tau1cut_em")
-
-        simPdf_data = RooSimultaneous("simPdf_data_em","simPdf_data_em",sample_type)
-        simPdf_data.addPdf(model_data_em,"em_pass")
-        simPdf_data.addPdf(model_data_fail_em,"em_fail")
-
-        print "Import Gaussian constraints to propagate error to likelihood"
-        constrainslist_data_em = []
-        for i in range(len(self.boostedW_fitter_em.constrainslist_data)):
-            constrainslist_data_em.append(self.boostedW_fitter_em.constrainslist_data[i])
-            print self.boostedW_fitter_em.constrainslist_data[i]
-        pdfconstrainslist_data_em = RooArgSet("pdfconstrainslist_data_em")
-        for i in range(len(constrainslist_data_em)):
-          pdfconstrainslist_data_em.add(self.workspace4fit_.pdf(constrainslist_data_em[i]) )
-          pdfconstrainslist_data_em.Print()
-
-        from WTopScalefactorProducer.Fitter.fitutils import pdfDSCBtoGAUS, pdfGAUStoDSCB
-
-        print " Perform simultaneous fit to data"
-        pdfDSCBtoGAUS(self.workspace4fit_, "data")
-        rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"),RooFit.Strategy(0),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-        pdfGAUStoDSCB(self.workspace4fit_, "data")
-        rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"),RooFit.Strategy(0),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-        
-#        if options.doBinnedFit:
-#          rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-#          # rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit2"),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-#          # rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit2"),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-#        else:
-#          rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-#          # rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit2"),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-#          # rfresult_data = simPdf_data.fitTo(combData_data,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit2"),RooFit.ExternalConstraints(pdfconstrainslist_data_em))
-        
-        
-        getattr(workspace4fit_,'import')(combData_data_plot)
-        getattr(workspace4fit_,'import')(simPdf_data)
-        
-        print "Draw"       
-        isData = True
-        chi2FailData = drawFrameGetChi2(rrv_mass_j,rfresult_data,rdataset_data_em_mj_fail,model_data_fail_em,isData)
-        chi2PassData = drawFrameGetChi2(rrv_mass_j,rfresult_data,rdataset_data_em_mj,model_data_em,isData)
-
-        #Print final data fit results
-        print "FIT parameters (DATA) :"; print ""
-        print "CHI2 PASS = %.3f    CHI2 FAIL = %.3f" %(chi2PassData,chi2FailData)
-        print ""; print rfresult_data.Print(); print ""
-
-        #-------------Define and perform fit to MC-------------
-
-        # fit TotalMC --> define the simultaneous total pdf
-        model_TotalMC_em      = self.workspace4fit_.pdf("model_TotalMC_em")
-        model_TotalMC_fail_em = self.workspace4fit_.pdf("model_TotalMC_failtau2tau1cut_em")
-        simPdf_TotalMC = RooSimultaneous("simPdf_TotalMC_em","simPdf_TotalMC_em",sample_type)
-        simPdf_TotalMC.addPdf(model_TotalMC_em,"em_pass")
-        simPdf_TotalMC.addPdf(model_TotalMC_fail_em,"em_fail")
-        
-        #Import Gaussian constraints  for fixed paramters to propagate error to likelihood
-        constrainslist_TotalMC_em =[]
-        for i in range(len(self.boostedW_fitter_em.constrainslist_mc)):
-            constrainslist_TotalMC_em.append(self.boostedW_fitter_em.constrainslist_mc[i])
-        pdfconstrainslist_TotalMC_em = RooArgSet("pdfconstrainslist_TotalMC_em")
-        for i in range(len(constrainslist_TotalMC_em)):
-          pdfconstrainslist_TotalMC_em.add(self.workspace4fit_.pdf(constrainslist_TotalMC_em[i]) )
-
-        # Perform simoultaneous fit to MC
-        pdfDSCBtoGAUS(self.workspace4fit_, "TotalMC")
-        rfresult_TotalMC = simPdf_TotalMC.fitTo(combData_TotalMC,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"),RooFit.Strategy(0), RooFit.SumW2Error(kFALSE), RooFit.ExternalConstraints(pdfconstrainslist_TotalMC_em))
-        pdfGAUStoDSCB(self.workspace4fit_, "TotalMC")
-        rfresult_TotalMC = simPdf_TotalMC.fitTo(combData_TotalMC,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"),RooFit.Strategy(0), RooFit.SumW2Error(kFALSE), RooFit.ExternalConstraints(pdfconstrainslist_TotalMC_em))
-        
-#        if options.doBinnedFit:
-#          rfresult_TotalMC = simPdf_TotalMC.fitTo(combData_TotalMC,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"), RooFit.SumW2Error(kTRUE), RooFit.ExternalConstraints(pdfconstrainslist_TotalMC_em))#, RooFit.SumW2Error(kTRUE))--> Removing due to unexected behaviour. See https://root.cern.ch/phpBB3/viewtopic.php?t=16917, https://root.cern.ch/phpBB3/viewtopic.php?t=16917
-#          # rfresult_TotalMC = simPdf_TotalMC.fitTo(combData_TotalMC,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit2"),RooFit.ExternalConstraints(pdfconstrainslist_TotalMC_em))#, RooFit.SumW2Error(kTRUE))
-#        else:
-#          rfresult_TotalMC = simPdf_TotalMC.fitTo(combData_TotalMC,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit"), RooFit.SumW2Error(kTRUE), RooFit.ExternalConstraints(pdfconstrainslist_TotalMC_em))
-#          # rfresult_TotalMC = simPdf_TotalMC.fitTo(combData_TotalMC,RooFit.Save(kTRUE),RooFit.Verbose(kFALSE), RooFit.Minimizer("Minuit2"),RooFit.ExternalConstraints(pdfconstrainslist_TotalMC_em))
-        
-        getattr(workspace4fit_,'import')(combData_TotalMC_plot)
-        getattr(workspace4fit_,'import')(simPdf_TotalMC)  
-        
-        isData = False  
-        chi2FailMC = drawFrameGetChi2(rrv_mass_j,rfresult_TotalMC,rdataset_TotalMC_em_mj_fail,model_TotalMC_fail_em,isData)
-        chi2PassMC = drawFrameGetChi2(rrv_mass_j,rfresult_TotalMC,rdataset_TotalMC_em_mj,model_TotalMC_em,isData)
-        
-        #Print final MC fit results
-        print "FIT Par. (MC) :"; print ""
-        print "CHI2 PASS = %.3f    CHI2 FAIL = %.3f" %(chi2PassMC,chi2FailMC)
-        print ""; print rfresult_TotalMC.Print(); print ""
-        
-        # draw the final fit results
-        from WTopScalefactorProducer.Fitter.fitutils import DrawScaleFactorTTbarControlSample
-        DrawScaleFactorTTbarControlSample(options.xtitle,self.workspace4fit_,self.boostedW_fitter_em.color_palet,"","em",self.boostedW_fitter_em.wtagger_label,self.boostedW_fitter_em.AK8_pt_min,self.boostedW_fitter_em.AK8_pt_max,options.sample,options.workspace)
-       
-        # Get W-tagging scalefactor and efficiencies
-        GetWtagScalefactors(self.workspace4fit_,self.boostedW_fitter_em)
-        
-        # Delete workspace
-        del self.workspace4fit_
 
 class initialiseFits:
 
@@ -682,7 +503,7 @@ class initialiseFits:
       nbins_mj         = int( (in_mj_max - in_mj_min) / self.BinWidth_mj )
       in_mj_max        = in_mj_min+nbins_mj*self.BinWidth_mj
       
-      jetMass = "PUPPI softdrop jet mass pop"
+      jetMass = "PUPPI softdrop jet mass"
 
       rrv_mass_j = RooRealVar("rrv_mass_j", jetMass ,(in_mj_min+in_mj_max)/2.,in_mj_min,in_mj_max,"GeV")
       rrv_mass_j.setBins(nbins_mj)
@@ -708,7 +529,7 @@ class initialiseFits:
       
       
       
-      self.file_Directory       = "/work/mhuwiler/data/WScaleFactors/Mergeddefinition2017/"
+      self.file_Directory       = "/eos/home-m/mhuwiler/data/Wtagging/Mergedefinition2017/"
       self.list_file_data       = ["SingleMuon-Run2018A.root", "SingleMuon-Run2018B.root", "SingleMuon-Run2018C.root", "SingleMuon-Run2018D.root"]
       self.list_file_TTbar_mc   = ["TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
       if options.topShower: self.list_file_TTbar_mc   = ["TT_TuneCH3_13TeV-powheg-herwig7.root"]
@@ -1212,18 +1033,28 @@ sys.setprofile(tracefunc)
 ### Start  main
 if __name__ == '__main__':
     channel = options.channel ## ele, mu or ele+mu combined
-    if options.fitTT:
-        print "Doing fits to matched tt MC. Tree must contain branch with flag for match/no-match to generator level W!"
-        cmd = 'rm ttfit_parameters%s.txt'%options.workspace.replace(".root","")
-        os.system(cmd)
-        cmd = 'rm fitres*%s*.txt'%options.workspace.replace(".root","")
-        os.system(cmd)
-        doFitsToMatchedTT()
-    elif options.fitMC:
-        print "Doing fits to MC only"
-        doFitsToMC()
-    else:
-        print 'Getting W-tagging scalefactor for %s sample for n-subjettiness < %.2f' %(channel,options.tau2tau1cutHP) #I am actually not doing a simoultaneous fit. So..... change this
-        getSF()
+
+    fitter = WTaggingFitter(options)
+
+    fitter.FitMC()
+
+    fitter.FitControlRegion()
+
+    #fitter.TestFit()
+
+
+#    if options.fitTT:
+#        print "Doing fits to matched tt MC. Tree must contain branch with flag for match/no-match to generator level W!"
+#        cmd = 'rm ttfit_parameters%s.txt'%options.workspace.replace(".root","")
+#        os.system(cmd)
+#        cmd = 'rm fitres*%s*.txt'%options.workspace.replace(".root","")
+#        os.system(cmd)
+#        doFitsToMatchedTT()
+#    elif options.fitMC:
+#        print "Doing fits to MC only"
+#        doFitsToMC()
+#    else:
+#        print 'Getting W-tagging scalefactor for %s sample for n-subjettiness < %.2f' %(channel,options.tau2tau1cutHP) #I am actually not doing a simoultaneous fit. So..... change this
+#        getSF()
 
 
