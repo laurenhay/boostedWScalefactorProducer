@@ -1,7 +1,7 @@
 import ROOT,sys
-from WTopScalefactorProducer.Fitter.tdrstyle import *
-import  WTopScalefactorProducer.Fitter.CMS_lumi as CMS_lumi
-from WTopScalefactorProducer.Skimmer.getGenEv import getGenEv
+from boostedWScalefactorProducer.Fitter.tdrstyle import *
+import  boostedWScalefactorProducer.Fitter.CMS_lumi as CMS_lumi
+from boostedWScalefactorProducer.Skimmer.getGenEv import getGenEv
 setTDRStyle()
 from time import sleep
 import os
