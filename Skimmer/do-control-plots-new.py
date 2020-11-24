@@ -44,13 +44,13 @@ datas   = ["SingleMuon_B_2017UL.root",
 
 #MC infiles
 bkgs = []
-STs   = ["ST_s-channel_madgraph_pythia8_2017UL.root", 
+STs   = ["ST_s-channel_amcatnlo_pythia8_2017UL.root", 
 "ST_t-channel_antitop_powheg_pythia8_2017UL.root", 
 "ST_t-channel_top_powheg_pythia8_2017UL.root", 
 "ST_tW_antitop_powheg_pythia8_2017UL.root", 
 "ST_tW_top_powheg_pythia8_2017UL.root"]
-VVs   = ["WW_TuneCP5_13TeV-pythia8.root", "WZ_TuneCP5_13TeV-pythia8.root", "ZZ_TuneCP5_13TeV-pythia8.root"]
-TTs   = ["TTJets_amcatnloFXFX-_pythia88_2017UL.root", 
+#VVs   = ["WW_TuneCP5_13TeV-pythia8.root", "WZ_TuneCP5_13TeV-pythia8.root", "ZZ_TuneCP5_13TeV-pythia8.root"]
+TTs   = [#"TTJets_amcatnloFXFX-_pythia88_2017UL.root", 
 "TTTo2L2Nu_powheg_pythia8_2017UL.root", 
 "TTToSemileptonic_powheg_pythia8_2017UL.root"] #["TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
 #TTs   = ["TT_TuneCH3_13TeV-powheg-herwig7.root"]
@@ -81,9 +81,9 @@ bkgs.append(WJs)
 bkgs.append(STs)
 bkgs.append(TTs)
 #TTscompletion = ["oldprod/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "oldprod/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
-bkgs.append(TTs)
+#bkgs.append(TTs)
 
-dir = "/work/mhuwiler/data/WScaleFactors/UL2017/UL17_Wtagging_files/" #"/eos/cms/store/group/phys_jetmet/mhuwiler/WSFnanoAODtuples/" #"/work/mhuwiler/data/WScaleFactors/added/"
+dir = "/work/kadatta/private/CMSSW_10_6_12/src/UL17_Wtagging_files/" #"/eos/cms/store/group/phys_jetmet/mhuwiler/WSFnanoAODtuples/" #"/work/mhuwiler/data/WScaleFactors/added/"
 
 plotdir = "plots/"
 if "maxAK4CSV<" in cut: plotdir = "plots/WCR/"
