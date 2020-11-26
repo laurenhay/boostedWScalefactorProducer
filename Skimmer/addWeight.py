@@ -10,19 +10,16 @@ import argparse
 
 import MC_scalings
 
-usage = 'usage: %prog [options]'
-parser = argparse.ArgumentParser(description=usage)
-parser.add_argument(action='store', type=str, dest='directory', default="/work/mhuwiler/data/WScaleFactors/UL2017/UL17_Wtagging_files/")
+parser = argparse.ArgumentParser(description="This scripts adds a weight to account for the equivalent luminosity of the MC samples. The new weight variables needs to be multiplied by the luminosity of data before being added to the eventWeight. ")
+parser.add_argument(action='store', type=str, dest='directory', default="/work/mhuwiler/data/WScaleFactors/UL2017/UL17_Wtagging_files/", help="Sample or directory of samples where the luminosity weight will be added. ")
 parser.add_argument('-f', '--filter', action='store', type=str, dest='filter', default="")
-parser.add_argument('-k', '--exclude', action='store', type=list, dest='excluded', default=["SingleMuon", "EGamma"])
+parser.add_argument('-k', '--exclude', action='store', type=list, dest='excluded', default=["SingleMuon", "EGamma"], help="Provide here a list of patterns which, if contained in a sample name, will lead to this sample being ignored. ")
 parser.add_argument('--singlethread', action='store_true', dest='singlecore', default=False, help="Run single threaded (use for debugging)")
 parser.add_argument('-v', '--verbose', action='store_true', dest='verbose', default=False, help="More information print out (for the sequence to make sense, you may want to use option '--singlethread' as well).")
 
 args = parser.parse_args()
 
-filterset   = args.filter
-
-LUMI = 43024.
+filterset   = args.filter #TODO: remove 
 
 ##############################
 
@@ -33,7 +30,7 @@ def processFile(filename, verbose=False):
     isMC = True
     if (np.any([pattern in sample for pattern in args.excluded])):
         isMC = False
-    print(isMC)
+    print(isMC) #TODO: remove
 
     
     #filename = args.directory + '/' + sample + '.root'
@@ -45,12 +42,12 @@ def processFile(filename, verbose=False):
 
     if isMC:
         # number of events
-        tree = file.Get('Runs')
+        rundata = file.Get('Runs')
 
         genH = ROOT.TH1D("genH_%s" % sample, "", 1, 0, 0)
         genH.Sumw2()
-        #tree.Draw("genEventSumw>>genH_%s" % sample, "", "goff")
-        tree.Draw("genEventCount_>>genH_%s" % sample, "", "goff")
+        #rundata.Draw("genEventSumw>>genH_%s" % sample, "", "goff")
+        rundata.Draw("genEventCount_>>genH_%s" % sample, "", "goff")
         genEv = genH.GetMean()*genH.GetEntries()
         print(genEv)
         
@@ -75,6 +72,7 @@ def processFile(filename, verbose=False):
                 print("ERROR: Sample '{}'' not found in dictionary, not setting lumiWeight.".format(sample))
                 return
 
+        print("Sample: {}, key: {}".format(sample, key))
         crosssection = lumidict[key][0]
         numevents = lumidict[key][1]
 

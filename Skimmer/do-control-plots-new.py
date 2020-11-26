@@ -44,13 +44,14 @@ datas   = ["SingleMuon_B_2017UL.root",
 
 #MC infiles
 bkgs = []
-STs   = ["ST_s-channel_madgraph_pythia8_2017UL.root", 
+STs   = [#"ST_s-channel_madgraph_pythia8_2017UL.root", 
+"ST_s-channel_amcatnlo_pythia8_2017UL.root", 
 "ST_t-channel_antitop_powheg_pythia8_2017UL.root", 
 "ST_t-channel_top_powheg_pythia8_2017UL.root", 
 "ST_tW_antitop_powheg_pythia8_2017UL.root", 
 "ST_tW_top_powheg_pythia8_2017UL.root"]
-VVs   = ["WW_TuneCP5_13TeV-pythia8.root", "WZ_TuneCP5_13TeV-pythia8.root", "ZZ_TuneCP5_13TeV-pythia8.root"]
-TTs   = ["TTJets_amcatnloFXFX-_pythia88_2017UL.root", 
+#VVs   = ["WW_TuneCP5_13TeV-pythia8.root", "WZ_TuneCP5_13TeV-pythia8.root", "ZZ_TuneCP5_13TeV-pythia8.root"]
+TTs   = [ #"TTJets_amcatnloFXFX-_pythia88_2017UL.root", 
 "TTTo2L2Nu_powheg_pythia8_2017UL.root", 
 "TTToSemileptonic_powheg_pythia8_2017UL.root"] #["TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
 #TTs   = ["TT_TuneCH3_13TeV-powheg-herwig7.root"]
@@ -62,18 +63,20 @@ WJs   = [#"W1JetsToLNu_madgraphMLM_pythia8_2017UL.root",
 "WJetsToLNu_madgraphMLM_pythia8_2017UL.root"
 ]
 #QCDs = ["QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8.root", "QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8.root", "QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8.root", "QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8.root"]
-QCDs = ["QCD_Pt_1000to1400_pythia8_2017UL.root", 
-"QCD_Pt_1400to1800_pythia8_2017UL.root", 
+QCDs = [
 #"QCD_Pt-15to7000_Flat2018_pythia8_2017UL.root", 
 #"QCD_Pt-15to7000_Flat_herwig7_2017UL.root", 
 "QCD_Pt_170to300_pythia8_2017UL.root", 
-"QCD_Pt_1800to2400_pythia8_2017UL.root", 
-"QCD_Pt_2400to3200_pythia8_2017UL.root", 
 "QCD_Pt_300to470_pythia8_2017UL.root", 
-"QCD_Pt_3200toInf_pythia8_2017UL.root", 
 "QCD_Pt_470to600_pythia8_2017UL.root", 
 "QCD_Pt_600to800_pythia8_2017UL.root", 
-"QCD_Pt_800to1000_pythia8_2017UL.root"]
+"QCD_Pt_800to1000_pythia8_2017UL.root", 
+"QCD_Pt_1000to1400_pythia8_2017UL.root", 
+"QCD_Pt_1400to1800_pythia8_2017UL.root", 
+"QCD_Pt_1800to2400_pythia8_2017UL.root", 
+"QCD_Pt_2400to3200_pythia8_2017UL.root", 
+"QCD_Pt_3200toInf_pythia8_2017UL.root", 
+]
 
 bkgs.append(QCDs)
 bkgs.append(WJs)
@@ -91,7 +94,7 @@ if 'herwig' in TTs[0]: plotdir = "plots/Herwig/"
 if not os.path.isdir(plotdir) : os.system('mkdir -p '+plotdir)
 
 #For drawing
-legs=["QCD multijets", "W+jets","WW/WZ/ZZ","Single top", "t#bar{t} unmerged W", "t#bar{t} merged W"] #if not 'herwig' in TTs[0] else 'TT Herwig']
+legs=["QCD multijets", "W+jets","Single top", "t#bar{t} unmerged W", "t#bar{t} merged W"] #if not 'herwig' in TTs[0] else 'TT Herwig'] #"WW/WZ/ZZ"
 fillcolor = [797, 633, 613, 434, 415, 414] #[921,432,600,632,417]
 
 
@@ -286,7 +289,8 @@ def drawTH1(id,tree,var,cuts,bins,min,max,fillcolor,titlex = "",units = "",drawS
   h.SetFillColor(fillcolor)
   if units=="": h.GetXaxis().SetTitle(titlex)
   else: h.GetXaxis().SetTitle(titlex+ " ["+units+"]")
-  tree.Draw(var+">>tmpTH1_%s" % id,"("+cuts+")*eventWeight*lumiWeight*"+str(lumi),"goff")
+  tree.Draw(var+">>tmpTH1_%s" % id,cuts,"goff")
+  print cuts
   
   if not "data" in id:
       if "W+jets" in legs[int(id)]: h.Scale(wjetsSF)
@@ -338,8 +342,7 @@ def doCP(cutL,postfix=""):
       treeD.Add(fileIn_name.Data())
     cutT = cutL if not var in cutL else ()
     
-    cutsData ='*'.join([cutL]) #,"(passedMETfilters==1)"])
-    cutsData ='*'.join([cutL])
+    cutsData = "("+cutL+")*eventWeight"
     datahist = drawTH1("data",treeD,var,cutsData,bins,minx,maxx,1,var.replace("_", " ").replace("[0]", "").replace("FatJet", "AK8 jet").replace("pt", "p_{T}"),unit,"HIST","1")
     datahist.SetName("data")
     legend.AddEntry(datahist,"Data (2017UL)","LEP")
@@ -355,9 +358,10 @@ def doCP(cutL,postfix=""):
       tree = ROOT.TChain("Events")
       name = bg[0]
       hist = None
-      if legs[i] == "t#bar{t} merged W" : totalcut = cutL+"&&genmatchedAK8==1"
-      elif legs[i] == "t#bar{t} unmerged W" : totalcut = cutL+"&&genmatchedAK8==0"
-      else: totalcut = cutL
+      if legs[i] == "t#bar{t} merged W" : MCcut = cutL+"&&genmatchedAK8==1"
+      elif legs[i] == "t#bar{t} unmerged W" : MCcut = cutL+"&&genmatchedAK8==0"
+      else: MCcut = cutL
+      totalcut = "("+MCcut+")*(eventWeight*lumiWeight*"+str(lumi)+")"
       print "Name is: ", name
       for j, file in enumerate(bg):
         print "Using file: ", ROOT.TString(dir+file)
@@ -421,6 +425,7 @@ def doCP(cutL,postfix=""):
     datahist.GetXaxis().SetLabelOffset(-999.)
     datahist.Draw("ME")
     stack.Draw("HIST SAME")
+    datahist.GetYaxis().SetRangeUser(0, stack.GetMaximum()*1.2) #TODO: remove
     totalmc.SetFillColor(ROOT.kGray+2)
     totalmc.SetMarkerStyle(8)
     totalmc.SetMarkerSize(0)
