@@ -153,12 +153,7 @@ if __name__ == '__main__':
     
     dictSamples = {}
 
-    dictSamples['UL17_TT_PFNano_Test2'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/algomez-RunIISummer19UL17PFNanoAOD-106X_mc2017_realistic_v6-v2-830c141d7b4aa70b88c71a25d598b0f2/USER', 1 ]
-       
-    
-    ''' 
-    ######## UL17 samples #######
-    
+    #dictSamples['UL17_TT_PFNano_Test2'] = [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/algomez-RunIISummer19UL17PFNanoAOD-106X_mc2017_realistic_v6-v2-830c141d7b4aa70b88c71a25d598b0f2/USER', 1 ]
     dictSamples['UL17_SingleMuon_B'] = ['/SingleMuon/Run2017B-UL2017_02Dec2019-v1/NANOAOD', 1 ]
     dictSamples['UL17_SingleMuon_C'] = ['/SingleMuon/Run2017C-UL2017_02Dec2019-v1/NANOAOD', 1 ]
     dictSamples['UL17_SingleMuon_D'] = ['/SingleMuon/Run2017D-UL2017_02Dec2019-v1/NANOAOD', 1 ]
@@ -198,6 +193,11 @@ if __name__ == '__main__':
     #dictSamples['UL17_ZZ-pythia8'] = ['/ZZ_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
     #dictSamples['UL17_WW-pythia8'] = ['/WW_TuneCP5_13TeV-pythia8/RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/NANOAODSIM', 1 ]
    
+       
+    
+    ''' 
+    ######## UL17 samples #######
+    
     
     '''
     

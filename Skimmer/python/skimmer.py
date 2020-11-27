@@ -291,7 +291,7 @@ class Skimmer(Module):
 	if not len(recoAK4) > 0: return False
 
         #Selection for AK8 jet
-        recoAK8 = [ x for x in FatJets if x.pt > self.minAK8JetPt and  abs(x.eta) < self.maxAK8JetEta and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW and x.tau1 > 0. and x.tau2 > 0. and (x.jetId & 2) and x.p4().DeltaPhi(lepton.p4())>2.]
+        recoAK8 = [ x for x in FatJets if x.pt > self.minAK8JetPt and  abs(x.eta) < self.maxAK8JetEta and x.tau1 > 0. and x.tau2 > 0. and (x.jetId & 2) and x.p4().DeltaPhi(lepton.p4())>2.] #and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW 
         if not len(recoAK8) > 0: return False
         recoAK8.sort(key=lambda x:x.pt,reverse=True)
 
