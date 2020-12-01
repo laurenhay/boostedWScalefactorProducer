@@ -4,8 +4,8 @@
 
 Repository for fitting W-tagging scalefactors in a semi-leptonic ttbar enriched region. Contains code to skim nanoAOD samples using a semi-leptonic ttbar selection (WTopScalefactorProducer/Skimmer). This output is then used to fit data and MC and extract W-tagging scalefactors (WTopScalefactorProducer/Fitter) both from fitting the AK8 W-jet mass at low-pT (around 200 GeV) and fitting the top AK8 W-subjet mass (around 400 GeV). The calculated scalefactors are then statistically combined and fitted, yielding a parametrisation for the W-tagging pT-dependence.
 
-WTopScalefactorProducer/Skimmer : Start here. Produce samples.
-WTopScalefactorProducer/Fitter  : Based on output from above, run script mainBLABLA.sh to compute fully- and partially-merged W-tagging scalfactors as well as statistically combining the two
+boostedWScalefactorProducer/Skimmer : Start here. Produce samples.
+boostedWScalefactorProducer/Fitter  : Based on output from above, run script mainBLABLA.sh to compute fully- and partially-merged W-tagging scalfactors as well as statistically combining the two
 
 ## installation instructions for CMSSW_10_6_X
 Setup CMSSW and get nanoAOD packages
@@ -19,8 +19,8 @@ git clone https://github.com/cms-nanoAOD/nanoAOD-tools.git PhysicsTools/NanoAODT
 git clone https://github.com/cms-jet/NanoAODJMARTools.git PhysicsTools/NanoAODJMARTools
 git clone -b UL_R2 https://github.com/kaustuvdatta/boostedWScalefactorProducer.git 
 
-ln -s $CMSSW_BASE/src/PhysicsTools/NanoAODTools/scripts/haddnano.py boostedWScalefactorProducer/Skimmer/test/
-scram b -j 4
+ln -s $CMSSW_BASE/src/PhysicsTools/NanoAODTools/scripts/haddnano.py jetObservables/Skimmer/test/
+scram b -j 6
 ```
 ## Step 1: Producing samples
 
