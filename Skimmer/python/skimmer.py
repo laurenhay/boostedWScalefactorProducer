@@ -15,10 +15,15 @@ import random
 import array
 import numpy as np
 
+'''
 
-# Event selection for boosted-W tagging scale factor calculations in a semileptonic ttbar selection; the script skims from NanoAODv7
-# Olde selections: https://www.evernote.com/shard/s282/sh/7e5d6baa-d100-4025-8bf8-a61bf1adfbc1/f7e86fde2c2a165e
+Event selection for boosted-W tagging scale factor calculations in a semileptonic ttbar selection; the script skims from NanoAODv7
 
+Selections are (mostly) aligned with boosted W selection for ParticleNet SF calculations in the muon channel:
+[1]: https://github.com/pkontaxa/NanoHRT-tools/blob/dev/tagger-ul/python/producers/MuonSampleProducer.py 
+[2]: https://github.com/pkontaxa/NanoHRT-tools/blob/dev/tagger-ul/run/runHRTTrees.py
+
+'''
 class Skimmer(Module):
     def __init__(self, channel='elmu', leptonSF={}, year='2017'):
         self.chan = channel
@@ -26,9 +31,7 @@ class Skimmer(Module):
         self.verbose = False
         self.year = year
         self.leptonSFhelper = leptonSF
-        #print(self.leptonSFhelper)
-
-        ### Cuts for selections (aligned with CMS-JME-18-002 and boosted W selections for ParticleNet SF calculations)
+ 
      	self.minLepWPt = 150. #to select boosted topologies in semi-leptonic ttbar
         self.minSDMassW = 60.   
         self.maxSDMassW = 115.
@@ -150,7 +153,7 @@ class Skimmer(Module):
 
         return np.array([SFTrigger , SFID , SFISO])
     
-    # Implementing https://github.com/ferencek/cms-MyAnalyzerDijetCode/blob/5bca32a7bb58a16abdb2c31b4c0379e6ffa27c91/MyAnalyzer_MainAnalysis_DijetBBTag_2011.cc#L1297 following recommendations on https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagSFMethods
+    # Python implementation of https://github.com/ferencek/cms-MyAnalyzerDijetCode/blob/5bca32a7bb58a16abdb2c31b4c0379e6ffa27c91/MyAnalyzer_MainAnalysis_DijetBBTag_2011.cc#L1297 following recommendations (1c) on https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagSFMethods
     def getBTagWeight(self, nBTagged=0, jet_SFs=[0]): 
         bTagWeight=0
         if len(jet_SFs)>2 or nBTagged>2: 
@@ -214,7 +217,7 @@ class Skimmer(Module):
         if not event.nFatJet > 0: return False                               
 
         
-        ### Find high-pT lepton, veto additional leptons, check trigger ###
+        ### Find high-pT lepton, veto additional leptons ###
 
         # Make some loose lepton selections; including loose pT cuts for veto
         electrons = [x for x in allelectrons if x.pt > 40. and x.cutBased >= 2 and ( abs(x.eta) < 1.44 or ( abs(x.eta) > 1.56 and abs(x.eta) < 2.4 ) )] 
@@ -276,17 +279,17 @@ class Skimmer(Module):
         WcandLep = lepton.p4() + MET
         if WcandLep.Pt() < self.minLepWPt: return False   
 	
-	# Require at least 2 AK4 jets in event and at least one b-tagged one that passes the DeepJet/DeepFlavB medium working point; before b-tagging and removing non-b-tagged jets
+        #Minimal selection on AK4 jets, requiring at least 2 jets satisfying the minimal criteria in the event
         recoAK4 = [ x for x in Jets if x.pt > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta and (x.jetId & 2)]
         if not len(recoAK4) > 1: return False 
         
-	# Removing requirement of scalar sum of pT of all AK4 jets in the event(i.e., H_T) to be greater than 250 GeV, but keeping the value for later cuts if necessary 
+	# Commenting out requirement of scalar sum of pT of all minimally selected AK4 jets in the event(i.e., H_T) to be greater than 250 GeV, but keeping the value for later cuts/control plots if necessary 
 	recoAK4_HT = 0. 
 	for x in recoAK4: recoAK4_HT+=x.p4().Perp()
 	#if not recoAK4_HT > 250.: return False
 	minAK4MetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
 
-        #To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them requiring that at least one of the AK4 jets remaining is b-tagged 
+        #To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them effectively requiring that there is at least one b-tagged AK4 jet, and also requiring an angular separation of the prompt lepton and b-tagged jet 
 	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc and abs(x.p4().DeltaPhi(lepton.p4())<2.)]
 	if not len(recoAK4) > 0: return False
 
@@ -298,15 +301,10 @@ class Skimmer(Module):
 	jetAK8_4v = ROOT.TLorentzVector()
 	jetAK8_4v.SetPtEtaPhiM(recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass)
         
-	'''
-        # to prevent angular overlap between leptons and the AK8
-        if not abs(jetAK8_4v.DeltaPhi(lepton.p4())>2.): 
-            return False 
-        '''
         # Obtain btag SFs for calculating b-tagging event weights
 	# Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
 	
-        if len(recoAK4)>2: return False # b-tag weight calculator can handle at most two b-jets, for now (more shouldn't be required to be handled in this decay mode anyway...)
+        if len(recoAK4)>2: return False # b-tag weight calculator can handle at most two b-jets, for now 
         if self.isMC: bTagSFs =  [x.btagSF_deepjet_shape for x in recoAK4]         
 
 	#### Weight calculation from genweights, lepton wt., b-tagging event wt., PU wt.
@@ -370,7 +368,7 @@ class Skimmer(Module):
             
 
             if len(Top)>0 and len(AntiTop)>0:
-                topSF = math.exp(0.0615 - 0.0005 * Top[0].pt) #where are these numbers coming from?
+                topSF = math.exp(0.0615 - 0.0005 * Top[0].pt) 
                 antitopSF = math.exp(0.0615 - 0.0005 * AntiTop[0].pt)
                 topweight = math.sqrt(topSF*antitopSF)
                 
@@ -388,7 +386,7 @@ class Skimmer(Module):
             	gen_4v = ROOT.TLorentzVector()
                 gen_4v.SetPtEtaPhiM(V.pt,V.eta,V.phi,V.mass)
                 dR = jetAK8_4v.DeltaR(gen_4v)
-                if dR < 0.6: # changed from 0.8 for tighter matching criterion (as per CMS-JME-18-002)
+                if dR < 0.6: # changed from 0.8 for tighter matching criterion (as per CMS-JME-18-002, a la ParticleNet)
                     nDau = 0
                     for v in realVdaus:
                         gen_4v = ROOT.TLorentzVector()
