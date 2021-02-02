@@ -30,52 +30,53 @@ iPeriod = 4 #iPeriod = 0 for simulation-only plots
 cut = "Wlep_type==0" # && SelectedJet_softDrop_mass > 50. && SelectedJet_softDrop_mass < 130. && SelectedJet_pt > 200. && SelectedJet_pt < 10000.)"
 #vars = ["SelectedJet_softDrop_mass","SelectedJet_tau21", "SelectedJet_tau21_ddt", "SelectedJet_tau21_ddt_retune", "FatJet_pt[0]","FatJet_eta[0]","FatJet_phi[0]","FatJet_tau1[0]","FatJet_tau2[0]","FatJet_tau3[0]","FatJet_mass[0]","FatJet_msoftdrop[0]","SelectedLepton_pt","SelectedLepton_iso","maxAK4CSV","nFatJet", "nJet", "nMuon","PV_npvs","W_pt","MET_pt","fabs(dphi_WJet)","fabs(dphi_MetJet)","fabs(dphi_LepJet)","dr_LepJet"]
 vars = ["SelectedJet_tau21"] #"SelectedJet_softDrop_mass"
+vars = ["SelectedJet_softDrop_mass","SelectedJet_tau21", "SelectedJet_tau21_ddt", "SelectedJet_tau21_ddt_retune", "FatJet_pt[0]","FatJet_eta[0]","FatJet_phi[0]","FatJet_tau1[0]","FatJet_tau2[0]","FatJet_tau3[0]","FatJet_mass[0]","FatJet_msoftdrop[0]","SelectedLepton_pt","SelectedLepton_iso","nFatJet", "nJet", "nMuon","PV_npvs","MET_pt","fabs(dphi_WJet)","fabs(dphi_MetJet)","fabs(dphi_LepJet)","dr_LepJet"]
 #vars = ["SelectedJet_tau21", "FatJet_pt[0]", "W_pt", "SelectedJet_softDrop_mass","SelectedJet_tau21", "SelectedJet_tau21_ddt", "SelectedJet_tau21_ddt_retune"] 
 #vars += [ "Muon_pt[0]", "Muon_pfRelIso03_all[0]" ]
 #vars += ["Electron_eta[0]", "Electron_phi[0]", "Electron_pt[0]", "Electron_pfRelIso03_all[0]"]
 
 
 #Data infile
-datas   = ["SingleMuon_B_2017UL.root", 
-"SingleMuon_C_2017UL.root", 
-"SingleMuon_D_2017UL.root", 
-"SingleMuon_E_2017UL.root", 
-"SingleMuon_F_2017UL.root"]
+datas   = ["SingleMuon_B_2017ULwithWeights.root", 
+"SingleMuon_C_2017ULwithWeights.root", 
+"SingleMuon_D_2017ULwithWeights.root", 
+"SingleMuon_E_2017ULwithWeights.root", 
+"SingleMuon_F_2017ULwithWeights.root"]
 
 #MC infiles
 bkgs = []
-STs   = [#"ST_s-channel_madgraph_pythia8_2017UL.root", 
-"ST_s-channel_amcatnlo_pythia8_2017UL.root", 
-"ST_t-channel_antitop_powheg_pythia8_2017UL.root", 
-"ST_t-channel_top_powheg_pythia8_2017UL.root", 
-"ST_tW_antitop_powheg_pythia8_2017UL.root", 
-"ST_tW_top_powheg_pythia8_2017UL.root"]
-#VVs   = ["WW_TuneCP5_13TeV-pythia8.root", "WZ_TuneCP5_13TeV-pythia8.root", "ZZ_TuneCP5_13TeV-pythia8.root"]
-TTs   = [ #"TTJets_amcatnloFXFX-_pythia88_2017UL.root", 
-"TTTo2L2Nu_powheg_pythia8_2017UL.root", 
-"TTToSemileptonic_powheg_pythia8_2017UL.root"] #["TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
-#TTs   = ["TT_TuneCH3_13TeV-powheg-herwig7.root"]
-#WJs   = ["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root"]
-WJs   = [#"W1JetsToLNu_madgraphMLM_pythia8_2017UL.root", 
-#"W2JetsToLNu_madgraphMLM_pythia8_2017UL.root", 
-#"W3JetsToLNu_madgraphMLM_pythia8_2017UL.root", 
-#"W4JetsToLNu_madgraphMLM_pythia8_2017UL.root", 
-"WJetsToLNu_madgraphMLM_pythia8_2017UL.root"
+STs   = [#"ST_s-channel_madgraph_pythia8_2017ULwithWeights.root", 
+"ST_s-channel_amcatnlo_pythia8_2017ULwithWeights.root", 
+"ST_t-channel_antitop_powheg_pythia8_2017ULwithWeights.root", 
+"ST_t-channel_top_powheg_pythia8_2017ULwithWeights.root", 
+"ST_tW_antitop_powheg_pythia8_2017ULwithWeights.root", 
+"ST_tW_top_powheg_pythia8_2017ULwithWeights.root"]
+#VVs   = ["WW_TuneCP5_13TeV-pythia8withWeights.root", "WZ_TuneCP5_13TeV-pythia8withWeights.root", "ZZ_TuneCP5_13TeV-pythia8withWeights.root"]
+TTs   = [ #"TTJets_amcatnloFXFX-_pythia88_2017ULwithWeights.root", 
+"TTTo2L2Nu_powheg_pythia8_2017ULwithWeights.root", 
+"TTToSemileptonic_powheg_pythia8_2017ULwithWeights.root"] #["TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8withWeights.root", "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8withWeights.root"]
+#TTs   = ["TT_TuneCH3_13TeV-powheg-herwig7withWeights.root"]
+#WJs   = ["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8withWeights.root"]
+WJs   = [#"W1JetsToLNu_madgraphMLM_pythia8_2017ULwithWeights.root", 
+#"W2JetsToLNu_madgraphMLM_pythia8_2017ULwithWeights.root", 
+#"W3JetsToLNu_madgraphMLM_pythia8_2017ULwithWeights.root", 
+#"W4JetsToLNu_madgraphMLM_pythia8_2017ULwithWeights.root", 
+"WJetsToLNu_madgraphMLM_pythia8_2017ULwithWeights.root"
 ]
-#QCDs = ["QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8.root", "QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8.root", "QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8.root", "QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8.root"]
+#QCDs = ["QCD_HT700to1000_TuneCP5_13TeV-madgraphMLM-pythia8withWeights.root", "QCD_HT1000to1500_TuneCP5_13TeV-madgraphMLM-pythia8withWeights.root", "QCD_HT1500to2000_TuneCP5_13TeV-madgraphMLM-pythia8withWeights.root", "QCD_HT2000toInf_TuneCP5_13TeV-madgraphMLM-pythia8withWeights.root"]
 QCDs = [
-#"QCD_Pt-15to7000_Flat2018_pythia8_2017UL.root", 
-#"QCD_Pt-15to7000_Flat_herwig7_2017UL.root", 
-"QCD_Pt_170to300_pythia8_2017UL.root", 
-"QCD_Pt_300to470_pythia8_2017UL.root", 
-"QCD_Pt_470to600_pythia8_2017UL.root", 
-"QCD_Pt_600to800_pythia8_2017UL.root", 
-"QCD_Pt_800to1000_pythia8_2017UL.root", 
-"QCD_Pt_1000to1400_pythia8_2017UL.root", 
-"QCD_Pt_1400to1800_pythia8_2017UL.root", 
-"QCD_Pt_1800to2400_pythia8_2017UL.root", 
-"QCD_Pt_2400to3200_pythia8_2017UL.root", 
-"QCD_Pt_3200toInf_pythia8_2017UL.root", 
+#"QCD_Pt-15to7000_Flat2018_pythia8_2017ULwithWeights.root", 
+#"QCD_Pt-15to7000_Flat_herwig7_2017ULwithWeights.root", 
+"QCD_Pt_170to300_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_300to470_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_470to600_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_600to800_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_800to1000_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_1000to1400_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_1400to1800_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_1800to2400_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_2400to3200_pythia8_2017ULwithWeights.root", 
+"QCD_Pt_3200toInf_pythia8_2017ULwithWeights.root", 
 ]
 
 bkgs.append(QCDs)
@@ -86,7 +87,7 @@ bkgs.append(TTs)
 #TTscompletion = ["oldprod/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8.root", "oldprod/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8.root"]
 bkgs.append(TTs)
 
-dir = "/work/mhuwiler/data/WScaleFactors/UL2017/UL17_Wtagging_files/" #"/eos/cms/store/group/phys_jetmet/mhuwiler/WSFnanoAODtuples/" #"/work/mhuwiler/data/WScaleFactors/added/"
+dir = "/work/kadatta/private/CMSSW_10_6_12/src/UL17_Wtagging_files_new/" #"/scratch/mhuwiler/data/WTagging/UL17_Wtagging_files_new/" #"/eos/cms/store/group/phys_jetmet/mhuwiler/WSFnanoAODtuples/" #"/work/mhuwiler/data/WScaleFactors/added/"
 
 plotdir = "plots/"
 if "maxAK4CSV<" in cut: plotdir = "plots/WCR/"
@@ -361,7 +362,9 @@ def doCP(cutL,postfix=""):
       if legs[i] == "t#bar{t} merged W" : MCcut = cutL+"&&genmatchedAK8==1"
       elif legs[i] == "t#bar{t} unmerged W" : MCcut = cutL+"&&genmatchedAK8==0"
       else: MCcut = cutL
-      totalcut = "("+MCcut+")*(eventWeight*lumiWeight*"+str(lumi)+")"
+      totalcut = "("+MCcut+")*weight"
+      print "{} {}".format(bg, tree.GetMaximum("lumiWeight"))
+
       print "Name is: ", name
       for j, file in enumerate(bg):
         print "Using file: ", ROOT.TString(dir+file)
