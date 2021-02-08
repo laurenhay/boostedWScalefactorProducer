@@ -3,7 +3,8 @@ process = cms.Process('NANO')
 process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring(),
 )
 process.source.fileNames = [
-    'root://cms-xrd-global.cern.ch///store/mc/RunIISummer19UL17NanoAOD/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v1/100000/B8E8D3C6-B111-DB43-92B7-2FD447A95C87.root',
+    #'root://cms-xrd-global.cern.ch///store/mc/RunIISummer19UL17NanoAOD/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v1/100000/B8E8D3C6-B111-DB43-92B7-2FD447A95C87.root',
+    'root://cms-xrd-global.cern.ch///store/mc/RunIISummer19UL17NanoAOD/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v2/280000/64225131-61AB-7649-8D04-7511E4FA3F9B.root'
     #'root://xrootd-cms.infn.it//store/group/lpctlbsm/NanoAODJMAR_2019_V1/Production/CRAB/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/TTJetsTuneCUETP8M113TeV-madgraphMLM-pythia8RunIISummer16MiniAODv3-PUMoriond1794XmcRun2/190321_164456/0000/nano102x_on_mini94x_2016_mc_NANO_12.root',
     #'root://cms-xrd-global.cern.ch///store/mc/RunIISummer19UL17NanoAOD/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/106X_mc2017_realistic_v6-v1/70000/FF73DD72-FFB2-CB41-AE38-261D7B69E049.root',
     #'root://cms-xrd-global.cern.ch///store/mc/RunIIAutumn18NanoAODv7/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/NANOAODSIM/Nano02Apr2020_102X_upgrade2018_realistic_v21-v1/60000/EF3977F7-2F3E-7F44-9DE3-73895A82D5BD.root',

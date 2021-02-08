@@ -1,0 +1,1 @@
+python boostedWtaggingSF_skimNanoAOD.py --iFile /tmp/kadatta/FF73DD72-FFB2-CB41-AE38-261D7B69E049-long_cache-id113232-4a22dd6dfc8adc7a68b53537c5e2458b01496790.root --numEvents 25000 --year '2017' --local
