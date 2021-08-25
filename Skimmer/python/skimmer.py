@@ -34,7 +34,7 @@ class Skimmer(Module):
  
      	self.minLepWPt = 150. #to select boosted topologies in semi-leptonic ttbar
         self.minSDMassW = 60.   
-        self.maxSDMassW = 115.
+        self.maxSDMassW = 120.
 
         ### Kinematics Cuts AK4Jets ###
         self.minAK4JetPt = 25.
@@ -94,6 +94,10 @@ class Skimmer(Module):
         self.out.branch("SelectedJet_tau21",  "F")
         self.out.branch("SelectedJet_tau21_ddt",  "F")
         self.out.branch("SelectedJet_tau21_ddt_retune",  "F")      
+        self.out.branch("SelectedJet_deepTag_WvsQCD",    "F")
+        self.out.branch("SelectedJet_deepTagMD_WvsQCD",  "F")
+        self.out.branch("SelectedJet_particleNet_WvsQCD","F")
+        self.out.branch("SelectedJet_particleNetMD_Xqq", "F")
         self.out.branch("SelectedJet_pt",   "F")
         self.out.branch("SelectedJet_eta",  "F")
         self.out.branch("SelectedJet_mass", "F")
@@ -126,32 +130,38 @@ class Skimmer(Module):
 	print ("%f p.c. of %d events processed have passed the selection")%((self.nEventsPassed/(1.*self.nEventsProcessed)), self.nEventsProcessed)
         pass
 
-    
     def leptonSF(self, lepton, leptonP4 ):
 
-        if lepton.startswith("muon"): leptonP4eta = abs(leptonP4.eta)
-        else: leptonP4eta = leptonP4.eta
+        leptonP4eta = abs(leptonP4.eta)
+        leptonP = ROOT.TMath.Sqrt(leptonP4.p4().Px()**2 + leptonP4.p4().Py()**2 + leptonP4.p4().Pz()**2)
 
         SFFileTrigger = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['Trigger'][0] )
         histoSFTrigger = SFFileTrigger.Get( self.leptonSFhelper[lepton]['Trigger'][1] )
-        SFTrigger = histoSFTrigger.GetBinContent( histoSFTrigger.GetXaxis().FindBin( leptonP4.pt ), histoSFTrigger.GetYaxis().FindBin( leptonP4eta ) )
+        SFTrigger = histoSFTrigger.GetBinContent( histoSFTrigger.GetXaxis().FindBin( leptonP4eta ), histoSFTrigger.GetYaxis().FindBin( leptonP4.pt ) )
 
         SFFileID = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['ID'][0] )
         histoSFID = SFFileID.Get( self.leptonSFhelper[lepton]['ID'][1] )
-        histoSFID_X = histoSFID.GetXaxis().FindBin( leptonP4.pt if self.leptonSFhelper[lepton]['ID'][2] else leptonP4eta )
-        histoSFID_Y = histoSFID.GetYaxis().FindBin( leptonP4eta if self.leptonSFhelper[lepton]['ID'][2] else leptonP4.pt )
+        histoSFID_X = histoSFID.GetXaxis().FindBin( leptonP4eta)
+        histoSFID_Y = histoSFID.GetYaxis().FindBin( leptonP4.pt )
         SFID = histoSFID.GetBinContent( histoSFID_X, histoSFID_Y )
         SFID = SFID if SFID>0 else 1
 
-        if self.year.startswith('2016') and lepton.startswith("muon"): leptonP4eta = leptonP4.eta   
         SFFileISO = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['ISO'][0] )
         histoSFISO = SFFileISO.Get( self.leptonSFhelper[lepton]['ISO'][1] )
-        histoSFISO_X = histoSFISO.GetXaxis().FindBin( leptonP4.pt if self.leptonSFhelper[lepton]['ISO'][2] else leptonP4eta )
-        histoSFISO_Y = histoSFISO.GetYaxis().FindBin( leptonP4eta if self.leptonSFhelper[lepton]['ISO'][2] else leptonP4.pt )
+        histoSFISO_X = histoSFISO.GetXaxis().FindBin( leptonP4eta )
+        histoSFISO_Y = histoSFISO.GetYaxis().FindBin( leptonP4.pt )
         SFISO = histoSFISO.GetBinContent( histoSFISO_X, histoSFISO_Y )
         SFISO = SFISO if SFISO>0 else 1
+        
+        SFFileRecoEff = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['RecoEff'][0] )
+        histoSFRecoEff = SFFileRecoEff.Get( self.leptonSFhelper[lepton]['RecoEff'][1] )
+        histoSFRecoEff_X = histoSFRecoEff.GetXaxis().FindBin( leptonP4eta )
+        histoSFRecoEff_Y = histoSFRecoEff.GetYaxis().FindBin( leptonP )
+        SFRecoEff = histoSFRecoEff.GetBinContent( histoSFRecoEff_X, histoSFRecoEff_Y )
+        SFRecoEff = SFRecoEff if SFRecoEff>0 else 1
 
-        return np.array([SFTrigger , SFID , SFISO])
+        #print (SFTrigger * SFID * SFISO), SFTrigger , SFID , SFISO, leptonP4.pt, leptonP4.eta
+        return [SFTrigger , SFID , SFISO, SFRecoEff]
     
     # Python implementation of https://github.com/ferencek/cms-MyAnalyzerDijetCode/blob/5bca32a7bb58a16abdb2c31b4c0379e6ffa27c91/MyAnalyzer_MainAnalysis_DijetBBTag_2011.cc#L1297 following recommendations (1c) on https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagSFMethods
     def getBTagWeight(self, nBTagged=0, jet_SFs=[0]): 
@@ -249,21 +259,18 @@ class Skimmer(Module):
         if ("mu" in self.chan and muonTight and (len(muons) == 1) and (len(electrons) == 0)) :  
             # There is one tight muon and no other loose electron or muon 
        	    triggerEl = 0 
-            #if not triggerMu: return False
             self.Vlep_type = 0
             lepton = muons[0]#.p4()
             iso = muons[0].miniPFRelIso_all
         
            
         elif ("el" in self.chan and electronTight and (len(electrons) == 1) and (len(muons) == 0)) :  
-	# There is a tight electron and no other loose muon or electron
-          
+	# There is a tight electron and no other loose muon or electron         
 	    triggerMu = 0
-            #if not triggerEl: return False
             self.Vlep_type = 1
             lepton = electrons[0]#.p4()
             iso = electrons[0].miniPFRelIso_all
-	    # TODO: Add this to the SpecificYearConfig (class and config file)
+
        
         else :
             return False 
@@ -280,7 +287,7 @@ class Skimmer(Module):
         if WcandLep.Pt() < self.minLepWPt: return False   
 	
         #Minimal selection on AK4 jets, requiring at least 2 jets satisfying the minimal criteria in the event
-        recoAK4 = [ x for x in Jets if x.pt > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta and (x.jetId & 2)]
+        recoAK4 = [ x for x in Jets if x.pt > self.minAK4JetPt and abs(x.p4().Eta()) < self.maxAK4JetEta and (x.jetId>=2)]
         if not len(recoAK4) > 1: return False 
         
 	# Commenting out requirement of scalar sum of pT of all minimally selected AK4 jets in the event(i.e., H_T) to be greater than 250 GeV, but keeping the value for later cuts/control plots if necessary 
@@ -290,11 +297,11 @@ class Skimmer(Module):
 	minAK4MetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
 
         #To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them effectively requiring that there is at least one b-tagged AK4 jet, and also requiring an angular separation of the prompt lepton and b-tagged jet 
-	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc and abs(x.p4().DeltaPhi(lepton.p4())<2.)]
+	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc and abs(x.p4().DeltaPhi(lepton.p4()))<2.]
 	if not len(recoAK4) > 0: return False
 
         #Selection for AK8 jet
-        recoAK8 = [ x for x in FatJets if x.pt > self.minAK8JetPt and  abs(x.eta) < self.maxAK8JetEta and x.tau1 > 0. and x.tau2 > 0. and (x.jetId & 2) and x.p4().DeltaPhi(lepton.p4())>2.] #and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW 
+        recoAK8 = [ x for x in FatJets if x.pt > self.minAK8JetPt and  abs(x.eta) < self.maxAK8JetEta and x.tau1 > 0. and x.tau2 > 0. and (x.jetId>=2) and abs(x.p4().DeltaPhi(lepton.p4()))>2.]# and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW] # 
         if not len(recoAK8) > 0: return False
         recoAK8.sort(key=lambda x:x.pt,reverse=True)
 
@@ -305,14 +312,18 @@ class Skimmer(Module):
 	# Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
 	
         if len(recoAK4)>2: return False # b-tag weight calculator can handle at most two b-jets, for now 
-        if self.isMC: bTagSFs =  [x.btagSF_deepjet_shape for x in recoAK4]         
-
+        if self.isMC: 
+            if self.isMC:
+                bTagSFs =  [x.btagSF_deepjet_M for x in recoAK4]
+                self.btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs)
+            else: self.btagweight = 1.
+                
 	#### Weight calculation from genweights, lepton wt., b-tagging event wt., PU wt.
         if self.isMC: 
             if len(muons)>0: leptonweight = self.leptonSF( "muon", muons[0] )
 	    elif len(electrons)>0: leptonweight = self.leptonSF( "electron", electrons[0] )
-            else: leptonweight = np.array([0., 0., 0.])
-        else: leptonweight = np.array([1., 1., 1.])
+            else: leptonweight = np.array([0., 0., 0., 0.])
+        else: leptonweight = np.array([1., 1., 1., 1.])
 
         if self.isMC:
 	    #obtain b-tagging event weight from per jet SFs
@@ -394,8 +405,10 @@ class Skimmer(Module):
                 	dR = jetAK8_4v.DeltaR(gen_4v)
                 	if dR < 0.6: # changed from 0.8 for tighter matching criterion (as per CMS-JME-18-002)
                   	    nDau +=1                 
-                  	    self.isW = 1
-        
+                    if nDau>1: self.isW = 1
+                    else: self.isW=0
+        #print (recoAK8[0].pt, recoAK8[0].msoftdrop, recoAK4[0].pt, event.event, event.luminosityBlock)
+                    
         #Fill output branches
 	self.out.fillBranch("passingAK4_HT",  recoAK4_HT)
         self.out.fillBranch("genmatchedAK8",  self.isW)
@@ -442,6 +455,10 @@ class Skimmer(Module):
         self.out.fillBranch("SelectedJet_tau32",tau32)
         self.out.fillBranch("SelectedJet_tau42",tau42)
         self.out.fillBranch("SelectedJet_tau41",tau41)
+        self.out.fillBranch("SelectedJet_deepTag_WvsQCD",recoAK8[0].deepTag_WvsQCD)
+        self.out.fillBranch("SelectedJet_deepTagMD_WvsQCD",recoAK8[0].deepTagMD_WvsQCD)
+        self.out.fillBranch("SelectedJet_particleNet_WvsQCD",recoAK8[0].particleNet_WvsQCD)
+        self.out.fillBranch("SelectedJet_particleNetMD_Xqq",recoAK8[0].particleNetMD_Xqq)
        
 	self.nEventsPassed+=1
 
