@@ -9,12 +9,10 @@ from boostedWScalefactorProducer.Skimmer.PileupWeightTool import *
 from boostedWScalefactorProducer.Skimmer.variables import recoverNeutrinoPz
 from boostedWScalefactorProducer.Skimmer.SpecificYearConfig import SpecificYearConfig
 
-
 import math,os,sys
 import random
 import array
 import numpy as np
-
 '''
 
 Event selection for boosted-W tagging scale factor calculations in a semileptonic ttbar selection; the script skims from NanoAODv7
@@ -24,6 +22,11 @@ Selections are (mostly) aligned with boosted W selection for ParticleNet SF calc
 [2]: https://github.com/pkontaxa/NanoHRT-tools/blob/dev/tagger-ul/run/runHRTTrees.py
 
 '''
+
+algNames = [
+    "sdB0", "sdB1", "sdB0Z0p05", "sdB1Z0p05", "sdB0Z0p15", "sdB1Z0p15"
+]
+
 class Skimmer(Module):
     def __init__(self, channel='elmu', leptonSF={}, year='2017'):
         self.chan = channel
@@ -42,6 +45,7 @@ class Skimmer(Module):
         self.minBDisc = 0.3040  ### L: 0.0532, M: 0.3040, T: 0.7476, for DeepJet (ie, DeepFlavB)
 
         ### Kinematics Cuts AK8Jets ###
+        self.R = 0.8
         self.minAK8JetPt = 200  
         self.maxAK8JetEta = 2.4
         
@@ -61,6 +65,20 @@ class Skimmer(Module):
 	
 
     def beginJob(self, histFile, histDirName):
+
+        ROOT.gSystem.Load("libPhysicsToolsNanoAODJMARTools.so")
+        
+        self.sdB0Z0p05 = ROOT.SoftDropWrapper(0. ,0.05, self.R, self.minAK8JetPt)
+        # self.sdB0 = ROOT.SoftDropWrapper(0. ,0.1, self.R, self.minAK8JetPt)
+        # self.sdB0Z0p15 = ROOT.SoftDropWrapper(0. ,0.15, self.R, self.minAK8JetPt)
+
+        # self.sdB1Z0p05 = ROOT.SoftDropWrapper(1. ,0.05, self.R, self.minAK8JetPt)
+        # self.sdB1 = ROOT.SoftDropWrapper(1. ,0.1, self.R, self.minAK8JetPt)
+        # self.sdB1Z0p15 = ROOT.SoftDropWrapper(1. ,0.15, self.R, self.minAK8JetPt)
+
+        # self.algsToRun = [ self.sdB0, self.sdB1, self.sdB0Z0p05, self.sdB1Z0p05, self.sdB0Z0p15, self.sdB1Z0p15 ]
+        # self.algNames = copy.copy(algNames)
+
             
         Module.beginJob(self, histFile, histDirName)
         #self.yearSpecificConfig = SpecificYearConfig(self.year, self.verbose)
@@ -88,6 +106,8 @@ class Skimmer(Module):
 
         self.out.branch("eventWeight", "F")
         self.out.branch("SelectedJet_softDrop_mass",  "F")
+        # for ialg,alg in enumerate(self.algsToRun):
+        #     self.out.branch("SelectedJet_"+self.algNames[ialg]+"_mass", "F")
         self.out.branch("SelectedJet_tau42",  "F")
         self.out.branch("SelectedJet_tau41",  "F")
         self.out.branch("SelectedJet_tau32",  "F")
@@ -205,6 +225,7 @@ class Skimmer(Module):
     def boostedWSelection(self, event):
       	
         FatJets = list(Collection(event, "FatJet"))
+        #allrecoparts = list(Collection(event, "PFCandsAK8"))
         allelectrons = list(Collection(event, 'Electron'))
         allmuons = list(Collection(event, 'Muon'))
 	Jets = list(Collection(event, "Jet")) 
@@ -300,6 +321,19 @@ class Skimmer(Module):
 	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc and abs(x.p4().DeltaPhi(lepton.p4()))<2.]
 	if not len(recoAK4) > 0: return False
 
+        #Get AK8 jet constituents
+        # for p in allrecoparts :
+        #     t = ROOT.TLorentzVector( p.p4().Px(), p.p4().Py(), p.p4().Pz(), p.p4().E())
+        #     pw =  p.puppiWeight
+            
+        #     recoCandsVec.push_back(t)
+        #     tp = ROOT.TLorentzVector(p.p4().Px(), p.p4().Py(), p.p4().Pz(), p.p4().E())
+        #     tp = tp * pw           
+        #     #if pw > 0. :
+        #     #print "Applying PUPPI weights" 
+        #     recoCandsPUPPIweightedVec.push_back(tp)
+
+
         #Selection for AK8 jet
         recoAK8 = [ x for x in FatJets if x.pt > self.minAK8JetPt and  abs(x.eta) < self.maxAK8JetEta and x.tau1 > 0. and x.tau2 > 0. and (x.jetId>=2) and abs(x.p4().DeltaPhi(lepton.p4()))>2.]# and x.msoftdrop > self.minSDMassW and x.msoftdrop<self.maxSDMassW] # 
         if not len(recoAK8) > 0: return False
@@ -307,7 +341,26 @@ class Skimmer(Module):
 
 	jetAK8_4v = ROOT.TLorentzVector()
 	jetAK8_4v.SetPtEtaPhiM(recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass)
-        
+
+        #get JEC correction factor for reclustered jets
+        #jecNomVal = recoAK8[0].corr_JEC
+        # jecNomVal = 1/(1-recoAK8[0].rawFactor)
+
+        # #Recluster jets with alternate softdrop settings
+        # recojetsGroomedAK8_4v = {}
+
+        # # Cluster only the particles near the appropriate jet to save time
+        # constituents = ROOT.vector("TLorentzVector")()
+        # #print "Find PUPPI jets"
+        # for x_cands in recoCandsPUPPIweightedVec:
+        #     if recoAK8[0].p4().DeltaR( x_cands ) < 0.8:
+        #         constituents.push_back(x_cands)
+        # for ialg,alg in enumerate(self.algsToRun):
+        #     groomedjetFJ = alg.result( constituents )
+        #     groomedjet = ROOT.TLorentzVector( groomedjetFJ.px(), groomedjetFJ.py(), groomedjetFJ.pz(), groomedjetFJ.e() )
+        #     groomedjet = groomedjet*jecNomVal
+        #     recojetsGroomedAK8_4v[ialg] = groomedjet[0]
+
         # Obtain btag SFs for calculating b-tagging event weights
 	# Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
 	
@@ -407,6 +460,7 @@ class Skimmer(Module):
                   	    nDau +=1                 
                     if nDau>1: self.isW = 1
                     else: self.isW=0
+
         #print (recoAK8[0].pt, recoAK8[0].msoftdrop, recoAK4[0].pt, event.event, event.luminosityBlock)
                     
         #Fill output branches
@@ -429,6 +483,8 @@ class Skimmer(Module):
         self.out.fillBranch("Wlep_pt", WcandLep.Pt() )
         self.out.fillBranch("Wlep_mass", WcandLep.M() )
         self.out.fillBranch("SelectedJet_softDrop_mass",  recoAK8[0].msoftdrop)
+        # for ialg,alg in enumerate(self.algsToRun):
+        #     self.out.fillBranch("SelectedJet_"+self.algNames[ialg]+"_mass", recojetsGroomedAK8_4v[ialg].M())
         self.out.fillBranch("SelectedJet_pt",   recoAK8[0].pt)
         self.out.fillBranch("SelectedJet_eta",  recoAK8[0].eta)
         self.out.fillBranch("SelectedJet_mass",  recoAK8[0].mass)
