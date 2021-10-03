@@ -52,7 +52,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 8026103.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -62,7 +62,7 @@ dictSamples = {
             'nevents' : 1.,
             'nGenWeights' : 297902725633.38257,
             },
-        'XS' : , #some notes say 722.8 and a few say 831.76?
+        'XS' : 831.76, #some notes say 722.8 and a few say 831.76?
         'selection' : 'Wtop',
         'label' : 't#bar{t} amcatnloFXFX' ,
         'color': ROOT.kBlue
@@ -75,7 +75,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 43732445.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -98,7 +98,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 8933890.,
-            'nGenWeights' :  ,
+            #'nGenWeights' :  ,
             },
         '2018' :  {
             'miniAOD' : [ '/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -121,7 +121,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 33073306.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -143,7 +143,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 9883805.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -165,7 +165,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 5865875.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/ST_t-channel_top_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -187,7 +187,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 3675910.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/ST_t-channel_antitop_5f_InclusiveDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -209,7 +209,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 7794186.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -231,7 +231,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 7977430.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -253,7 +253,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 7765828.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/WW_TuneCP5_13TeV-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -275,7 +275,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 1925931.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/ZZ_TuneCP5_13TeV-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -297,8 +297,8 @@ dictSamples = {
             'nanoAOD' : [ '/WZ_TuneCP5_13TeV-pythia8/chmclean-WZ_TuneCP5_13TeV-pythia8_RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1-2632477341b0033d0ee33ee9e5481e57/USER' ],
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
-            'nevents' 3928630.: ,
-            'nGenWeights' : ,
+            'nevents' : 3928630.,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/WZ_TuneCP5_13TeV-pythia8/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -345,7 +345,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 29829920.,
-            'nGenWeights' : ,#same as nevents?
+            #'nGenWeights' : ,#same as nevents?
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -368,7 +368,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 53798780.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -391,7 +391,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 26036094.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -414,7 +414,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 66134964.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -437,7 +437,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 39246744.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_800to1000_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -460,7 +460,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 19631814.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -483,7 +483,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 5685270.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -506,7 +506,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 2923941.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -529,7 +529,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 1910526.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
@@ -552,7 +552,7 @@ dictSamples = {
             'skimmer' : [ '' ],
             'skimmerHisto' : '',
             'nevents' : 757837.,
-            'nGenWeights' : ,
+            #'nGenWeights' : ,
             },
         '2018' :  {
             'miniAOD' : [ '/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/RunIISummer20UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],

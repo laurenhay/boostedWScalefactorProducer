@@ -23,7 +23,13 @@ mv src $CMSSW_BASE/src
 mv python $CMSSW_BASE/python
 
 echo Found Proxy in: $X509_USER_PROXY
-echo "python  boostedWtagging_crab_skimNanoAOD.py ......."
-python boostedWtagging_crab_skimNanoAOD.py $1
+echo "sourcing FASTJET-contrib ......."
+
+source /cvmfs/cms.cern.ch/slc6_amd64_gcc630/external/fastjet-contrib/1.033-omkpbe/etc/profile.d/init.sh
+source /cvmfs/cms.cern.ch/slc6_amd64_gcc630/external/fastjet-contrib/1.033-omkpbe/etc/profile.d/dependencies-setup.sh
+
+echo "python runPostProcessor.py  ......." 
+echo "python  boostedWtaggingSF_skimNanoAOD.py ......."
+python boostedWtaggingSF_skimNanoAOD.py  --sample '/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/algomez-QCDPt170to300TuneCP513TeVpythia8RunIIFall17MiniAODv2-PU201712Apr201894Xmc2017-2632477341b0033d0ee33ee9e5481e57/USER'
 fi
     

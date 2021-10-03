@@ -35,6 +35,9 @@ mv lib $CMSSW_BASE/lib
 mv src $CMSSW_BASE/src
 mv python $CMSSW_BASE/python
 echo Found Proxy in: $X509_USER_PROXY
+echo "sourcing FASTJET-contrib ......."
+source /cvmfs/cms.cern.ch/slc6_amd64_gcc630/external/fastjet-contrib/1.033-omkpbe/etc/profile.d/init.sh
+source /cvmfs/cms.cern.ch/slc6_amd64_gcc630/external/fastjet-contrib/1.033-omkpbe/etc/profile.d/dependencies-setup.sh
 echo "python {pythonFile} --sample {datasets} --year {year}"
 python {pythonFile} --sample {datasets} --year {year} --runEra {runEra} 
 fi
@@ -42,7 +45,7 @@ fi
     open('runPostProc'+options.datasets+options.year+'.sh', 'w').write(BASH_SCRIPT.format(**options.__dict__))
 
 
-def submitJobs( job, inputFiles, unitJobs ):
+def submitJobs( job, inputFiles, unitJobs, dodryrun ):
 
     from CRABAPI.RawCommand import crabCommand
     from WMCore.Configuration import Configuration
@@ -64,7 +67,7 @@ def submitJobs( job, inputFiles, unitJobs ):
     config.JobType.allowUndistributedCMSSW = True
 
     config.section_("Data")
-    #config.Data.publication = True
+    config.Data.publication = True
     #config.Data.publishDBS = 'phys03'
     config.Data.inputDBS = 'phys03'  
     #config.Data.ignoreLocality = True
@@ -77,7 +80,7 @@ def submitJobs( job, inputFiles, unitJobs ):
 
     def submit(config):
         try:
-            crabCommand('submit', config = config, 'dryrun')
+            crabCommand('submit', config = config,dryrun=dodryrun)
         except HTTPException, hte:
             print 'Cannot execute command'
             print hte.headers
@@ -85,19 +88,22 @@ def submitJobs( job, inputFiles, unitJobs ):
 
     requestname = 'boostedWtaggingSF_Skims_'+ job +options.year+'_'+options.version
     print requestname
-    config.JobType.scriptExe = 'runPostProc'+options.datasets+options.year+'.sh'
-    config.JobType.inputFiles = [ options.pythonFile ,'haddnano.py', 'keep_and_drop.txt',
+    if dodryrun: 
+        config.JobType.scriptExe = 'runPostProc_MC.sh'
+    else:
+        config.JobType.scriptExe = 'runPostProc'+options.datasets+options.year+'.sh'
+    config.JobType.inputFiles = [ 'haddnano.py', 'keep_and_drop.txt', 'boostedWtaggingSF_skimNanoAOD.py',
 '/uscms/home/camclean/nobackup/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/data/EfficienciesAndSF_RunBtoF_Nov17Nov2017.root',
 '/uscms/home/camclean/nobackup/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/data/RunBCDEF_SF_ID.root',
 '/uscms/home/camclean/nobackup/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/data/RunBCDEF_SF_ISO.root',
 ]
     config.JobType.sendPythonFolder  = True
     
-    if job.startswith(('18_Single','17_Single', 'SingleMuon','Single')):
-        if options.year.startswith('2017'): config.Data.lumiMask = 'afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/Final/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt'
-        elif options.year.startswith('2018'): config.Data.lumiMask = ''
-    else: 
-        print "Cert not found for data sample"
+    #if job.startswith(('18_Single','17_Single', 'SingleMuon','Single')):
+        #if options.year.startswith('2017'): config.Data.lumiMask = 'afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/Final/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt'
+        #elif options.year.startswith('2018'): config.Data.lumiMask = ''
+    #else: 
+    #    print "Cert not found for data sample"
     #config.Data.userInputFiles = inputFiles
     config.Data.inputDataset = inputFiles
     config.Data.splitting = 'FileBased'
@@ -106,7 +112,7 @@ def submitJobs( job, inputFiles, unitJobs ):
 
     # since the input will have no metadata information, output can not be put in DBS
     config.JobType.outputFiles = [ 'boostedWtaggingSF_nanoskim.root']
-    config.Data.outLFNDirBase = '/store/user/'+os.environ['USER']+'/boostedWtaggingSF/'
+    config.Data.outLFNDirBase = '/store/user/chmclean/boostedWtaggingSF/'
 
     if len(requestname) > 100: requestname = (requestname[:95-len(requestname)])
     print 'requestname = ', requestname
@@ -201,8 +207,8 @@ if __name__ == '__main__':
         options.datasets = isam
 
         print('Creating bash file...')
-        #createBash()
+        if not options.DRYRUN: createBash()
 
         print ("dataset %s has %d files" % (processingSamples[isam], len(processingSamples[isam][0])))
-        submitJobs( isam, processingSamples[isam][0], processingSamples[isam][1] )
+        submitJobs( isam, processingSamples[isam][0], processingSamples[isam][1], options.DRYRUN )
 
