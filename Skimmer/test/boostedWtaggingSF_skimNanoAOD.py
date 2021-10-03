@@ -13,8 +13,8 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 #this takes care of converting the input files from CRAB
 from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import inputFiles,runsAndLumis
 
-from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import puAutoWeight_UL2016, puAutoWeight_UL2017, puAutoWeight_UL2018
-from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSF2016, btagSF2017, btagSF2018, btagSF_UL2016, btagSF_UL2017, btagSF_UL2018
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import puAutoWeight_2016, puAutoWeight_2017, puAutoWeight_2018
+from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import btagSF2016, btagSF2017#, btagSF2018, btagSF_UL2016, btagSF_UL2017, btagSF_UL2018
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetHelperRun2 import *
 
 # our module
@@ -131,10 +131,10 @@ LeptonSF = {
 
     '2017' : {
         'muon' : {
-            'Trigger' : [ "MuonSF_UL17and18.root", "UL17_Trigger", False ],
-            'ID' : [ "MuonSF_UL17and18.root", "UL17_ID", False ],
-            'ISO' : [ "MuonSF_UL17and18.root", "UL17_ISO", False ],
-            'RecoEff' : [ "MuonSF_UL17and18.root", "UL17_Reco", False ],
+            'Trigger' : [ "EfficienciesAndSF_RunBtoF_Nov17Nov2017.root", "Mu50_PtEtaBins/abseta_pt_ratio", False ],
+            'ID' : [ "RunBCDEF_SF_ID.root", "NUM_TightID_DEN_genTracks_eta_pt", False ],
+            'ISO' : [ "RunBCDEF_SF_ISO.root", "NUM_TightRelIso_DEN_TightIDandIPCut_eta_pt", False ],
+            #'RecoEff' : [ "MuonSF_UL17and18.root", "UL17_Reco", False ],
         },
 
     },
@@ -143,30 +143,30 @@ LeptonSF = {
             'Trigger' : [ "MuonSF_UL17and18.root", "UL18_Trigger", False ],
             'ID' : [ "MuonSF_UL17and18.root", "UL18_ID", False ],
             'ISO' : [ "MuonSF_UL17and18.root", "UL18_ISO", False ],
-            'RecoEff' : [ "MuonSF_UL17and18.root", "UL18_Reco", False ],
+            #'RecoEff' : [ "MuonSF_UL17and18.root", "UL18_Reco", False ],
         },
 
     },
 }
 
 #### Modules to run
-jetmetCorrector = createJMECorrector(isMC=isMC, applySmearing=False, dataYear='UL'+args.year, jesUncert="All", runPeriod=args.runEra )
-fatJetCorrector = createJMECorrector(isMC=isMC, applySmearing=False, dataYear='UL'+args.year, jesUncert="All", jetType = "AK8PFPuppi", runPeriod=args.runEra)
+jetmetCorrector = createJMECorrector(isMC=isMC, applySmearing=False, dataYear=args.year, jesUncert="All", runPeriod=args.runEra )
+fatJetCorrector = createJMECorrector(isMC=isMC, applySmearing=False, dataYear=args.year, jesUncert="All", jetType = "AK8PFPuppi", runPeriod=args.runEra)
 
 modulesToRun = []
 if isMC:
     if args.year=='2018':
-	modulesToRun.append( puAutoWeight_UL2018() )
+	modulesToRun.append( puAutoWeight_2018() )
 	print "Running with btag SF calc."
-	modulesToRun.append( btagSF_UL2018() )
+	modulesToRun.append( btagSF2018() )
     if args.year=='2017':
-	modulesToRun.append( puAutoWeight_UL2017() )
+	modulesToRun.append( puAutoWeight_2017() )
 	print "Not running with btag SF calc."	
-	modulesToRun.append( btagSF_UL2017() )
+	modulesToRun.append( btagSF2017() )
     if args.year=='2016':
-	modulesToRun.append( puAutoWeight_UL2016() )
+	modulesToRun.append( puAutoWeight_2016() )
 	print "Running with btag SF calc."
-	modulesToRun.append( btagSF_UL2016() )
+	modulesToRun.append( btagSF2016() )
     
 modulesToRun.append( fatJetCorrector() )
 modulesToRun.append( jetmetCorrector() )

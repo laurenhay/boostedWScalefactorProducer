@@ -42,7 +42,7 @@ class Skimmer(Module):
         ### Kinematics Cuts AK4Jets ###
         self.minAK4JetPt = 25.
         self.maxAK4JetEta = 2.4
-        self.minBDisc = 0.3040  ### L: 0.0532, M: 0.3040, T: 0.7476, for DeepJet (ie, DeepFlavB)
+        self.minBDisc = 0.8838 #WP M 2017
 
         ### Kinematics Cuts AK8Jets ###
         self.R = 0.8
@@ -69,15 +69,17 @@ class Skimmer(Module):
         ROOT.gSystem.Load("libPhysicsToolsNanoAODJMARTools.so")
         
         self.sdB0Z0p05 = ROOT.SoftDropWrapper(0. ,0.05, self.R, self.minAK8JetPt)
-        # self.sdB0 = ROOT.SoftDropWrapper(0. ,0.1, self.R, self.minAK8JetPt)
-        # self.sdB0Z0p15 = ROOT.SoftDropWrapper(0. ,0.15, self.R, self.minAK8JetPt)
+        self.sdB0 = ROOT.SoftDropWrapper(0. ,0.1, self.R, self.minAK8JetPt)
+        self.sdB0Z0p15 = ROOT.SoftDropWrapper(0. ,0.15, self.R, self.minAK8JetPt)
 
-        # self.sdB1Z0p05 = ROOT.SoftDropWrapper(1. ,0.05, self.R, self.minAK8JetPt)
-        # self.sdB1 = ROOT.SoftDropWrapper(1. ,0.1, self.R, self.minAK8JetPt)
-        # self.sdB1Z0p15 = ROOT.SoftDropWrapper(1. ,0.15, self.R, self.minAK8JetPt)
+        self.sdB1Z0p05 = ROOT.SoftDropWrapper(1. ,0.05, self.R, self.minAK8JetPt)
+        self.sdB1 = ROOT.SoftDropWrapper(1. ,0.1, self.R, self.minAK8JetPt)
+        self.sdB1Z0p15 = ROOT.SoftDropWrapper(1. ,0.15, self.R, self.minAK8JetPt)
 
-        # self.algsToRun = [ self.sdB0, self.sdB1, self.sdB0Z0p05, self.sdB1Z0p05, self.sdB0Z0p15, self.sdB1Z0p15 ]
-        # self.algNames = copy.copy(algNames)
+        self.algsToRun = [ self.sdB0, self.sdB1, self.sdB0Z0p05, self.sdB1Z0p05, self.sdB0Z0p15, self.sdB1Z0p15 ]
+        self.algNames = [
+            "sdB0", "sdB1", "sdB0Z0p05", "sdB1Z0p05", "sdB0Z0p15", "sdB1Z0p15"
+        ]
 
             
         Module.beginJob(self, histFile, histDirName)
@@ -106,8 +108,8 @@ class Skimmer(Module):
 
         self.out.branch("eventWeight", "F")
         self.out.branch("SelectedJet_softDrop_mass",  "F")
-        # for ialg,alg in enumerate(self.algsToRun):
-        #     self.out.branch("SelectedJet_"+self.algNames[ialg]+"_mass", "F")
+        for ialg,alg in enumerate(self.algsToRun):
+            self.out.branch("SelectedJet_"+self.algNames[ialg]+"_mass", "F")
         self.out.branch("SelectedJet_tau42",  "F")
         self.out.branch("SelectedJet_tau41",  "F")
         self.out.branch("SelectedJet_tau32",  "F")
@@ -116,8 +118,8 @@ class Skimmer(Module):
         self.out.branch("SelectedJet_tau21_ddt_retune",  "F")      
         self.out.branch("SelectedJet_deepTag_WvsQCD",    "F")
         self.out.branch("SelectedJet_deepTagMD_WvsQCD",  "F")
-        self.out.branch("SelectedJet_particleNet_WvsQCD","F")
-        self.out.branch("SelectedJet_particleNetMD_Xqq", "F")
+        # self.out.branch("SelectedJet_particleNet_WvsQCD","F")
+        # self.out.branch("SelectedJet_particleNetMD_Xqq", "F")
         self.out.branch("SelectedJet_pt",   "F")
         self.out.branch("SelectedJet_eta",  "F")
         self.out.branch("SelectedJet_mass", "F")
@@ -155,30 +157,31 @@ class Skimmer(Module):
         leptonP4eta = abs(leptonP4.eta)
         leptonP = ROOT.TMath.Sqrt(leptonP4.p4().Px()**2 + leptonP4.p4().Py()**2 + leptonP4.p4().Pz()**2)
 
-        SFFileTrigger = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['Trigger'][0] )
+        SFFileTrigger = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/data/"+self.leptonSFhelper[lepton]['Trigger'][0] )
         histoSFTrigger = SFFileTrigger.Get( self.leptonSFhelper[lepton]['Trigger'][1] )
         SFTrigger = histoSFTrigger.GetBinContent( histoSFTrigger.GetXaxis().FindBin( leptonP4eta ), histoSFTrigger.GetYaxis().FindBin( leptonP4.pt ) )
 
-        SFFileID = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['ID'][0] )
+        SFFileID = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/data/"+self.leptonSFhelper[lepton]['ID'][0] )
         histoSFID = SFFileID.Get( self.leptonSFhelper[lepton]['ID'][1] )
         histoSFID_X = histoSFID.GetXaxis().FindBin( leptonP4eta)
         histoSFID_Y = histoSFID.GetYaxis().FindBin( leptonP4.pt )
         SFID = histoSFID.GetBinContent( histoSFID_X, histoSFID_Y )
         SFID = SFID if SFID>0 else 1
 
-        SFFileISO = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['ISO'][0] )
+        SFFileISO = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/data/"+self.leptonSFhelper[lepton]['ISO'][0] )
         histoSFISO = SFFileISO.Get( self.leptonSFhelper[lepton]['ISO'][1] )
         histoSFISO_X = histoSFISO.GetXaxis().FindBin( leptonP4eta )
         histoSFISO_Y = histoSFISO.GetYaxis().FindBin( leptonP4.pt )
         SFISO = histoSFISO.GetBinContent( histoSFISO_X, histoSFISO_Y )
         SFISO = SFISO if SFISO>0 else 1
         
-        SFFileRecoEff = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/boostedWScalefactorProducer/Skimmer/data/leptonSF/"+self.leptonSFhelper[lepton]['RecoEff'][0] )
-        histoSFRecoEff = SFFileRecoEff.Get( self.leptonSFhelper[lepton]['RecoEff'][1] )
-        histoSFRecoEff_X = histoSFRecoEff.GetXaxis().FindBin( leptonP4eta )
-        histoSFRecoEff_Y = histoSFRecoEff.GetYaxis().FindBin( leptonP )
-        SFRecoEff = histoSFRecoEff.GetBinContent( histoSFRecoEff_X, histoSFRecoEff_Y )
-        SFRecoEff = SFRecoEff if SFRecoEff>0 else 1
+        # SFFileRecoEff = ROOT.TFile( os.environ['CMSSW_BASE']+"/src/data/"+self.leptonSFhelper[lepton]['RecoEff'][0] )
+        # histoSFRecoEff = SFFileRecoEff.Get( self.leptonSFhelper[lepton]['RecoEff'][1] )
+        # histoSFRecoEff_X = histoSFRecoEff.GetXaxis().FindBin( leptonP4eta )
+        # histoSFRecoEff_Y = histoSFRecoEff.GetYaxis().FindBin( leptonP )
+        # SFRecoEff = histoSFRecoEff.GetBinContent( histoSFRecoEff_X, histoSFRecoEff_Y )
+        # SFRecoEff = SFRecoEff if SFRecoEff>0 else 1
+        SFRecoEff = 1.
 
         #print (SFTrigger * SFID * SFISO), SFTrigger , SFID , SFISO, leptonP4.pt, leptonP4.eta
         return [SFTrigger , SFID , SFISO, SFRecoEff]
@@ -225,7 +228,8 @@ class Skimmer(Module):
     def boostedWSelection(self, event):
       	
         FatJets = list(Collection(event, "FatJet"))
-        #allrecoparts = list(Collection(event, "PFCandsAK8"))
+        allrecoparts = list(Collection(event, "PFCandsAK8"))
+        recoCandsPUPPIweightedVec = ROOT.vector("TLorentzVector")()
         allelectrons = list(Collection(event, 'Electron'))
         allmuons = list(Collection(event, 'Muon'))
 	Jets = list(Collection(event, "Jet")) 
@@ -252,7 +256,7 @@ class Skimmer(Module):
 
         # Make some loose lepton selections; including loose pT cuts for veto
         electrons = [x for x in allelectrons if x.pt > 40. and x.cutBased >= 2 and ( abs(x.eta) < 1.44 or ( abs(x.eta) > 1.56 and abs(x.eta) < 2.4 ) )] 
-        muons     = [x for x in allmuons if x.pt > 40. and x.looseId and abs(x.eta) < self.maxMuEta and x.pfIsoId>=2] 
+        muons     = [x for x in allmuons if x.pt > 40. and x.isPFcand and (x.isTracker or x.isGlobal) and abs(x.eta) < self.maxMuEta and x.pfIsoId>=2] #loose id: x.isPFcand and (x.isTracker or x.isGlobal)
 
         # Ordering the loosely selected categories according to Pt 
         muons.sort(key=lambda x:x.pt,reverse=True)
@@ -261,7 +265,7 @@ class Skimmer(Module):
         # Check if the muon or electron with highest pT passes the tight selection (additional cuts to the loose selection)
         electronTight = len(electrons) > 0 and electrons[0].pt > self.minElpt and electrons[0].cutBased >= 4  
 
-        muonTight = len(muons) > 0 and muons[0].pt > self.minMupt and abs(muons[0].eta) < self.maxMuEta and muons[0].tightId and abs(muons[0].dxy)<0.2 and abs(muons[0].dz)<0.5 and muons[0].miniPFRelIso_all<0.10
+        muonTight = len(muons) > 0 and muons[0].pt > self.minMupt and abs(muons[0].eta) < self.maxMuEta and muons[0].tightId and abs(muons[0].dxy)<0.2 and abs(muons[0].dz)<0.5 and muons[0].pfRelIso04_all<0.15
 
         possibleChannels = ["mu", "el", "elmu"]
 
@@ -318,20 +322,17 @@ class Skimmer(Module):
 	minAK4MetDPhi = min([ abs(x.p4().DeltaPhi(MET)) for x in recoAK4]) if len(recoAK4) >= 1 else -1.
 
         #To progress further, keeping the non-btagged AK4 jet(s) is not necessary; so we drop them effectively requiring that there is at least one b-tagged AK4 jet, and also requiring an angular separation of the prompt lepton and b-tagged jet 
-	recoAK4 = [ x for x in recoAK4 if x.btagDeepFlavB > self.minBDisc and abs(x.p4().DeltaPhi(lepton.p4()))<2.]
+	recoAK4 = [ x for x in recoAK4 if x.btagCSVV2 > self.minBDisc and abs(x.p4().DeltaPhi(lepton.p4()))<2.]
 	if not len(recoAK4) > 0: return False
 
         #Get AK8 jet constituents
-        # for p in allrecoparts :
-        #     t = ROOT.TLorentzVector( p.p4().Px(), p.p4().Py(), p.p4().Pz(), p.p4().E())
-        #     pw =  p.puppiWeight
-            
-        #     recoCandsVec.push_back(t)
-        #     tp = ROOT.TLorentzVector(p.p4().Px(), p.p4().Py(), p.p4().Pz(), p.p4().E())
-        #     tp = tp * pw           
-        #     #if pw > 0. :
-        #     #print "Applying PUPPI weights" 
-        #     recoCandsPUPPIweightedVec.push_back(tp)
+        for p in allrecoparts :
+            pw =  p.puppiWeight            
+            tp = ROOT.TLorentzVector(p.p4().Px(), p.p4().Py(), p.p4().Pz(), p.p4().E())
+            tp = tp * pw           
+            #if pw > 0. :
+            #print "Applying PUPPI weights" 
+            recoCandsPUPPIweightedVec.push_back(tp)
 
 
         #Selection for AK8 jet
@@ -343,33 +344,36 @@ class Skimmer(Module):
 	jetAK8_4v.SetPtEtaPhiM(recoAK8[0].pt,recoAK8[0].eta,recoAK8[0].phi,recoAK8[0].mass)
 
         #get JEC correction factor for reclustered jets
-        #jecNomVal = recoAK8[0].corr_JEC
-        # jecNomVal = 1/(1-recoAK8[0].rawFactor)
+        jecNomVal = recoAK8[0].corr_JEC
 
         # #Recluster jets with alternate softdrop settings
-        # recojetsGroomedAK8_4v = {}
+        recojetsGroomedAK8_4v = {}
 
         # # Cluster only the particles near the appropriate jet to save time
-        # constituents = ROOT.vector("TLorentzVector")()
-        # #print "Find PUPPI jets"
-        # for x_cands in recoCandsPUPPIweightedVec:
-        #     if recoAK8[0].p4().DeltaR( x_cands ) < 0.8:
-        #         constituents.push_back(x_cands)
-        # for ialg,alg in enumerate(self.algsToRun):
-        #     groomedjetFJ = alg.result( constituents )
-        #     groomedjet = ROOT.TLorentzVector( groomedjetFJ.px(), groomedjetFJ.py(), groomedjetFJ.pz(), groomedjetFJ.e() )
-        #     groomedjet = groomedjet*jecNomVal
-        #     recojetsGroomedAK8_4v[ialg] = groomedjet[0]
-
+        constituents = ROOT.vector("TLorentzVector")()
+        #print "Find PUPPI jets"
+        for x_cands in recoCandsPUPPIweightedVec:
+            if recoAK8[0].p4().DeltaR( x_cands ) < 0.8:
+                constituents.push_back(x_cands)
+        for ialg,alg in enumerate(self.algsToRun):
+            groomedjetsFJ = alg.result( constituents )
+            groomedjets = [ ROOT.TLorentzVector( x.px(), x.py(), x.pz(), x.e() ) for x in groomedjetsFJ]
+            if len(groomedjets) > 0 :
+                recojetsGroomedAK8_4v[ialg] = groomedjets[0]*jecNomVal
+            else:
+                print 'Grooming failed. Inputs are:'
+                self.printCollection( constituents )
+                recojetsGroomedAK8_4v[ialg] = None
         # Obtain btag SFs for calculating b-tagging event weights
 	# Jet_btagSF_ALGO_shape -> relevant naming convention for SF branch added to the 'Jet' collection from NanoAODTools::BTagSFProducer module [https://github.com/cms-nanoAOD/nanoAOD-tools/blob/master/python/postprocessing/modules/btv/btagSFProducer.py]
 	
         if len(recoAK4)>2: return False # b-tag weight calculator can handle at most two b-jets, for now 
-        if self.isMC: 
-            if self.isMC:
-                bTagSFs =  [x.btagSF_deepjet_M for x in recoAK4]
-                self.btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs)
-            else: self.btagweight = 1.
+        #if self.isMC: 
+            # if self.isMC:
+            #     bTagSFs =  [x.btagSF_deepjet_M for x in recoAK4]
+            #     self.btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs)
+            # else: self.btagweight = 1.
+        #    self.btagweight = event.btagWeight_CSVV2
                 
 	#### Weight calculation from genweights, lepton wt., b-tagging event wt., PU wt.
         if self.isMC: 
@@ -380,7 +384,8 @@ class Skimmer(Module):
 
         if self.isMC:
 	    #obtain b-tagging event weight from per jet SFs
-            btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs) 
+            #btagweight = self.getBTagWeight(nBTagged=len(recoAK4), jet_SFs=bTagSFs) 
+            btagweight = event.btagWeight_CSVV2
 	    #combining all weights
             weight =  np.prod(leptonweight) * btagweight * puweight *  genweight 
             
@@ -483,8 +488,9 @@ class Skimmer(Module):
         self.out.fillBranch("Wlep_pt", WcandLep.Pt() )
         self.out.fillBranch("Wlep_mass", WcandLep.M() )
         self.out.fillBranch("SelectedJet_softDrop_mass",  recoAK8[0].msoftdrop)
-        # for ialg,alg in enumerate(self.algsToRun):
-        #     self.out.fillBranch("SelectedJet_"+self.algNames[ialg]+"_mass", recojetsGroomedAK8_4v[ialg].M())
+        for ialg,alg in enumerate(self.algsToRun):
+            if recojetsGroomedAK8_4v[ialg] != None : self.out.fillBranch("SelectedJet_"+self.algNames[ialg]+"_mass", recojetsGroomedAK8_4v[ialg].M())
+        else : self.out.fillBranch("SelectedJet_"+self.algNames[ialg]+"_mass", -1.0)
         self.out.fillBranch("SelectedJet_pt",   recoAK8[0].pt)
         self.out.fillBranch("SelectedJet_eta",  recoAK8[0].eta)
         self.out.fillBranch("SelectedJet_mass",  recoAK8[0].mass)
@@ -513,8 +519,8 @@ class Skimmer(Module):
         self.out.fillBranch("SelectedJet_tau41",tau41)
         self.out.fillBranch("SelectedJet_deepTag_WvsQCD",recoAK8[0].deepTag_WvsQCD)
         self.out.fillBranch("SelectedJet_deepTagMD_WvsQCD",recoAK8[0].deepTagMD_WvsQCD)
-        self.out.fillBranch("SelectedJet_particleNet_WvsQCD",recoAK8[0].particleNet_WvsQCD)
-        self.out.fillBranch("SelectedJet_particleNetMD_Xqq",recoAK8[0].particleNetMD_Xqq)
+        # self.out.fillBranch("SelectedJet_particleNet_WvsQCD",recoAK8[0].particleNet_WvsQCD)
+        # self.out.fillBranch("SelectedJet_particleNetMD_Xqq",recoAK8[0].particleNetMD_Xqq)
        
 	self.nEventsPassed+=1
 
