@@ -1,0 +1,789 @@
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_191132:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0119.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_191132%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_191132%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00&from=1633284692000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (317/317)
+
+Publication status of 1 dataset(s):	done         		100.0% (317/317)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_1000to1400_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 50MB min, 707MB max, 143MB ave
+ * Runtime: 0:01:52 min, 0:37:04 max, 0:04:57 ave
+ * CPU eff: 9% min, 63% max, 35% ave
+ * Waste: 14:02:04 (35% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_1000to1400_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_201450:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0137.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_201450%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_201450%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00&from=1633288490000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (101/101)
+
+Publication status of 1 dataset(s):	done         		100.0% (101/101)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_1400to1800_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 3MB min, 632MB max, 101MB ave
+ * Runtime: 0:02:15 min, 0:12:41 max, 0:04:32 ave
+ * CPU eff: 15% min, 61% max, 40% ave
+ * Waste: 7:44:07 (50% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_1400to1800_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_185933:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0199.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_185933%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_185933%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00&from=1633283973000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (425/425)
+
+Publication status of 1 dataset(s):	done         		100.0% (425/425)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_170to300_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_170to300_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 4MB min, 688MB max, 44MB ave
+ * Runtime: 0:01:30 min, 0:23:36 max, 0:04:09 ave
+ * CPU eff: 3% min, 50% max, 23% ave
+ * Waste: 25:20:16 (46% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_170to300_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_190250:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0196.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_190250%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_190250%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00&from=1633284170000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (52/52)
+
+Publication status of 1 dataset(s):	done         		100.0% (52/52)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_1800to2400_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 35MB min, 630MB max, 114MB ave
+ * Runtime: 0:03:26 min, 0:09:26 max, 0:05:26 ave
+ * CPU eff: 21% min, 52% max, 36% ave
+ * Waste: 1:56:20 (29% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_1800to2400_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_200015:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0195.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200015%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200015%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00&from=1633287615000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (40/40)
+
+Publication status of 1 dataset(s):	done         		100.0% (40/40)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_2400to3200_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 49MB min, 675MB max, 99MB ave
+ * Runtime: 0:01:52 min, 0:14:32 max, 0:04:46 ave
+ * CPU eff: 19% min, 66% max, 41% ave
+ * Waste: 1:55:23 (38% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_2400to3200_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_191623:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0196.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_191623%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_191623%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00&from=1633284983000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (898/898)
+
+Publication status of 1 dataset(s):	done         		100.0% (898/898)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_300to470_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_300to470_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 48MB min, 711MB max, 59MB ave
+ * Runtime: 0:01:29 min, 0:49:00 max, 0:04:12 ave
+ * CPU eff: 5% min, 53% max, 27% ave
+ * Waste: 49:54:00 (44% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_300to470_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_191309:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0144.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_191309%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_191309%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00&from=1633284789000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (17/17)
+
+Publication status of 1 dataset(s):	done         		100.0% (17/17)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_3200toInf_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 32MB min, 544MB max, 106MB ave
+ * Runtime: 0:02:53 min, 0:11:36 max, 0:05:16 ave
+ * CPU eff: 23% min, 59% max, 38% ave
+ * Waste: 0:39:15 (30% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_3200toInf_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_201628:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0194.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_201628%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_201628%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00&from=1633288588000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (445/445)
+
+Publication status of 1 dataset(s):	done         		100.0% (445/445)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_470to600_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_470to600_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 44MB min, 771MB max, 128MB ave
+ * Runtime: 0:02:03 min, 0:15:55 max, 0:04:40 ave
+ * CPU eff: 11% min, 54% max, 29% ave
+ * Waste: 23:43:33 (41% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_470to600_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_190810:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0122.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_190810%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_190810%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00&from=1633284490000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (1133/1133)
+
+Publication status of 1 dataset(s):	done         		100.0% (1133/1133)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_600to800_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_600to800_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 60MB min, 775MB max, 119MB ave
+ * Runtime: 0:01:47 min, 0:35:37 max, 0:04:49 ave
+ * CPU eff: 6% min, 62% max, 31% ave
+ * Waste: 62:23:09 (41% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_600to800_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00
+Task name:			211003_192117:chmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0199.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_192117%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_192117%3Achmclean_crab_boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00&from=1633285278000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (612/612)
+
+Publication status of 1 dataset(s):	done         		100.0% (612/612)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/QCD_Pt_800to1000_TuneCP5_13TeV_pythia8/chmclean-boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FQCD_Pt_800to1000_TuneCP5_13TeV_pythia8%2Fchmclean-boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 35MB min, 774MB max, 143MB ave
+ * Runtime: 0:01:46 min, 0:15:32 max, 0:04:53 ave
+ * CPU eff: 15% min, 68% max, 35% ave
+ * Waste: 25:40:31 (34% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_QCD_Pt_800to1000_TuneCP5_13TeV_pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00
+Task name:			211003_191446:chmclean_crab_boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0137.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_191446%3Achmclean_crab_boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_191446%3Achmclean_crab_boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00&from=1633284886000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (157/157)
+
+Publication status of 1 dataset(s):	done         		100.0% (157/157)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8/chmclean-boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8%2Fchmclean-boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 45MB min, 834MB max, 350MB ave
+ * Runtime: 0:03:11 min, 0:27:22 max, 0:08:46 ave
+ * CPU eff: 16% min, 63% max, 40% ave
+ * Waste: 6:51:35 (23% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-
+Task name:			211003_190634:chmclean_crab_boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-
+Grid scheduler - Task Worker:	crab3@vocms0198.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_190634%3Achmclean_crab_boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_190634%3Achmclean_crab_boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-&from=1633284394000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (50/50)
+
+Publication status of 1 dataset(s):	done         		100.0% (50/50)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/chmclean-boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin--2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8%2Fchmclean-boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin--2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 37MB min, 727MB max, 452MB ave
+ * Runtime: 0:04:19 min, 1:10:23 max, 0:11:53 ave
+ * CPU eff: 4% min, 48% max, 19% ave
+ * Waste: 2:39:28 (21% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth
+Task name:			211003_201311:chmclean_crab_boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth
+Grid scheduler - Task Worker:	crab3@vocms0195.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_201311%3Achmclean_crab_boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_201311%3Achmclean_crab_boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth&from=1633288391000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (103/103)
+
+Publication status of 1 dataset(s):	done         		100.0% (103/103)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8/chmclean-boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8%2Fchmclean-boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 48MB min, 640MB max, 468MB ave
+ * Runtime: 0:02:53 min, 0:17:58 max, 0:08:52 ave
+ * CPU eff: 9% min, 49% max, 24% ave
+ * Waste: 2:34:24 (14% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pyth/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00
+Task name:			211003_190953:chmclean_crab_boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0144.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_190953%3Achmclean_crab_boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_190953%3Achmclean_crab_boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00&from=1633284593000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (198/198)
+
+Publication status of 1 dataset(s):	done         		100.0% (198/198)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/chmclean-boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8%2Fchmclean-boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 5MB min, 820MB max, 357MB ave
+ * Runtime: 0:04:20 min, 0:52:15 max, 0:09:02 ave
+ * CPU eff: 7% min, 60% max, 36% ave
+ * Waste: 6:29:41 (18% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00
+Task name:			211003_200157:chmclean_crab_boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0119.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200157%3Achmclean_crab_boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200157%3Achmclean_crab_boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00&from=1633287717000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (145/145)
+
+Publication status of 1 dataset(s):	done         		100.0% (145/145)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/chmclean-boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8%2Fchmclean-boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 35MB min, 685MB max, 490MB ave
+ * Runtime: 0:03:55 min, 0:23:59 max, 0:10:09 ave
+ * CPU eff: 13% min, 73% max, 37% ave
+ * Waste: 5:00:35 (17% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00
+Task name:			211003_200817:chmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00
+Grid scheduler - Task Worker:	crab3@vocms0120.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200817%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200817%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00&from=1633288097000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (484/484)
+
+Publication status of 1 dataset(s):	done         		100.0% (484/484)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/SingleMuon/chmclean-boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00-ecc57bafa1318bb1a7515823c8a48925/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FSingleMuon%2Fchmclean-boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00-ecc57bafa1318bb1a7515823c8a48925%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 96MB min, 539MB max, 280MB ave
+ * Runtime: 0:03:03 min, 0:19:15 max, 0:07:01 ave
+ * CPU eff: 11% min, 45% max, 24% ave
+ * Waste: 24:14:52 (30% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017B2017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00
+Task name:			211003_200955:chmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00
+Grid scheduler - Task Worker:	crab3@vocms0122.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200955%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200955%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00&from=1633288195000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (1037/1037)
+
+Publication status of 1 dataset(s):	done         		100.0% (1037/1037)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/SingleMuon/chmclean-boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00-ecc57bafa1318bb1a7515823c8a48925/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FSingleMuon%2Fchmclean-boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00-ecc57bafa1318bb1a7515823c8a48925%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 2MB min, 627MB max, 257MB ave
+ * Runtime: 0:02:56 min, 0:21:09 max, 0:07:01 ave
+ * CPU eff: 11% min, 49% max, 27% ave
+ * Waste: 46:50:26 (28% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017C2017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00
+Task name:			211003_200329:chmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00
+Grid scheduler - Task Worker:	crab3@vocms0107.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200329%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200329%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00&from=1633287809000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (541/541)
+
+Publication status of 1 dataset(s):	done         		100.0% (541/541)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/SingleMuon/chmclean-boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00-ecc57bafa1318bb1a7515823c8a48925/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FSingleMuon%2Fchmclean-boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00-ecc57bafa1318bb1a7515823c8a48925%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 3MB min, 563MB max, 195MB ave
+ * Runtime: 0:02:57 min, 0:18:48 max, 0:06:09 ave
+ * CPU eff: 11% min, 54% max, 28% ave
+ * Waste: 18:52:02 (25% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017D2017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00
+Task name:			211003_200504:chmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00
+Grid scheduler - Task Worker:	crab3@vocms0196.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200504%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200504%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00&from=1633287904000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (857/857)
+
+Publication status of 1 dataset(s):	done         		100.0% (857/857)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/SingleMuon/chmclean-boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00-ecc57bafa1318bb1a7515823c8a48925/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FSingleMuon%2Fchmclean-boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00-ecc57bafa1318bb1a7515823c8a48925%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 2MB min, 633MB max, 303MB ave
+ * Runtime: 0:03:07 min, 2:06:30 max, 0:07:56 ave
+ * CPU eff: 3% min, 57% max, 25% ave
+ * Waste: 35:31:25 (24% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017E2017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00
+Task name:			211003_200641:chmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00
+Grid scheduler - Task Worker:	crab3@vocms0119.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_200641%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_200641%3Achmclean_crab_boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00&from=1633288002000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (1170/1170)
+
+Publication status of 1 dataset(s):	done         		100.0% (1170/1170)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/SingleMuon/chmclean-boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00-ecc57bafa1318bb1a7515823c8a48925/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FSingleMuon%2Fchmclean-boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00-ecc57bafa1318bb1a7515823c8a48925%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 2MB min, 670MB max, 360MB ave
+ * Runtime: 0:03:05 min, 0:35:16 max, 0:09:31 ave
+ * CPU eff: 6% min, 73% max, 26% ave
+ * Waste: 56:00:55 (23% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_SingleMuonRun2017F2017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00
+Task name:			211003_190457:chmclean_crab_boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0195.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_190457%3Achmclean_crab_boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_190457%3Achmclean_crab_boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00&from=1633284297000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (106/106)
+
+Publication status of 1 dataset(s):	done         		100.0% (106/106)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/TTJets_TuneCP5_13TeV-madgraphMLM-pythia8/chmclean-boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FTTJets_TuneCP5_13TeV-madgraphMLM-pythia8%2Fchmclean-boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Summary of run jobs:
+ * Memory: 36MB min, 806MB max, 435MB ave
+ * Runtime: 0:06:00 min, 0:27:40 max, 0:11:51 ave
+ * CPU eff: 20% min, 72% max, 55% ave
+ * Waste: 3:37:29 (15% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_TTJets_TuneCP5_13TeV-madgraphMLM-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00
+Task name:			211003_191937:chmclean_crab_boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0144.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_191937%3Achmclean_crab_boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_191937%3Achmclean_crab_boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00&from=1633285177000&to=now
+Status on the scheduler:	FAILED
+
+Jobs status:                    failed       		 40.4% (103/255)
+				finished     		 59.6% (152/255)
+
+Publication status of 1 dataset(s):	done         		 59.6% (152/255)
+(from CRAB internal bookkeeping in transferdb)
+					unsubmitted  		 40.4% (103/255)
+
+Output dataset:			/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/chmclean-boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FTTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8%2Fchmclean-boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Error Summary: (use crab status --verboseErrors for details about the errors)
+
+ 98 jobs failed with exit code 50115
+
+Could not find exit code details for 5 jobs.
+
+Have a look at https://twiki.cern.ch/twiki/bin/viewauth/CMSPublic/JobExitCodes for a description of the exit codes.
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Summary of run jobs:
+ * Memory: 35MB min, 911MB max, 313MB ave
+ * Runtime: 0:01:02 min, 0:42:39 max, 0:11:07 ave
+ * CPU eff: 0% min, 82% max, 52% ave
+ * Waste: 22:57:47 (33% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00
+Task name:			211003_192257:chmclean_crab_boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0196.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_192257%3Achmclean_crab_boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_192257%3Achmclean_crab_boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00&from=1633285378000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (828/828)
+
+Publication status of 1 dataset(s):	done         		100.0% (828/828)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8/chmclean-boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FTTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8%2Fchmclean-boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 35MB min, 941MB max, 497MB ave
+ * Runtime: 0:03:31 min, 0:28:01 max, 0:12:37 ave
+ * CPU eff: 12% min, 79% max, 44% ave
+ * Waste: 37:36:15 (18% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00
+Task name:			211003_201132:chmclean_crab_boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0106.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_201132%3Achmclean_crab_boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_201132%3Achmclean_crab_boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00&from=1633288292000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (514/514)
+
+Publication status of 1 dataset(s):	done         		100.0% (514/514)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/chmclean-boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FWJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8%2Fchmclean-boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 48MB min, 613MB max, 33MB ave
+ * Runtime: 0:01:06 min, 0:14:07 max, 0:03:32 ave
+ * CPU eff: 6% min, 64% max, 28% ave
+ * Waste: 26:54:14 (47% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00
+Task name:			211003_190112:chmclean_crab_boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0195.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_190112%3Achmclean_crab_boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_190112%3Achmclean_crab_boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00&from=1633284072000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (109/109)
+
+Publication status of 1 dataset(s):	done         		100.0% (109/109)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/WW_TuneCP5_13TeV-pythia8/chmclean-boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FWW_TuneCP5_13TeV-pythia8%2Fchmclean-boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 2MB min, 702MB max, 189MB ave
+ * Runtime: 0:03:20 min, 0:19:55 max, 0:08:30 ave
+ * CPU eff: 11% min, 62% max, 35% ave
+ * Waste: 1:56:27 (11% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_WW_TuneCP5_13TeV-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00
+Task name:			211003_191759:chmclean_crab_boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0122.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_191759%3Achmclean_crab_boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_191759%3Achmclean_crab_boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00&from=1633285079000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (65/65)
+
+Publication status of 1 dataset(s):	done         		100.0% (65/65)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/WZ_TuneCP5_13TeV-pythia8/chmclean-boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FWZ_TuneCP5_13TeV-pythia8%2Fchmclean-boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 3MB min, 575MB max, 134MB ave
+ * Runtime: 0:01:40 min, 0:15:11 max, 0:05:22 ave
+ * CPU eff: 13% min, 63% max, 35% ave
+ * Waste: 5:25:24 (48% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_WZ_TuneCP5_13TeV-pythia82017_v00/crab.log
+CRAB project directory:		/uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00
+Task name:			211003_192437:chmclean_crab_boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00
+Grid scheduler - Task Worker:	crab3@vocms0197.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/211003_192437%3Achmclean_crab_boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=chmclean&var-task=211003_192437%3Achmclean_crab_boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00&from=1633285477000&to=now
+Status on the scheduler:	COMPLETED
+
+Jobs status:                    finished     		100.0% (17/17)
+
+Publication status of 1 dataset(s):	done         		100.0% (17/17)
+(from CRAB internal bookkeeping in transferdb)
+
+Output dataset:			/ZZ_TuneCP5_13TeV-pythia8/chmclean-boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FZZ_TuneCP5_13TeV-pythia8%2Fchmclean-boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00-2632477341b0033d0ee33ee9e5481e57%2FUSER&instance=prod%2Fphys03
+
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs memory is less than 70% of the task requested value (2500 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the average jobs CPU efficiency is less than 50%, please consider to improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task
+
+Summary of run jobs:
+ * Memory: 35MB min, 561MB max, 165MB ave
+ * Runtime: 0:04:05 min, 0:09:17 max, 0:06:26 ave
+ * CPU eff: 27% min, 56% max, 47% ave
+ * Waste: 0:24:49 (18% of total)
+
+Log file is /uscms_data/d3/camclean/ZPlusJetsXS/QJM/CMSSW_9_4_4/src/boostedWScalefactorProducer/Skimmer/test/crab_projects/crab_boostedWtaggingSF_Skims_ZZ_TuneCP5_13TeV-pythia82017_v00/crab.log
