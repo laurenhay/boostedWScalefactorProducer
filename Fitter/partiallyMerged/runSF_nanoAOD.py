@@ -725,7 +725,7 @@ class initialiseFits:
       #["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root"]
       self.list_file_VV_mc      = ["WW_TuneCP5_13TeV-pythia8_nanoskim.root","WZ_TuneCP5_13TeV-pythia8_nanoskim.root", "ZZ_TuneCP5_13TeV-pythia8_nanoskim.root"]  
       #["WW_TuneCP5_13TeV-pythia8.root","WZ_TuneCP5_13TeV-pythia8.root","ZZ_TuneCP5_13TeV-pythia8.root"]
-      self.list_file_pseudodata =   self.list_file_TTbar_mc  + self.list_file_QCD_mc + self.list_file_STop_mc + self.list_file_VV_mc   + self.list_file_WJets_mc + self.list_file_TTbar_mc
+      #self.list_file_pseudodata =   self.list_file_TTbar_mc  + self.list_file_QCD_mc + self.list_file_STop_mc + self.list_file_VV_mc   + self.list_file_WJets_mc + self.list_file_TTbar_mc
  
           
       self.file_data              = "SingleMuon.root"
@@ -1048,8 +1048,25 @@ class initialiseFits:
             
           
           if not TString(label).Contains("data"):
+              lumiweight = 1.0
 
-              tmp_scale_to_lumi = treeIn.eventWeight ## FIX ME , add correct Xsec*lumi/Nevents  ## weigth for xs and lumi FIXME
+              """ FIX ME : IMPLEMENT LUMI WEIGHTING
+              print "import datasets "
+              import boostedWScalefactorProducer.Skimmer.test.datasets as datasets
+
+              from datasets import dictSamples, checkDict
+
+              print label
+
+              testNevents = checkDict('TTJets_TuneCP5_13TeV-madgraphMLM-pythia8',dictSamples)['2017']['nevents']
+              testXS = checkDict('TTJets_TuneCP5_13TeV-madgraphMLM-pythia8',dictSamples)['XS']
+              
+              lumiweight = lumi *  testXS /  testNevents
+
+              print lumiweight
+              """
+ 
+              tmp_scale_to_lumi = treeIn.eventWeight * lumiweight ## FIX ME , add correct Xsec*lumi/Nevents  ## weigth for xs and lumi FIXME
               if options.topPt: tmp_scale_to_lumi *= treeIn.topweight
 #              # tmp_event_weight  = treeWeight*treeIn.normGenWeight*treeIn.puWeight*treeIn.eventWeightLumi*treeIn.topWeight*lumi*SF#*treeIn.muTrigWeight*treeIn.muIsoWeight
 #              if options.topPt:
