@@ -5,9 +5,9 @@ import os
 import time
 import math
 import csv
-from WTopScalefactorProducer.Fitter.tdrstyle import *
-from WTopScalefactorProducer.Fitter.CMS_lumi import *
-from WTopScalefactorProducer.Skimmer.getGenEv import getGenEv
+from boostedWScalefactorProducer.Fitter.tdrstyle import *
+from boostedWScalefactorProducer.Fitter.CMS_lumi import *
+from boostedWScalefactorProducer.Skimmer.getGenEv import getGenEv
 setTDRStyle()
 
 from ROOT import *
@@ -39,8 +39,8 @@ parser.add_option('--doBinned',dest="doBinnedFit", default=False, action="store_
 
 # --- Running options
 parser.add_option('-b', action='store_true', dest='noX', default=False, help='no X11 windows')
-parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="em", help="Electron,muon or ele+mu channel. For now, em for all") #FIXME
-parser.add_option('--doWS'  ,dest="doWS", default=False, action="store_true", help="Recreate workspace. If NOT set to True (or workspace does not exist), will use workspace as given in options.workspace (workspace.root by default)")
+parser.add_option('-c', '--channel',action="store",type="string",dest="channel",default="mm", help="Electron,muon or ele+mu channel. For now, em for all") #FIXME
+parser.add_option('--doWS'  ,dest="doWS", default=True, action="store_true", help="Recreate workspace. If NOT set to True (or workspace does not exist), will use workspace as given in options.workspace (workspace.root by default)")
 
 (options, args) = parser.parse_args()
 
@@ -711,7 +711,9 @@ class initialiseFits:
         
 
       # Directory and input files
-      self.file_Directory         =  "/uscms/home/aparker/nobackup/2018/Wtagging/CMSSW_9_4_2/src/WTopScalefactorProducer/Skimmer/crab/WtaggingSkim/"  
+      self.reDirector = "root://cmsxrootd.fnal.gov:/" # "root://cmseos.fnal.gov:/"
+      self.file_Directory         =   self.reDirector +  "/store/user/camclean/boostedWtaggingSF/hadds/" 
+      #"/uscms/home/aparker/nobackup/2018/Wtagging/CMSSW_9_4_2/src/WTopScalefactorProducer/Skimmer/crab/WtaggingSkim/"  
       #"/scratch/thaarres/wtagsf_2017jecv6/"
       postfix = ""
           
@@ -723,14 +725,19 @@ class initialiseFits:
       #self.file_TTbar_mc          = "TT.root"
       #self.file_pseudodata        = "pseudodata_weighted.root"
       
-      self.list_file_QCD_mc     = ["QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT100to200_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT200to300_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8.root"]
-      self.list_file_STop_mc    = ["ST_s-channel_4f_leptonDecays_TuneCP5_PSweights_13TeV-amcatnlo-pythia8.root","ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root","ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root","ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root","ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8.root"]
-      self.list_file_data       = ["WtaggingSkim_singleMuon2017B.root"]
+      self.list_file_QCD_mc     = [ "QCD_Pt_1000to1400_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_1400to1800_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_170to300_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_1800to2400_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_2400to3200_TuneCP5_13TeV_pythia8_nanoskim.root",
+"QCD_Pt_300to470_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_3200toInf_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_470to600_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_600to800_TuneCP5_13TeV_pythia8_nanoskim.root","QCD_Pt_800to1000_TuneCP5_13TeV_pythia8_nanoskim.root" ] 
+      #["QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT100to200_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT200to300_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT300to500_TuneCP5_13TeV-madgraph-pythia8.root","QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8.root"]
+      self.list_file_STop_mc    = [ "ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8_nanoskim.root" , "ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_nanoskim.root" , "ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8_nanoskim.root" ,"ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_nanoskim.root" ,"ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8_nanoskim.root"  ] 
+      #["ST_s-channel_4f_leptonDecays_TuneCP5_PSweights_13TeV-amcatnlo-pythia8.root","ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root","ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root","ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root","ST_tW_top_5f_inclusiveDecays_TuneCP5_PSweights_13TeV-powheg-pythia8.root"]
+      self.list_file_data       = ["boostedWtaggingSF_Skims_SingleMuon2017All_v00_nanoskim.root" ]  #["WtaggingSkim_singleMuon2017B.root"]
       #"SingleMuon_Run2017B-17Nov2017-v1.root","SingleMuon_Run2017C-17Nov2017-v1.root","SingleMuon_Run2017D-17Nov2017-v1.root","SingleMuon_Run2017E-17Nov2017-v1.root","SingleMuon_Run2017F-17Nov2017-v1.root"]
-      self.list_file_TTbar_mc   = ["WtaggingSkim.root"]#"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8.root","TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8.root","TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8.root"]
-      self.list_file_WJets_mc   = ["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root"]
-      self.list_file_VV_mc      = ["WW_TuneCP5_13TeV-pythia8.root","WZ_TuneCP5_13TeV-pythia8.root","ZZ_TuneCP5_13TeV-pythia8.root"]
-      self.list_file_pseudodata =   self.list_file_TTbar_mc   #self.list_file_QCD_mc + self.list_file_STop_mc + self.list_file_VV_mc   + self.list_file_WJets_mc + self.list_file_TTbar_mc
+      self.list_file_TTbar_mc   = ["TTJets_TuneCP5_13TeV-madgraphMLM-pythia8_nanoskim.root" ,"TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_nanoskim.root", "TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_nanoskim.root"] # ["WtaggingSkim.root"]#"TTTo2L2Nu_TuneCP5_PSweights_13TeV-powheg-pythia8.root","TTToHadronic_TuneCP5_PSweights_13TeV-powheg-pythia8.root","TTToSemiLeptonic_TuneCP5_PSweights_13TeV-powheg-pythia8.root"]
+      self.list_file_WJets_mc   = ["WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_nanoskim.root"]
+      #["W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root","W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8.root"]
+      self.list_file_VV_mc      = ["WW_TuneCP5_13TeV-pythia8_nanoskim.root","WZ_TuneCP5_13TeV-pythia8_nanoskim.root", "ZZ_TuneCP5_13TeV-pythia8_nanoskim.root"]  
+      #["WW_TuneCP5_13TeV-pythia8.root","WZ_TuneCP5_13TeV-pythia8.root","ZZ_TuneCP5_13TeV-pythia8.root"]
+      self.list_file_pseudodata =   self.list_file_TTbar_mc  + self.list_file_QCD_mc + self.list_file_STop_mc + self.list_file_VV_mc   + self.list_file_WJets_mc + self.list_file_TTbar_mc
       # self.list_file_data              = ["SingleMuon.root"]
 #       self.list_file_WJets_mc           = ["WJetsToLNu.root"]
 #       self.list_file_VV_mc             = ["VV.root"]
@@ -801,7 +808,7 @@ class initialiseFits:
  			for f in self.list_file_TTbar_mc:
  			  fname  = rt.TString(self.file_Directory+"/"+f)
  			  print "scaling with tt SF: " ,fname
- 			  fileIn = TFile(fname.Data())
+ 			  fileIn = ROOT.TFile.Open(fname.Data())
  			  treeIn = fileIn.Get("tree")
  			  treeIn.SetWeight(ttSF)
  			  treeIn.AutoSave()
