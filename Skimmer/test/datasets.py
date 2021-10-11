@@ -321,28 +321,28 @@ dictSamples = {
         'color': ROOT.kPink-1
     },
     
-        'QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7' : {
-        '2017' :  {
-            'miniAOD' : [ '' ],
-            'nanoAOD' : [ '' ],
-            'skimmer' : [ '' ],
-            'skimmerHisto' : '',
-            'nevents' : ,
-            'nGenWeights' :,
-            },
-        '2018' :  {
-            'miniAOD' : [ '/QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
-            'nanoAOD' : [ '/QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7/algomez-RunIISummer19UL18PFNanoAOD-106X_upgrade2018_realistic_v16_L1v1-v1-fff189d3e67d18da8f7301eb2c0e2940/USER' ],
-            'skimmer' : [ '/QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7/algomez-RunIISummer19UL18PFNanoAOD_jetObservables_Skimmer_v04p3-fff189d3e67d18da8f7301eb2c0e2940/USER' ],
-            'skimmerHisto' : 'jetObservables_histograms_QCDPt150to3000_herwig_UL2018.root',
-            'nevents' : 6649600.,
-            'nGenWeights' : 28765.923,
-            },
-        'selection' : 'dijet',
-        'XS' : 8.637e+03, ## for 2018 1.086e+04
-        'label' : 'QCD Herwig7',
-        'color': ROOT.kPink
-    },
+    #     'QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7' : {
+    #     '2017' :  {
+    #         'miniAOD' : [ '' ],
+    #         'nanoAOD' : [ '' ],
+    #         'skimmer' : [ '' ],
+    #         'skimmerHisto' : '',
+    #         'nevents' : ,
+    #         'nGenWeights' :,
+    #         },
+    #     '2018' :  {
+    #         'miniAOD' : [ '/QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7/RunIISummer19UL18MiniAODv2-106X_upgrade2018_realistic_v16_L1v1-v1/MINIAODSIM' ],
+    #         'nanoAOD' : [ '/QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7/algomez-RunIISummer19UL18PFNanoAOD-106X_upgrade2018_realistic_v16_L1v1-v1-fff189d3e67d18da8f7301eb2c0e2940/USER' ],
+    #         'skimmer' : [ '/QCD_Pt-150to3000_TuneCH3_FlatPower7_13TeV-herwig7/algomez-RunIISummer19UL18PFNanoAOD_jetObservables_Skimmer_v04p3-fff189d3e67d18da8f7301eb2c0e2940/USER' ],
+    #         'skimmerHisto' : 'jetObservables_histograms_QCDPt150to3000_herwig_UL2018.root',
+    #         'nevents' : 6649600.,
+    #         'nGenWeights' : 28765.923,
+    #         },
+    #     'selection' : 'dijet',
+    #     'XS' : 8.637e+03, ## for 2018 1.086e+04
+    #     'label' : 'QCD Herwig7',
+    #     'color': ROOT.kPink
+    # },
 
     'QCD_Pt_170to300_TuneCP5_13TeV_pythia8' : {
         '2017' :  {
