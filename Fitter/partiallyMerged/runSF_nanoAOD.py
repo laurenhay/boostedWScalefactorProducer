@@ -708,7 +708,7 @@ class initialiseFits:
       
       # Directory and input files
       self.reDirector = "root://cmseos.fnal.gov/"   
-      self.file_Directory         =  self.reDirector +  "/store/user/camclean/boostedWtaggingSF/hadds/"
+      self.file_Directory         =  self.reDirector +  "/store/user/camclean/boostedWtaggingSF/haddsWithLumiWeight/"
 
       postfix = "SDB0Z0p1"
           
@@ -938,9 +938,9 @@ class initialiseFits:
     
       treeIn = TChain(options.intree)
       for f in in_file_name:
-        print "Using file: ", TString(self.file_Directory+f)
         fileIn_name = TString(self.file_Directory+f)  
         treeIn.Add(fileIn_name.Data())
+        print "Using file: ", fileIn_name
       
        #Get in tree
       # treeIn      = fileIn.Get(options.intree)
@@ -1050,37 +1050,9 @@ class initialiseFits:
           if not TString(label).Contains("data"):
               lumiweight = 1.0
 
-              """ FIX ME : IMPLEMENT LUMI WEIGHTING
-              print "import datasets "
-              import boostedWScalefactorProducer.Skimmer.test.datasets as datasets
-
-              from datasets import dictSamples, checkDict
-
-              print label
-
-              testNevents = checkDict('TTJets_TuneCP5_13TeV-madgraphMLM-pythia8',dictSamples)['2017']['nevents']
-              testXS = checkDict('TTJets_TuneCP5_13TeV-madgraphMLM-pythia8',dictSamples)['XS']
-              
-              lumiweight = lumi *  testXS /  testNevents
-
-              print lumiweight
-              """
- 
-              tmp_scale_to_lumi = treeIn.eventWeight * lumiweight ## FIX ME , add correct Xsec*lumi/Nevents  ## weigth for xs and lumi FIXME
+              tmp_scale_to_lumi = treeIn.eventweightlumi
               if options.topPt: tmp_scale_to_lumi *= treeIn.topweight
-#              # tmp_event_weight  = treeWeight*treeIn.normGenWeight*treeIn.puWeight*treeIn.eventWeightLumi*treeIn.topWeight*lumi*SF#*treeIn.muTrigWeight*treeIn.muIsoWeight
-#              if options.topPt:
-#                tmp_event_weight  = treeWeight*treeIn.normGenWeight*treeIn.puWeight*treeIn.topWeight*treeIn.eventWeightLumi*lumi*SF
-#              else:             
-#                tmp_event_weight  = treeWeight*treeIn.normGenWeight*treeIn.puWeight*treeIn.eventWeightLumi*lumi*SF # no topPt
-#              
-#              # tmp_event_weight4fit = treeWeight*treeIn.normGenWeight*treeIn.puWeight*treeIn.topWeight*SF#*treeIn.muTrigWeight*treeIn.muIsoWeight
-#              if options.topPt: 
-#                tmp_event_weight4fit = treeWeight*treeIn.normGenWeight*treeIn.puWeight*treeIn.topWeight*SF
-#              else:
-#                tmp_event_weight4fit = treeWeight*treeIn.normGenWeight*treeIn.puWeight*SF # no topPt
-              
-#              tmp_event_weight4fit = tmp_event_weight4fit*treeIn.eventWeightLumi/tmp_scale_to_lumi    
+
               tmp_event_weight = tmp_scale_to_lumi
               tmp_event_weight4fit = tmp_scale_to_lumi
               

@@ -1,11 +1,11 @@
 import os,sys
 import ROOT as rt
 rt.gROOT.SetBatch(True)
-from WTopScalefactorProducer.Fitter.tdrstyle import *
+from boostedWScalefactorProducer.Fitter.tdrstyle import *
 setTDRStyle()
-from WTopScalefactorProducer.Fitter.CMS_lumi import *
+from boostedWScalefactorProducer.Fitter.CMS_lumi import *
 
-from WTopScalefactorProducer.Fitter.makepdf import MakeExtendedModel,change_dataset_to_histpdf,fixParameters,makeTTbarModel
+from boostedWScalefactorProducer.Fitter.makepdf import MakeExtendedModel,change_dataset_to_histpdf,fixParameters,makeTTbarModel
 
 CMS_lumi.lumi_13TeV = "36.5 fb^{-1}(2016)"
 CMS_lumi.writeExtraText = 1
