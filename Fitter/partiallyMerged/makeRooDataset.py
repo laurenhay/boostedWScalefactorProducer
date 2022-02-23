@@ -28,15 +28,13 @@ workspace = ROOT.RooWorkspace("workspace", "workspace")
 
 
 def makeDataset(list_file_in, label):
+
     rrv_weight = ROOT.RooRealVar("rrv_weight","rrv_weight",0. ,10000000.)
     rdataset_mj = ROOT.RooDataSet("rdataset_"+label+"_mj","rdataset_"+label + "mj",ROOT.RooArgSet(rrv_mass_j,rrv_weight),ROOT.RooFit.WeightVar(rrv_weight) )
-    #rrv_number = ROOT.RooRealVar("rrv_number_"+label+"_mj","rrv_number_"+label+"_mj", 0.,10000000.)
     rdataset_passtau21cut_mj     = ROOT.RooDataSet("rdataset_"+label+"_passtau21cut_mj","rdataset_"+label+"_passtau21cut_mj",ROOT.RooArgSet(rrv_mass_j,rrv_weight),ROOT.RooFit.WeightVar(rrv_weight) )
-    #rrv_number_pass = ROOT.RooRealVar("rrv_number_"+label+"pass_mj","rrv_number_"+label+"pass_mj", 0.,10000000.)
     rdataset_failtau21cut_mj = ROOT.RooDataSet("rdataset4fit_" +label+"_failtau21cut_mj","rdataset_"+label+"_failtau21cut_mj",ROOT.RooArgSet(rrv_mass_j,rrv_weight),ROOT.RooFit.WeightVar(rrv_weight) )
-    #rrv_number_fail = ROOT.RooRealVar("rrv_number_"+label+"fail_mj","rrv_number_"+label+"fail_mj", 0.,10000000.)
     rdataset_extremeFail_mj = ROOT.RooDataSet("rdataset4fit_" +label+"_extremeFail_mj","rdataset_"+label+"_extremeFail_mj",ROOT.RooArgSet(rrv_mass_j,rrv_weight),ROOT.RooFit.WeightVar(rrv_weight) )
-    #rrv_number_extremeFail = ROOT.RooRealVar("rrv_number_"+label+"extremFail_mj","rrv_number_"+label+"extremeFail_mj", 0.,10000000.)
+
     #Loop through events
     treeIn = ROOT.TChain("Events") #initialize TChain to store events from all files of interest
     for f in list_file_in:
@@ -55,17 +53,27 @@ def makeDataset(list_file_in, label):
         if i % 5000 == 0: print("iEntry: ",i, " storing all")
         event = treeIn.GetEntry(i)
         #apply pt cut
-        if not (treeIn.SelectedJet_pt > AK8_pt_min): continue
-        if not (treeIn.SelectedJet_pt < AK8_pt_max): continue
+        if (treeIn.SelectedJet_pt < AK8_pt_min): continue
+        if (treeIn.SelectedJet_pt > AK8_pt_max): continue
         #apply mass cut
         jet_mass = "SelectedJet_sdB0_mass" #soft drop mass var.
         if getattr(treeIn, jet_mass) > rrv_mass_j.getMax() and getattr(treeIn, jet_mass)< rrv_mass_j.getMin() : continue
         #get tau21 values
-        tau21 = treeIn.SelectedJet_tau21_ddt_retune # is this right?
+        #tau21 = treeIn.SelectedJet_tau21_ddt_retune # we don't use ddt right?
+        tau21 = treeIn.SelectedJet_tau21
 
         tmp_jet_mass = getattr(treeIn, jet_mass);
         treeWeight = treeIn.GetWeight()
-
+        
+        if not ROOT.TString(label).Contains("data"):
+            lumiweight = 1.0
+            tmp_scale_to_lumi = treeIn.eventweightlumi
+            tmp_event_weight = tmp_scale_to_lumi
+              
+        else:
+            tmp_scale_to_lumi = 1.
+            tmp_event_weight = 1.
+        
         if rrv_mass_j.getMin() < tmp_jet_mass < rrv_mass_j.getMax():
             rrv_mass_j.setVal(tmp_jet_mass)
             rdataset_mj.add(ROOT.RooArgSet(rrv_mass_j), tmp_event_weight)
@@ -76,7 +84,7 @@ def makeDataset(list_file_in, label):
             rrv_mass_j.setVal(tmp_jet_mass)
             rdataset_failtau21cut_mj.add(ROOT.RooArgSet(rrv_mass_j), tmp_event_weight)
         if (tau21 > 0.75) and (rrv_mass_j.getMin() < tmp_jet_mass < rrv_mass_j.getMax()): #extreme fail
-                rdataset_extremeFail_mj.add(ROOT.RooArgSet(rrv_mass_j), tmp_event_weight)
+            rdataset_extremeFail_mj.add(ROOT.RooArgSet(rrv_mass_j), tmp_event_weight)
     print("Number of pass events: ", rdataset_passtau21cut_mj.sumEntries())
     print("Number of fail events: ", rdataset_failtau21cut_mj.sumEntries())
     print("Total events passing pt and mass cut: ", rdataset_mj.sumEntries())
@@ -85,8 +93,9 @@ def makeDataset(list_file_in, label):
     getattr(workspace, "import")(rdataset_failtau21cut_mj)
     getattr(workspace, "import")(rdataset_extremeFail_mj)
 #add dataSets to workspace for data and MC
-makeDataset(list_file_totalMC, "totalMC")
-makeDataset(list_file_data, "data")
+#makeDataset(list_file_totalMC, "totalMC")
+makeDataset(list_file_VV_mc, "VV")
+#makeDataset(list_file_data, "data")
 
 workspace.Print()
 workspace.writeToFile("workspace_sdB0.root")
