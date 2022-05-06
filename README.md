@@ -1,3 +1,18 @@
+### JMR and JMS Study Instructions ###
+```
+cmsrel CMSSW_12_0_4
+cd CMSSW_12_0_4/src
+cmsenv
+```
+The available mass variables in the datasets listed in makeRooDataset are self.sdB0, self.sdB1, self.sdB0Z0p05, self.sdB1Z0p05, self.sdB0Z0p15, self.sdB1Z0p15
+To make root RooDataset files for desired mass variable dataset:
+```
+python3 makeRooDataset.py --mass_var=self.sdB0
+```
+To produce fitting variables and plots for the corresponding dataset:
+```
+python3 basicFit_nanoAOD.py --workspace=workspace_sdB0 --mass_var=self.sdB0
+```
 
 ### W-tagging scalefactor producer ###
 #########################################
