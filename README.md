@@ -7,7 +7,7 @@ cmsenv
 The available mass variables available in the datasets in makeRooDataset are sdB0, sdB1, sdB0Z0p05, sdB1Z0p05, sdB0Z0p15, sdB1Z0p15. All files are stored on LPC.
 To make root RooDataset files for desired mass variable:
 ```
-cd 
+cd boostedWScalefactorProducer/Fitter/partiallyMerged
 python3 makeRooDataset.py --mass_var=sdB0
 ```
 To produce fitting variables and plots for the corresponding dataset:
