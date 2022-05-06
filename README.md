@@ -4,14 +4,15 @@ cmsrel CMSSW_12_0_4
 cd CMSSW_12_0_4/src
 cmsenv
 ```
-The available mass variables in the datasets listed in makeRooDataset are self.sdB0, self.sdB1, self.sdB0Z0p05, self.sdB1Z0p05, self.sdB0Z0p15, self.sdB1Z0p15
-To make root RooDataset files for desired mass variable dataset:
+The available mass variables available in the datasets in makeRooDataset are sdB0, sdB1, sdB0Z0p05, sdB1Z0p05, sdB0Z0p15, sdB1Z0p15. All files are stored on LPC.
+To make root RooDataset files for desired mass variable:
 ```
-python3 makeRooDataset.py --mass_var=self.sdB0
+cd 
+python3 makeRooDataset.py --mass_var=sdB0
 ```
 To produce fitting variables and plots for the corresponding dataset:
 ```
-python3 basicFit_nanoAOD.py --workspace=workspace_sdB0 --mass_var=self.sdB0
+python3 basicFit_nanoAOD.py --workspace=workspace_sdB0 --mass_var=sdB0
 ```
 
 ### W-tagging scalefactor producer ###
